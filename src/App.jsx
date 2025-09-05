@@ -4,6 +4,7 @@ import GamePage from './components/GamePage'
 import Game1Video from './components/games/game1/Game1Video'
 import Game1Build from './components/games/game1/Game1Build'
 import Game1GamePlay from './components/games/game1/Game1GamePlay'
+import Game1Finish from './components/games/game1/Game1Finish'
 import './App.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Route path="/game/1/video" element={<Game1Video />} />
       <Route path="/game/1/build" element={<Game1Build />} />
       <Route path="/game/1/gameplay" element={<Game1GamePlay />} />
+      <Route path="/game/1/finish" element={<Game1Finish />} />
     </Routes>
   )
 }

@@ -12,8 +12,74 @@ function HomePage() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const handleGameStart = (gameId) => {
-    navigate(`/game/${gameId}/video`)
+  const games = [
+    {
+      id: 1,
+      title: "얼음깨기 게임 1",
+      description: "친구들과 함께하는 재미있는 자기소개 게임입니다. 모든 연령대가 즐길 수 있어요!",
+      videoUrl: "/videos/game1.mp4",
+      route: "/game/1/video"
+    },
+    {
+      id: 2,
+      title: "얼음깨기 게임 2",
+      description: "팀워크를 기를 수 있는 협동 게임입니다. 서로를 알아가는 재미있는 시간!",
+      videoUrl: "/videos/game2.mp4",
+      route: "/game/2/video"
+    },
+    {
+      id: 3,
+      title: "얼음깨기 게임 3",
+      description: "창의적인 표현력을 키우는 그림 그리기 게임입니다. 웃음이 끊이지 않아요!",
+      videoUrl: "/videos/game3.mp4",
+      route: "/game/3/video"
+    },
+    {
+      id: 4,
+      title: "얼음깨기 게임 4",
+      description: "몸으로 표현하는 재미있는 몸짓 게임입니다. 활동적인 아이스브레이킹!",
+      videoUrl: "/videos/game4.mp4",
+      route: "/game/4/video"
+    },
+    {
+      id: 5,
+      title: "얼음깨기 게임 5",
+      description: "질문과 답변으로 소통하는 대화형 게임입니다. 서로를 더 깊이 알아가요!",
+      videoUrl: "/videos/game5.mp4",
+      route: "/game/5/video"
+    },
+    {
+      id: 6,
+      title: "얼음깨기 게임 6",
+      description: "역할놀이를 통한 상상력 게임입니다. 다양한 캐릭터로 변신해보세요!",
+      videoUrl: "/videos/game6.mp4",
+      route: "/game/6/video"
+    },
+    {
+      id: 7,
+      title: "얼음깨기 게임 7",
+      description: "음악과 함께하는 리듬감 있는 게임입니다. 신나는 비트에 맞춰 움직여요!",
+      videoUrl: "/videos/game7.mp4",
+      route: "/game/7/video"
+    },
+    {
+      id: 8,
+      title: "얼음깨기 게임 8",
+      description: "스토리텔링을 통한 상상력 발달 게임입니다. 함께 이야기를 만들어가요!",
+      videoUrl: "/videos/game8.mp4",
+      route: "/game/8/video"
+    },
+    {
+      id: 9,
+      title: "얼음깨기 게임 9",
+      description: "마지막 게임으로 모두가 함께하는 단체 게임입니다. 즐거운 마무리!",
+      videoUrl: "/videos/game9.mp4",
+      route: "/game/9/video"
+    }
+  ]
+
+  const handleGameStart = (game) => {
+    navigate(game.route)
   }
 
   return (
@@ -63,18 +129,25 @@ function HomePage() {
         
         <section className="games-section">
           <div className="games-grid">
-            {Array.from({ length: 9 }, (_, index) => (
-              <div key={index} className="game-card">
+            {games.map((game) => (
+              <div key={game.id} className="game-card">
                 <div className="game-image">
-                  <img src="/placeholder.jpg" alt={`Game ${index + 1}`} />
+                  <video 
+                    src={game.videoUrl} 
+                    alt={game.title}
+                    muted
+                    loop
+                    onMouseEnter={(e) => e.target.play()}
+                    onMouseLeave={(e) => e.target.pause()}
+                  />
                 </div>
-                <h3 className="game-title">게임 {index + 1}</h3>
+                <h3 className="game-title">{game.title}</h3>
                 <p className="game-description">
-                  재미있는 얼음깨기 게임입니다. 모든 연령대가 즐길 수 있어요!
+                  {game.description}
                 </p>
                 <button 
                   className="game-start-btn"
-                  onClick={() => handleGameStart(index + 1)}
+                  onClick={() => handleGameStart(game)}
                 >
                   게임 시작
                 </button>

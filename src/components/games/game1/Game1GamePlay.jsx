@@ -14,7 +14,7 @@ function Game1GamePlay() {
   const [roundStarted, setRoundStarted] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
-  const [speed, setSpeed] = useState(1)
+  const [speed, setSpeed] = useState(5)
 
   useEffect(() => {
     if (questions.length === 0) {
@@ -78,6 +78,19 @@ function Game1GamePlay() {
     }
   }
 
+  const handlePreviousQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1)
+      setRoundStarted(false)
+      setIsAnimating(false)
+      setShowAnswer(false)
+    }
+  }
+
+  const handleGameEnd = () => {
+    navigate('/game/1/finish')
+  }
+
   if (questions.length === 0) {
     return null
   }
@@ -106,7 +119,7 @@ function Game1GamePlay() {
             <div className="game-screen-container">
               <div className={`character-container ${isAnimating ? 'animating' : ''} ${showAnswer ? 'show-answer' : ''} ${!roundStarted ? 'pre-round' : ''}`} style={{'--animation-duration': `${(6 - speed)}s`}}>
                 <div className="question-box">
-                  {showAnswer ? questions[currentQuestionIndex] : <img src={questionMark} alt="Question Mark" className="question-mark" />}
+                  {showAnswer || isAnimating ? questions[currentQuestionIndex] : <img src={questionMark} alt="Question Mark" className="question-mark" />}
                 </div>
                 <div className="penguin-character">
                   <img src={runningPenguin} alt="Running Penguin" />
@@ -114,9 +127,31 @@ function Game1GamePlay() {
               </div>
               
               {showAnswer && (
-                <button className="next-arrow-btn" onClick={handleNextQuestion}>
-                  <span className="arrow-icon">→</span>
-                </button>
+                <div className="navigation-buttons">
+                  {currentQuestionIndex > 0 && (
+                    <div className="nav-button-container">
+                      <div className="nav-tooltip">이전 문제</div>
+                      <button className="prev-arrow-btn" onClick={handlePreviousQuestion}>
+                        <span className="arrow-icon">←</span>
+                      </button>
+                    </div>
+                  )}
+                  {currentQuestionIndex < questions.length - 1 ? (
+                    <div className="nav-button-container">
+                      <div className="nav-tooltip">다음 문제</div>
+                      <button className="next-arrow-btn" onClick={handleNextQuestion}>
+                        <span className="arrow-icon">→</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="nav-button-container">
+                      <div className="nav-tooltip">엔딩보기</div>
+                      <button className="next-arrow-btn" onClick={handleGameEnd}>
+                        <span className="arrow-icon">→</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
             <div className="game-utilities">
