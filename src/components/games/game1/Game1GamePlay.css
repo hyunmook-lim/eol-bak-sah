@@ -1,0 +1,359 @@
+.game1-gameplay-container {
+  height: 100vh;
+  background: white;
+  overflow: hidden;
+}
+
+.game1-gameplay-container .game-title-header {
+  background-color: #01275b;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.game1-gameplay-container .game-title-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.game1-gameplay-container .header-close-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.game1-gameplay-container .header-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.game1-gameplay-container .gameplay-container {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game1-gameplay-container .game-start-section {
+  text-align: center;
+  max-width: 600px;
+}
+
+.game1-gameplay-container .game-start-section h2 {
+  color: #01275b;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.game1-gameplay-container .game-start-section p {
+  color: #666;
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+}
+
+.game1-gameplay-container .start-game-btn {
+  background-color: #f5ae43;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.game1-gameplay-container .start-game-btn:hover {
+  background-color: #e49a2e;
+}
+
+.game1-gameplay-container .game-play-section {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.game1-gameplay-container .game-screen-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.game1-gameplay-container .game-utilities {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 15px 25px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.game1-gameplay-container .round-counter {
+  color: #01275b;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.game1-gameplay-container .current-round {
+  color: #f5ae43;
+  font-weight: 700;
+}
+
+.game1-gameplay-container .speed-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.game1-gameplay-container .speed-label {
+  color: #01275b;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.game1-gameplay-container .speed-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.game1-gameplay-container .speed-btn {
+  padding: 6px 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 40px;
+}
+
+.game1-gameplay-container .speed-btn:hover {
+  border-color: #f5ae43;
+  background: #fef9f0;
+}
+
+.game1-gameplay-container .speed-btn.active {
+  border-color: #f5ae43;
+  background: #f5ae43;
+  color: white;
+}
+
+.game1-gameplay-container .character-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+
+/* 라운드 시작 전 - 중앙에 위치 */
+.game1-gameplay-container .character-container.pre-round {
+  transform: translateX(0) !important;
+}
+
+/* 애니메이션이 끝난 후 왼쪽으로 이동 */
+.game1-gameplay-container .character-container:not(.animating):not(.show-answer):not(.pre-round) {
+  transform: translateX(-150vw);
+}
+
+/* 정답 확인 시 중앙으로 복귀 */
+.game1-gameplay-container .character-container.show-answer:not(.animating) {
+  transform: translateX(0);
+}
+
+.game1-gameplay-container .character-container.animating {
+  animation: slideLeftToRight var(--animation-duration, 3s) ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slideLeftToRight {
+  0% {
+    transform: translateX(-150vw);
+  }
+  100% {
+    transform: translateX(150vw);
+  }
+}
+
+.game1-gameplay-container .question-box {
+  background: #b6e2f3;
+  border: 3px solid #6190ab;
+  color: #01275b;
+  font-size: 5rem;
+  font-weight: 700;
+  padding: 20px 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  margin-bottom: -40px;
+  z-index: 2;
+  position: relative;
+  min-width: 600px;
+  text-align: center;
+}
+
+.game1-gameplay-container .penguin-character {
+  z-index: 1;
+  position: relative;
+}
+
+.game1-gameplay-container .penguin-character img {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  transform: scaleX(-1);
+}
+
+.game1-gameplay-container .question-mark {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+
+.game1-gameplay-container .next-question-btn {
+  background-color: #f5ae43;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  min-width: 140px;
+}
+
+.game1-gameplay-container .next-question-btn:hover {
+  background-color: #e49a2e;
+}
+
+.game1-gameplay-container .round-buttons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.game1-gameplay-container .replay-btn,
+.game1-gameplay-container .answer-btn {
+  background-color: #6190ab;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.game1-gameplay-container .replay-btn:hover,
+.game1-gameplay-container .answer-btn:hover {
+  background-color: #4a7089;
+}
+
+.game1-gameplay-container .next-arrow-btn {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: #f5ae43;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.game1-gameplay-container .next-arrow-btn:hover {
+  background: #e49a2e;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.game1-gameplay-container .arrow-icon {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .game1-gameplay-container .gameplay-container {
+    padding: 20px;
+  }
+  
+  .game1-gameplay-container .game-utilities {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  
+  .game1-gameplay-container .speed-buttons {
+    gap: 4px;
+  }
+  
+  .game1-gameplay-container .speed-btn {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    min-width: 35px;
+  }
+  
+  .game1-gameplay-container .question-box {
+    font-size: 3.6rem;
+    padding: 15px 20px;
+    min-width: 500px;
+  }
+  
+  .game1-gameplay-container .penguin-character img {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .game1-gameplay-container .round-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .game1-gameplay-container .replay-btn,
+  .game1-gameplay-container .answer-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}

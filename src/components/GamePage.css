@@ -1,0 +1,128 @@
+.game-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #ffda6a 0%, #fff7de 100%);
+  padding: 20px;
+}
+
+.game-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.back-btn {
+  background-color: #01275b;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 30px;
+}
+
+.back-btn:hover {
+  background-color: #013a7a;
+  transform: translateY(-2px);
+}
+
+.game-content {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.game-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #01275b;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game-description {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.game-area {
+  margin-top: 40px;
+}
+
+.game-placeholder {
+  background: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 12px;
+  padding: 60px 20px;
+  margin-bottom: 30px;
+  color: #6c757d;
+}
+
+.game-placeholder p {
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+
+.game-controls {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.play-btn, .rules-btn {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.play-btn {
+  background-color: #01275b;
+  color: white;
+}
+
+.play-btn:hover {
+  background-color: #013a7a;
+  transform: translateY(-2px);
+}
+
+.rules-btn {
+  background-color: transparent;
+  color: #01275b;
+  border: 2px solid #01275b;
+}
+
+.rules-btn:hover {
+  background-color: #01275b;
+  color: white;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .game-content {
+    padding: 20px;
+  }
+  
+  .game-title {
+    font-size: 2rem;
+  }
+  
+  .game-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .play-btn, .rules-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
