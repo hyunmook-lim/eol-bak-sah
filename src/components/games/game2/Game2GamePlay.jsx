@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game2GamePlay.css'
-import runningPenguin from '../../../assets/images/running-penguin.png'
-import questionMark from '../../../assets/images/question-mark.png'
+import findingPenguin from '../../../assets/images/finding-penguin.png'
+import tissue from '../../../assets/images/tissue.png'
 
 function Game2GamePlay() {
   const navigate = useNavigate()
@@ -12,14 +12,16 @@ function Game2GamePlay() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
   const [roundStarted, setRoundStarted] = useState(false)
-  const [isAnimating, setIsAnimating] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
-  const [speed, setSpeed] = useState(5)
-  const [showPreviewModal, setShowPreviewModal] = useState(false)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isWiping, setIsWiping] = useState(false)
+  const [brushSize, setBrushSize] = useState(25)
+  const canvasRef = useRef(null)
+  const [maskDataUrl, setMaskDataUrl] = useState(null)
 
   useEffect(() => {
     if (questions.length === 0) {
-      navigate('/game/2/play')
+      navigate('/game/2/build')
     }
   }, [questions, navigate])
 
@@ -35,45 +37,109 @@ function Game2GamePlay() {
   }
 
   const handleStartRound = () => {
-    setIsAnimating(true)
     setRoundStarted(true)
     setShowAnswer(false)
-    
-    const animationDuration = (6 - speed) * 1000
-    
-    setTimeout(() => {
-      setIsAnimating(false)
-    }, animationDuration)
+    initializeCanvas()
   }
 
-  const handleReplay = () => {
-    setIsAnimating(true)
-    setShowAnswer(false)
+  const initializeCanvas = () => {
+    const canvas = canvasRef.current
+    if (!canvas) return
     
-    const animationDuration = (6 - speed) * 1000
+    const rect = canvas.parentElement.getBoundingClientRect()
+    canvas.width = rect.width
+    canvas.height = rect.height
     
-    setTimeout(() => {
-      setIsAnimating(false)
-    }, animationDuration)
+    const ctx = canvas.getContext('2d')
+    ctx.fillStyle = 'black'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    
+    setMaskDataUrl(canvas.toDataURL())
+  }
+
+  const drawOnCanvas = (x, y, isStarting = false) => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    
+    const ctx = canvas.getContext('2d')
+    ctx.globalCompositeOperation = 'destination-out'
+    
+    if (isStarting) {
+      ctx.beginPath()
+      ctx.arc(x, y, brushSize, 0, 2 * Math.PI)
+      ctx.fill()
+    } else {
+      // 항상 원을 그려서 연속적인 브러시 효과 만들기
+      ctx.beginPath()
+      ctx.arc(x, y, brushSize, 0, 2 * Math.PI)
+      ctx.fill()
+    }
+    
+    setMaskDataUrl(canvas.toDataURL())
+  }
+
+  const handleMouseMove = (event) => {
+    event.preventDefault()
+    const container = event.currentTarget
+    const rect = container.getBoundingClientRect()
+    const newPosition = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    }
+    setMousePosition(newPosition)
+    
+    if (isWiping) {
+      drawOnCanvas(newPosition.x, newPosition.y, false)
+    }
+  }
+
+  const handleMouseDown = (event) => {
+    event.preventDefault()
+    if (roundStarted) {
+      setIsWiping(true)
+      const container = event.currentTarget
+      const rect = container.getBoundingClientRect()
+      const position = {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      }
+      
+      drawOnCanvas(position.x, position.y, true)
+    }
+  }
+
+  const handleMouseUp = () => {
+    setIsWiping(false)
   }
 
   const handleShowAnswer = () => {
     setShowAnswer(true)
-    setIsAnimating(false)
+    // 전체 캔버스를 클리어해서 덮고 있는 그림을 모두 제거
+    const canvas = canvasRef.current
+    if (canvas) {
+      const ctx = canvas.getContext('2d')
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      setMaskDataUrl(canvas.toDataURL())
+    }
+  }
+
+  const handleReset = () => {
+    setShowAnswer(false)
+    // 캔버스를 다시 검은색으로 초기화
+    initializeCanvas()
   }
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
       setRoundStarted(false)
-      setIsAnimating(false)
       setShowAnswer(false)
-    } else {
-      alert('게임이 끝났습니다!')
-      navigate('/')
+      // 새 문제로 넘어갈 때 캔버스 초기화
       setTimeout(() => {
-        window.scrollTo({ top: 800, behavior: 'smooth' })
+        initializeCanvas()
       }, 50)
+    } else {
+      navigate('/game/2/finish')
     }
   }
 
@@ -81,8 +147,11 @@ function Game2GamePlay() {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1)
       setRoundStarted(false)
-      setIsAnimating(false)
       setShowAnswer(false)
+      // 이전 문제로 갈 때 캔버스 초기화
+      setTimeout(() => {
+        initializeCanvas()
+      }, 50)
     }
   }
 
@@ -90,13 +159,7 @@ function Game2GamePlay() {
     navigate('/game/2/finish')
   }
 
-  const handleOpenPreviewModal = () => {
-    setShowPreviewModal(true)
-  }
-
-  const handleClosePreviewModal = () => {
-    setShowPreviewModal(false)
-  }
+  const currentQuestion = questions[currentQuestionIndex]
 
   if (questions.length === 0) {
     return null
@@ -106,18 +169,11 @@ function Game2GamePlay() {
     <div className="game2-gameplay-container">
       <header className="game-title-header">
         <div></div>
-        <h1>습 글자 게임 (단어)</h1>
-        <div className="header-right-buttons">
-          <button onClick={handleOpenPreviewModal} className="header-menu-btn">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-          <button onClick={handleBackToHome} className="header-close-btn">
-            X
-          </button>
-        </div>
-      </header>
+        <h1>창문닦기 게임</h1>
+        <button onClick={handleBackToHome} className="header-close-btn">
+          X
+        </button>
+      </header>ㅈ
       
       <div className="gameplay-container">
         {!gameStarted ? (
@@ -130,75 +186,127 @@ function Game2GamePlay() {
           </div>
         ) : (
           <div className="game-play-section">
-            <div className="game-screen-container">
-              <div className={`character-container ${isAnimating ? 'animating' : ''} ${showAnswer ? 'show-answer' : ''} ${!roundStarted ? 'pre-round' : ''}`} style={{'--animation-duration': `${(6 - speed)}s`}}>
-                <div className="question-box">
-                  {showAnswer || isAnimating ? questions[currentQuestionIndex] : <img src={questionMark} alt="Question Mark" className="question-mark" />}
+            <div 
+              className={`photo-display-container ${roundStarted ? 'hide-cursor' : ''}`}
+              onMouseMove={roundStarted ? handleMouseMove : undefined}
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+            >
+              {currentQuestion && (
+                <img 
+                  src={currentQuestion.imageUrl} 
+                  alt={`문제 ${currentQuestionIndex + 1}`}
+                  className="question-image"
+                />
+              )}
+              
+              <div className="photo-overlay">
+                <canvas 
+                  ref={canvasRef}
+                  className="mask-canvas"
+                  style={{ display: 'none' }}
+                />
+                <div 
+                  className="finding-penguin-layer"
+                  style={{
+                    maskImage: maskDataUrl ? `url(${maskDataUrl})` : 'none'
+                  }}
+                >
+                  <img 
+                    src={findingPenguin} 
+                    alt="Finding Penguin" 
+                    className="finding-penguin-fullscreen"
+                  />
                 </div>
-                <div className="penguin-character">
-                  <img src={runningPenguin} alt="Running Penguin" />
-                </div>
+                <div 
+                  className="dark-overlay"
+                  style={{
+                    maskImage: maskDataUrl ? `url(${maskDataUrl})` : 'none'
+                  }}
+                ></div>
+                {!roundStarted && (
+                  <>
+                    <div className="overlay-background"></div>
+                    <div className="overlay-content">
+                      <button className="overlay-start-btn" onClick={handleStartRound}>
+                        게임 시작
+                      </button>
+                    </div>
+                  </>
+                )}
+                {roundStarted && (
+                  <img
+                    src={tissue}
+                    alt="Tissue"
+                    className="tissue-cursor"
+                    style={{
+                      left: mousePosition.x - brushSize,
+                      top: mousePosition.y - brushSize,
+                      width: brushSize * 2,
+                      height: brushSize * 2
+                    }}
+                  />
+                )}
               </div>
               
-              {showAnswer && (
-                <div className="navigation-buttons">
-                  {currentQuestionIndex > 0 && (
-                    <div className="nav-button-container">
-                      <div className="nav-tooltip">이전 문제</div>
-                      <button className="prev-arrow-btn" onClick={handlePreviousQuestion}>
-                        <span className="arrow-icon">←</span>
-                      </button>
-                    </div>
-                  )}
-                  {currentQuestionIndex < questions.length - 1 ? (
-                    <div className="nav-button-container">
-                      <div className="nav-tooltip">다음 문제</div>
-                      <button className="next-arrow-btn" onClick={handleNextQuestion}>
-                        <span className="arrow-icon">→</span>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="nav-button-container">
-                      <div className="nav-tooltip">엔딩보기</div>
-                      <button className="next-arrow-btn" onClick={handleGameEnd}>
-                        <span className="arrow-icon">→</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
+              
             </div>
+            
+            {showAnswer && (
+              <div className="navigation-buttons">
+                {currentQuestionIndex > 0 && (
+                  <div className="nav-button-container">
+                    <div className="nav-tooltip">이전 문제</div>
+                    <button className="prev-arrow-btn" onClick={handlePreviousQuestion}>
+                      <span className="arrow-icon">←</span>
+                    </button>
+                  </div>
+                )}
+                {currentQuestionIndex < questions.length - 1 ? (
+                  <div className="nav-button-container">
+                    <div className="nav-tooltip">다음 문제</div>
+                    <button className="next-arrow-btn" onClick={handleNextQuestion}>
+                      <span className="arrow-icon">→</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="nav-button-container">
+                    <div className="nav-tooltip">엔딩보기</div>
+                    <button className="next-arrow-btn" onClick={handleGameEnd}>
+                      <span className="arrow-icon">→</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+            
             <div className="game-utilities">
               <div className="round-counter">
                 <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
               </div>
               
-              <div className="speed-selector">
-                <span className="speed-label">속도:</span>
-                <div className="speed-buttons">
-                  {[1, 2, 3, 4, 5].map((speedValue) => (
-                    <button
-                      key={speedValue}
-                      className={`speed-btn ${speed === speedValue ? 'active' : ''}`}
-                      onClick={() => setSpeed(speedValue)}
-                    >
-                      x{speedValue}
-                    </button>
-                  ))}
+              {roundStarted && (
+                <div className="brush-size-control">
+                  <img src={tissue} alt="Tissue" className="brush-icon" />
+                  <input
+                    type="range"
+                    min="15"
+                    max="50"
+                    value={brushSize}
+                    onChange={(e) => setBrushSize(parseInt(e.target.value))}
+                    className="brush-slider"
+                  />
                 </div>
-              </div>
+              )}
               
-              {!roundStarted ? (
-                <button className="next-question-btn" onClick={handleStartRound}>
-                  라운드 시작
-                </button>
-              ) : (
+              {roundStarted && (
                 <div className="round-buttons">
-                  <button className="replay-btn" onClick={handleReplay}>
-                    다시보기
+                  <button className="reset-btn" onClick={handleReset}>
+                    초기화
                   </button>
-                  <button className="answer-btn" onClick={handleShowAnswer}>
-                    정답확인
+                  <button className="show-answer-btn" onClick={handleShowAnswer}>
+                    {showAnswer ? currentQuestion?.answer : '정답 확인'}
                   </button>
                 </div>
               )}
@@ -206,33 +314,6 @@ function Game2GamePlay() {
           </div>
         )}
       </div>
-
-      {showPreviewModal && (
-        <div className="preview-modal-overlay" onClick={handleClosePreviewModal}>
-          <div className="preview-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="preview-modal-header">
-              <h2>정답 미리보기</h2>
-              <button className="modal-close-btn" onClick={handleClosePreviewModal}>
-                X
-              </button>
-            </div>
-            <div className="preview-modal-body">
-              <div className="preview-questions-list">
-                {questions.map((question, index) => (
-                  <div key={index} className={`preview-question-item ${index === currentQuestionIndex ? 'current' : ''}`}>
-                    <div className="preview-question-header">
-                      <div className="preview-question-number-box">{index + 1}</div>
-                      <div className="preview-question-content">
-                        <span className="preview-question-text">{question}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

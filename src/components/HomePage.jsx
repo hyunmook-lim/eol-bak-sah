@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
+import twoIcesImg from '../assets/images/two-ices.png'
+import oneIceImg from '../assets/images/one-ice.png'
+import mainPenguinImg from '../assets/images/main-penguin.png'
 
 function HomePage() {
   const [scrollY, setScrollY] = useState(0)
@@ -15,14 +18,14 @@ function HomePage() {
   const games = [
     {
       id: 1,
-      title: "얼음깨기 게임 1",
+      title: "슝 글자 게임 (단어)",
       description: "친구들과 함께하는 재미있는 자기소개 게임입니다. 모든 연령대가 즐길 수 있어요!",
       videoUrl: "/videos/game1.mp4",
       route: "/game/1/video"
     },
     {
       id: 2,
-      title: "얼음깨기 게임 2",
+      title: "창문닦기 게임",
       description: "팀워크를 기를 수 있는 협동 게임입니다. 서로를 알아가는 재미있는 시간!",
       videoUrl: "/videos/game2.mp4",
       route: "/game/2/video"
@@ -94,32 +97,28 @@ function HomePage() {
       <main className="main-content">
         <div className="content-spacer"></div>
         
-        <div 
-          className={`text-container ${scrollY > 400 && scrollY < 800 ? 'sticky-mode' : ''}`}
-          style={{
-            transform: scrollY >= 800 ? 'translateY(275px)' : 'none'
-          }}
-        >
-          <div 
-            className={`animated-text subtitle ${scrollY > 100 ? 'visible' : ''}`}
-          >
-            어린이 박사의 얼음 박살 아이스 브레이킹 게임모음
-          </div>
+        <div className="text-container">
+            <div 
+              className={`animated-text subtitle ${scrollY > 50 ? 'visible' : ''}`}
+            >
+              <span className="highlight-text">어린이 박사</span>의 <span className="highlight-text">얼음 박살</span> 아이스 브레이킹 게임모음
+            </div>
+          
+            <div 
+              className={`animated-text main-title ${scrollY > 100 ? 'visible' : ''}`}
+            >
+              <img src={mainPenguinImg} alt="펭귄" className="main-penguin" />
+              얼박사
+            </div>
           
           <div 
-            className={`animated-text main-title ${scrollY > 200 ? 'visible' : ''}`}
-          >
-            얼박사
-          </div>
-          
-          <div 
-            className={`additional-text left-text ${scrollY > 300 ? 'visible' : ''}`}
+            className={`additional-text left-text ${scrollY > 150 ? 'visible' : ''}`}
           >
             재미있는 수업을 하고 싶은 교사도!
           </div>
           
           <div 
-            className={`additional-text right-text ${scrollY > 400 ? 'visible' : ''}`}
+            className={`additional-text right-text ${scrollY > 200 ? 'visible' : ''}`}
           >
             아이스 브레이킹을 원하는 누구나!
           </div>
@@ -155,6 +154,13 @@ function HomePage() {
             ))}
           </div>
         </section>
+        
+        <div className="ice-animation-container container-1">
+          <img src={twoIcesImg} alt="" className="floating-ice ice-1" />
+        </div>
+        <div className="ice-animation-container container-2">
+          <img src={oneIceImg} alt="" className="floating-ice ice-2" />
+        </div>
       </main>
     </div>
   )

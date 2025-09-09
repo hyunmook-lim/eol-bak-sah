@@ -16,7 +16,7 @@ function Game2Finish() {
     <div className="game2-finish-container">
       <header className="finish-header">
         <div></div>
-        <h1>습 글자 게임 완료!</h1>
+        <h1>창문닦기 게임</h1>
         <button onClick={handleBackToHome} className="header-close-btn">
           X
         </button>

@@ -136,137 +136,76 @@
   margin: 0 auto 20px;
 }
 
-.game2-build-container .question-input-form {
-  display: flex;
-  align-items: flex-start;
-  gap: 30px;
-}
-
-.game2-build-container .input-container {
+.game2-build-container .photo-drop-zone {
+  background-color: #fff5d6;
+  border: 2px dashed #d7560e;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 95%;
+  height: 80px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  margin: 0 auto;
 }
 
-.game2-build-container .input-label {
-  color: #01275b;
-  font-size: 1.3rem;
-  font-weight: 700;
+.game2-build-container .photo-drop-zone:hover {
+  background-color: #ffeaa3;
+  border-color: #c74c00;
 }
 
-.game2-build-container .question-input {
-  padding: 12px 16px;
-  border: 2px solid #f5ae43;
-  border-radius: 8px;
-  font-size: 1rem;
-  outline: none;
-  min-width: 200px;
-  background-color: white;
-  color: #333;
-}
-
-.game2-build-container .question-input:focus {
-  border-color: #f5ae43;
-  box-shadow: 0 0 0 3px rgba(245, 174, 67, 0.1);
-}
-
-.game2-build-container .add-question-btn {
-  background-color: #f5ae43;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 1rem;
+.game2-build-container .photo-drop-zone p {
+  color: #d7560e;
+  font-size: 1.1rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.game2-build-container .add-question-btn:hover {
-  background-color: #e49a2e;
-}
-
-.game2-build-container .add-question-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.game2-build-container .add-question-btn:disabled:hover {
-  background-color: #ccc;
-}
-
-.game2-build-container .input-instructions {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.game2-build-container .input-instructions p {
-  color: #666;
-  font-size: 0.9rem;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
-.game2-build-container .questions-list {
+.game2-build-container .photo-grid {
   margin-top: 30px;
   margin-bottom: 30px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   max-width: 100%;
 }
 
-.game2-build-container .question-item {
+.game2-build-container .photo-grid-item {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.game2-build-container .question-header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.game2-build-container .question-number-box {
-  background-color: white;
-  color: #333;
-  border: 2px solid #333;
-  font-size: 1.2rem;
-  font-weight: 700;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: white;
   border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.game2-build-container .question-content {
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  padding: 12px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.game2-build-container .photo-container {
   position: relative;
-  flex: 1;
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f5f5f5;
 }
 
-.game2-build-container .question-text {
-  color: #333;
-  font-size: 1rem;
-  font-weight: 500;
-  flex: 1;
-  text-align: center;
+.game2-build-container .uploaded-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.game2-build-container .delete-question-btn {
-  background-color: #666;
+.game2-build-container .delete-photo-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(128, 128, 128, 0.9);
   border: none;
-  color: #f0f0f0;
+  color: white;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
@@ -277,14 +216,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+  transition: all 0.3s ease;
 }
 
-.game2-build-container .delete-question-btn:hover {
-  background-color: #555;
+.game2-build-container .delete-photo-btn:hover {
+  background-color: rgba(100, 100, 100, 0.9);
+}
+
+.game2-build-container .answer-input-container {
+  width: 100%;
+}
+
+.game2-build-container .answer-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+  background-color: #f5f5f5;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.game2-build-container .answer-input:focus {
+  background-color: #eeeeee;
+}
+
+.game2-build-container .answer-input::placeholder {
+  color: #999;
 }
 
 .game2-build-container .completion-section {

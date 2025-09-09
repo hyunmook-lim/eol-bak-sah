@@ -5,7 +5,6 @@ import './Game2Build.css'
 function Game2Build() {
   const navigate = useNavigate()
   const [questions, setQuestions] = useState([])
-  const [inputValue, setInputValue] = useState('')
 
   const handleBackToVideo = () => {
     navigate('/game/2/video')
@@ -18,11 +17,61 @@ function Game2Build() {
     }, 50)
   }
 
-  const handleAddQuestion = () => {
-    if (inputValue.trim() && questions.length < 16) {
-      setQuestions([...questions, inputValue.trim()])
-      setInputValue('')
-    }
+
+  const handleFileUpload = (event) => {
+    const files = Array.from(event.target.files)
+    const imageFiles = files.filter(file => file.type.startsWith('image/'))
+    
+    if (imageFiles.length === 0) return
+    
+    const availableSlots = 20 - questions.length
+    const filesToAdd = imageFiles.slice(0, availableSlots)
+    
+    const newQuestions = filesToAdd.map(file => ({
+      id: Date.now() + Math.random(),
+      image: file,
+      imageUrl: URL.createObjectURL(file),
+      answer: ''
+    }))
+    
+    setQuestions([...questions, ...newQuestions])
+    
+    // 파일 input 초기화
+    event.target.value = ''
+  }
+
+  const handleDrop = (event) => {
+    event.preventDefault()
+    const files = Array.from(event.dataTransfer.files)
+    const imageFiles = files.filter(file => file.type.startsWith('image/'))
+    
+    if (imageFiles.length === 0) return
+    
+    const availableSlots = 20 - questions.length
+    const filesToAdd = imageFiles.slice(0, availableSlots)
+    
+    const newQuestions = filesToAdd.map(file => ({
+      id: Date.now() + Math.random(),
+      image: file,
+      imageUrl: URL.createObjectURL(file),
+      answer: ''
+    }))
+    
+    setQuestions([...questions, ...newQuestions])
+  }
+
+  const handleDragOver = (event) => {
+    event.preventDefault()
+  }
+
+  const handleClick = () => {
+    document.getElementById('file-input').click()
+  }
+
+  const handleAnswerChange = (questionId, answer) => {
+    setQuestions(questions.map(q => 
+      q.id === questionId ? { ...q, answer } : q
+    ))
   }
 
   const handleDeleteQuestion = (index) => {
@@ -51,68 +100,69 @@ function Game2Build() {
         <div className="question-input-section">
           <div className="section-header">
             <div className="section-left">
-              <h2>1. 문제 입력</h2>
+              <h2>1. 사진 추가</h2>
               <div className="question-counter">
                 <span className="current-count">{questions.length}</span>
                 <span className="separator">/</span>
-                <span className="total-count">16</span>
+                <span className="total-count">20</span>
               </div>
             </div>
-            <p className="section-description">최대 16개 / 필요한 문제의 갯수만큼 문제를 입력한 뒤 완료버튼을 누르세요.</p>
+            <p className="section-description">최대 20장</p>
           </div>
           <div className="divider"></div>
           
-          <div className="question-input-form">
-            <div className="input-container">
-              <label className="input-label">문제 추가</label>
-              <input 
-                type="text" 
-                className="question-input"
-                maxLength="8"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleAddQuestion()}
-              />
-              <button 
-                className="add-question-btn"
-                onClick={handleAddQuestion}
-                disabled={!inputValue.trim() || questions.length >= 16}
-              >
-                OK
-              </button>
-            </div>
-            <div className="input-instructions">
-              <p>* 1문제당 최대 8글자, 최대 16문제 입력 가능합니다.</p>
-              <p>* 드래그하여 문제 순서를 변경할 수 있습니다.</p>
-            </div>
+          <div 
+            className="photo-drop-zone"
+            onClick={handleClick}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+          >
+            <p>이 곳을 클릭하거나 파일을 드롭하여 사진을 추가하세요.</p>
+            <input
+              id="file-input"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFileUpload}
+              style={{ display: 'none' }}
+            />
           </div>
           
-          <div className="questions-list">
+          <div className="photo-grid">
             {questions.map((question, index) => (
-              <div key={index} className="question-item">
-                <div className="question-header">
-                  <div className="question-number-box">{index + 1}</div>
-                  <div className="question-content">
-                    <span className="question-text">{question}</span>
-                    <button 
-                      className="delete-question-btn"
-                      onClick={() => handleDeleteQuestion(index)}
-                    >
-                      X
-                    </button>
-                  </div>
+              <div key={question.id} className="photo-grid-item">
+                <div className="photo-container">
+                  <img 
+                    src={question.imageUrl} 
+                    alt={`업로드된 이미지 ${index + 1}`}
+                    className="uploaded-image"
+                  />
+                  <button 
+                    className="delete-photo-btn"
+                    onClick={() => handleDeleteQuestion(index)}
+                  >
+                    X
+                  </button>
+                </div>
+                <div className="answer-input-container">
+                  <input
+                    type="text"
+                    className="answer-input"
+                    placeholder="정답을 입력하세요 (최대 10글자)"
+                    value={question.answer}
+                    maxLength="10"
+                    onChange={(e) => handleAnswerChange(question.id, e.target.value)}
+                  />
                 </div>
               </div>
             ))}
           </div>
           
-          <div className="divider"></div>
-          
           <div className="completion-section">
             <button 
               className="complete-btn"
               onClick={handleComplete}
-              disabled={questions.length === 0}
+              disabled={questions.length === 0 || questions.some(q => !q.answer.trim())}
             >
               완료
             </button>
