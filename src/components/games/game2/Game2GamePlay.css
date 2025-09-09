@@ -1,0 +1,535 @@
+.game2-gameplay-container {
+  height: 100vh;
+  background: white;
+  overflow: hidden;
+}
+
+.game2-gameplay-container .game-title-header {
+  background-color: #01275b;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.game2-gameplay-container .game-title-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.game2-gameplay-container .header-right-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.game2-gameplay-container .header-menu-btn, .game2-gameplay-container .header-close-btn {
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.game2-gameplay-container .header-menu-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 40px;
+  height: 40px;
+}
+
+.game2-gameplay-container .header-menu-btn span {
+  width: 18px;
+  height: 2px;
+  background-color: white;
+  border-radius: 1px;
+}
+
+.game2-gameplay-container .header-close-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+.game2-gameplay-container .header-menu-btn:hover, .game2-gameplay-container .header-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.game2-gameplay-container .gameplay-container {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.game2-gameplay-container .game-start-section {
+  text-align: center;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+.game2-gameplay-container .game-start-section h2 {
+  color: #01275b;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.game2-gameplay-container .game-start-section p {
+  color: #666;
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.game2-gameplay-container .start-game-btn {
+  background-color: #f5ae43;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.game2-gameplay-container .start-game-btn:hover {
+  background-color: #e49a2e;
+}
+
+.game2-gameplay-container .game-play-section {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.game2-gameplay-container .game-screen-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: #f8f9fa;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.game2-gameplay-container .character-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.game2-gameplay-container .character-container.pre-round {
+  background: linear-gradient(90deg, #e3f2fd, #bbdefb);
+}
+
+.game2-gameplay-container .character-container.animating {
+  background: linear-gradient(90deg, #fff3e0, #ffe0b2);
+}
+
+.game2-gameplay-container .character-container.show-answer {
+  background: linear-gradient(90deg, #e8f5e8, #c8e6c9);
+}
+
+.game2-gameplay-container .question-box {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 3px solid #01275b;
+  border-radius: 15px;
+  padding: 20px;
+  min-width: 200px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #01275b;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.game2-gameplay-container .question-mark {
+  width: 60px;
+  height: 60px;
+  opacity: 0.7;
+}
+
+.game2-gameplay-container .penguin-character {
+  position: absolute;
+  bottom: 50px;
+  width: 120px;
+  height: 120px;
+  z-index: 5;
+}
+
+.game2-gameplay-container .penguin-character img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.game2-gameplay-container .character-container.animating .penguin-character {
+  animation: runAcross var(--animation-duration) linear;
+}
+
+@keyframes runAcross {
+  0% {
+    left: -120px;
+  }
+  100% {
+    left: calc(100% + 120px);
+  }
+}
+
+.game2-gameplay-container .navigation-buttons {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.game2-gameplay-container .nav-button-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.game2-gameplay-container .nav-tooltip {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.game2-gameplay-container .prev-arrow-btn, .game2-gameplay-container .next-arrow-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #01275b;
+  background: white;
+  color: #01275b;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.game2-gameplay-container .prev-arrow-btn:hover, .game2-gameplay-container .next-arrow-btn:hover {
+  background: #01275b;
+  color: white;
+  transform: scale(1.1);
+}
+
+.game2-gameplay-container .game-utilities {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.game2-gameplay-container .round-counter {
+  background: #f0f0f0;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #01275b;
+}
+
+.game2-gameplay-container .current-round {
+  color: #f5ae43;
+  font-size: 1.2rem;
+}
+
+.game2-gameplay-container .speed-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.game2-gameplay-container .speed-label {
+  font-weight: 600;
+  color: #01275b;
+}
+
+.game2-gameplay-container .speed-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.game2-gameplay-container .speed-btn {
+  padding: 6px 12px;
+  border: 2px solid #01275b;
+  background: white;
+  color: #01275b;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.game2-gameplay-container .speed-btn.active, .game2-gameplay-container .speed-btn:hover {
+  background: #01275b;
+  color: white;
+}
+
+.game2-gameplay-container .next-question-btn {
+  background-color: #f5ae43;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.game2-gameplay-container .next-question-btn:hover {
+  background-color: #e49a2e;
+}
+
+.game2-gameplay-container .round-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.game2-gameplay-container .replay-btn, .game2-gameplay-container .answer-btn {
+  padding: 12px 20px;
+  border: 2px solid #01275b;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.game2-gameplay-container .replay-btn {
+  background: white;
+  color: #01275b;
+}
+
+.game2-gameplay-container .replay-btn:hover {
+  background: #01275b;
+  color: white;
+}
+
+.game2-gameplay-container .answer-btn {
+  background: #01275b;
+  color: white;
+}
+
+.game2-gameplay-container .answer-btn:hover {
+  background: #013a7a;
+}
+
+.game2-gameplay-container .preview-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.game2-gameplay-container .preview-modal-content {
+  background: white;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.game2-gameplay-container .preview-modal-header {
+  background-color: #01275b;
+  color: white;
+  padding: 20px;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game2-gameplay-container .preview-modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.game2-gameplay-container .modal-close-btn {
+  background: none;
+  border: 2px solid white;
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.game2-gameplay-container .modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.game2-gameplay-container .preview-modal-body {
+  padding: 30px;
+}
+
+.game2-gameplay-container .preview-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.game2-gameplay-container .preview-question-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.game2-gameplay-container .preview-question-item.current {
+  background-color: #f0f8ff;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.game2-gameplay-container .preview-question-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.game2-gameplay-container .preview-question-number-box {
+  background-color: white;
+  color: #333;
+  border: 2px solid #333;
+  font-size: 1.2rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.game2-gameplay-container .preview-question-item.current .preview-question-number-box {
+  background-color: #01275b;
+  color: white;
+  border-color: #01275b;
+}
+
+.game2-gameplay-container .preview-question-content {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+
+.game2-gameplay-container .preview-question-item.current .preview-question-content {
+  background-color: #e3f2fd;
+}
+
+.game2-gameplay-container .preview-question-text {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  flex: 1;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .game2-gameplay-container .game-utilities {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+  
+  .game2-gameplay-container .speed-selector {
+    justify-content: center;
+  }
+  
+  .game2-gameplay-container .round-buttons {
+    justify-content: center;
+  }
+  
+  .game2-gameplay-container .preview-modal-content {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .game2-gameplay-container .preview-modal-body {
+    padding: 20px;
+  }
+}

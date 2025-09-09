@@ -1,9 +1,10 @@
 .game2-video-container {
-  min-height: 100vh;
-  background: linear-gradient(180deg, #ffda6a 0%, #fff7de 100%);
+  height: 100vh;
+  background: white;
+  overflow: hidden;
 }
 
-.game-title-header {
+.game2-video-container .game-title-header {
   background-color: #01275b;
   padding: 20px;
   display: flex;
@@ -16,14 +17,14 @@
   z-index: 1000;
 }
 
-.game-title-header h1 {
+.game2-video-container .game-title-header h1 {
   color: white;
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
 }
 
-.header-back-btn, .header-skip-btn {
+.game2-video-container .header-back-btn, .game2-video-container .header-skip-btn {
   background: transparent;
   color: white;
   border: none;
@@ -35,144 +36,67 @@
   transition: all 0.3s ease;
 }
 
-.header-back-btn:hover, .header-skip-btn:hover {
+.game2-video-container .header-back-btn:hover, .game2-video-container .header-skip-btn:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.game-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 100px 20px 20px;
+.game2-video-container .video-container {
+  height: calc(100vh - 80px);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
-.back-btn {
-  background-color: #01275b;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 30px;
+.game2-video-container .video-wrapper {
+  width: 90%;
+  height: calc(90vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.back-btn:hover {
-  background-color: #013a7a;
-  transform: translateY(-2px);
-}
-
-.game-content {
+.game2-video-container .video-placeholder {
+  width: 100%;
+  height: 85%;
   background: white;
   border-radius: 20px;
-  padding: 40px;
+  border: 20px solid #ffe48f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.game2-video-container .video-placeholder p {
+  color: #01275b;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.game-title {
-  font-size: 3rem;
-  font-weight: 800;
-  color: #01275b;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.game-description {
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: 40px;
-  line-height: 1.6;
-}
-
-.game-area {
-  margin-top: 40px;
-}
-
-.game-instructions {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 30px;
-  margin-bottom: 30px;
-  text-align: left;
-}
-
-.game-instructions h3 {
-  color: #01275b;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-}
-
-.game-instructions ul {
-  list-style: none;
-  padding: 0;
-}
-
-.game-instructions li {
-  background: white;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border-left: 4px solid #01275b;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.game-controls {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.play-btn, .rules-btn {
-  padding: 15px 30px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.play-btn {
-  background-color: #01275b;
-  color: white;
-}
-
-.play-btn:hover {
-  background-color: #013a7a;
-  transform: translateY(-2px);
-}
-
-.rules-btn {
-  background-color: transparent;
-  color: #01275b;
-  border: 2px solid #01275b;
-}
-
-.rules-btn:hover {
-  background-color: #01275b;
-  color: white;
-  transform: translateY(-2px);
+.game2-video-container .video-icon {
+  font-size: 4rem;
+  opacity: 0.7;
 }
 
 @media (max-width: 768px) {
-  .game-content {
-    padding: 20px;
+  .video-container {
+    padding: 15px;
   }
   
-  .game-title {
-    font-size: 2rem;
+  .video-placeholder p {
+    font-size: 1.2rem;
   }
   
-  .game-controls {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .play-btn, .rules-btn {
-    width: 100%;
-    max-width: 300px;
+  .video-icon {
+    font-size: 3rem;
   }
 }

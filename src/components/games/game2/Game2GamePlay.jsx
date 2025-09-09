@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import './Game1GamePlay.css'
+import './Game2GamePlay.css'
 import runningPenguin from '../../../assets/images/running-penguin.png'
 import questionMark from '../../../assets/images/question-mark.png'
 
-function Game1GamePlay() {
+function Game2GamePlay() {
   const navigate = useNavigate()
   const location = useLocation()
   const questions = location.state?.questions || []
@@ -19,7 +19,7 @@ function Game1GamePlay() {
 
   useEffect(() => {
     if (questions.length === 0) {
-      navigate('/game/1/play')
+      navigate('/game/2/play')
     }
   }, [questions, navigate])
 
@@ -39,8 +39,7 @@ function Game1GamePlay() {
     setRoundStarted(true)
     setShowAnswer(false)
     
-    // 속도에 따른 애니메이션 시간 계산 (속도가 높을수록 빠르게)
-    const animationDuration = (6 - speed) * 1000 // x1: 5초, x5: 1초
+    const animationDuration = (6 - speed) * 1000
     
     setTimeout(() => {
       setIsAnimating(false)
@@ -70,7 +69,6 @@ function Game1GamePlay() {
       setIsAnimating(false)
       setShowAnswer(false)
     } else {
-      // 게임 종료
       alert('게임이 끝났습니다!')
       navigate('/')
       setTimeout(() => {
@@ -89,7 +87,7 @@ function Game1GamePlay() {
   }
 
   const handleGameEnd = () => {
-    navigate('/game/1/finish')
+    navigate('/game/2/finish')
   }
 
   const handleOpenPreviewModal = () => {
@@ -105,10 +103,10 @@ function Game1GamePlay() {
   }
 
   return (
-    <div className="game1-gameplay-container">
+    <div className="game2-gameplay-container">
       <header className="game-title-header">
         <div></div>
-        <h1>슝 글자 게임 (단어)</h1>
+        <h1>습 글자 게임 (단어)</h1>
         <div className="header-right-buttons">
           <button onClick={handleOpenPreviewModal} className="header-menu-btn">
             <span></span>
@@ -239,4 +237,4 @@ function Game1GamePlay() {
   )
 }
 
-export default Game1GamePlay
+export default Game2GamePlay
