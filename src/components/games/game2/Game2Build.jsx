@@ -5,16 +5,26 @@ import './Game2Build.css'
 function Game2Build() {
   const navigate = useNavigate()
   const [questions, setQuestions] = useState([])
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   const handleBackToVideo = () => {
     navigate('/game/2/video')
   }
 
   const handleBackToHome = () => {
+    setShowConfirmModal(true)
+  }
+
+  const handleConfirmExit = () => {
+    setShowConfirmModal(false)
     navigate('/')
     setTimeout(() => {
       window.scrollTo({ top: 800, behavior: 'smooth' })
     }, 50)
+  }
+
+  const handleCancelExit = () => {
+    setShowConfirmModal(false)
   }
 
 
@@ -169,6 +179,25 @@ function Game2Build() {
           </div>
         </div>
       </div>
+
+      {showConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelExit}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>홈으로 돌아가시겠습니까?</h3>
+              <p>작업 중인 내용이 저장되지 않을 수 있습니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmExit}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelExit}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

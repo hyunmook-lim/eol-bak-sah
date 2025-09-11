@@ -15,11 +15,11 @@ function Game1Video() {
     <div className="game1-video-container">
       <header className="game-title-header">
         <button onClick={handleBackToHome} className="header-back-btn">
-          &lt;
+          <div className="arrow-left"></div>
         </button>
         <h1>게임 방법</h1>
         <button onClick={() => navigate('/game/1/build')} className="header-skip-btn">
-          건너뛰기 &gt;
+          건너뛰기 <div className="arrow-right"></div>
         </button>
       </header>
       

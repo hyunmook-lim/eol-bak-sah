@@ -6,16 +6,27 @@ function Game1Build() {
   const navigate = useNavigate()
   const [questions, setQuestions] = useState([])
   const [inputValue, setInputValue] = useState('')
+  const [draggedIndex, setDraggedIndex] = useState(null)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   const handleBackToVideo = () => {
     navigate('/game/1/video')
   }
 
   const handleBackToHome = () => {
+    setShowConfirmModal(true)
+  }
+
+  const handleConfirmExit = () => {
+    setShowConfirmModal(false)
     navigate('/')
     setTimeout(() => {
       window.scrollTo({ top: 800, behavior: 'smooth' })
     }, 50)
+  }
+
+  const handleCancelExit = () => {
+    setShowConfirmModal(false)
   }
 
   const handleAddQuestion = () => {
@@ -33,6 +44,38 @@ function Game1Build() {
     if (questions.length > 0) {
       navigate('/game/1/gameplay', { state: { questions } })
     }
+  }
+
+  const handleDragStart = (e, index) => {
+    setDraggedIndex(index)
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+  }
+
+  const handleDrop = (e, dropIndex) => {
+    e.preventDefault()
+    if (draggedIndex === null || draggedIndex === dropIndex) return
+
+    const newQuestions = [...questions]
+    const draggedQuestion = newQuestions[draggedIndex]
+    
+    // 드래그된 아이템 제거
+    newQuestions.splice(draggedIndex, 1)
+    
+    // 새 위치에 삽입
+    const finalDropIndex = draggedIndex < dropIndex ? dropIndex - 1 : dropIndex
+    newQuestions.splice(finalDropIndex, 0, draggedQuestion)
+    
+    setQuestions(newQuestions)
+    setDraggedIndex(null)
+  }
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null)
   }
 
   return (
@@ -89,14 +132,25 @@ function Game1Build() {
           
           <div className="questions-list">
             {questions.map((question, index) => (
-              <div key={index} className="question-item">
+              <div 
+                key={index} 
+                className={`question-item ${draggedIndex === index ? 'dragging' : ''}`}
+                draggable
+                onDragStart={(e) => handleDragStart(e, index)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, index)}
+                onDragEnd={handleDragEnd}
+              >
                 <div className="question-header">
                   <div className="question-number-box">{index + 1}</div>
                   <div className="question-content">
                     <span className="question-text">{question}</span>
                     <button 
                       className="delete-question-btn"
-                      onClick={() => handleDeleteQuestion(index)}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDeleteQuestion(index)
+                      }}
                     >
                       X
                     </button>
@@ -119,6 +173,25 @@ function Game1Build() {
           </div>
         </div>
       </div>
+
+      {showConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelExit}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>홈으로 돌아가시겠습니까?</h3>
+              <p>작업 중인 내용이 저장되지 않을 수 있습니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmExit}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelExit}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

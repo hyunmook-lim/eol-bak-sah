@@ -18,6 +18,7 @@ function Game2GamePlay() {
   const [brushSize, setBrushSize] = useState(25)
   const canvasRef = useRef(null)
   const [maskDataUrl, setMaskDataUrl] = useState(null)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   useEffect(() => {
     if (questions.length === 0) {
@@ -26,10 +27,19 @@ function Game2GamePlay() {
   }, [questions, navigate])
 
   const handleBackToHome = () => {
+    setShowConfirmModal(true)
+  }
+
+  const handleConfirmExit = () => {
+    setShowConfirmModal(false)
     navigate('/')
     setTimeout(() => {
       window.scrollTo({ top: 800, behavior: 'smooth' })
     }, 50)
+  }
+
+  const handleCancelExit = () => {
+    setShowConfirmModal(false)
   }
 
   const handleStartGame = () => {
@@ -132,7 +142,7 @@ function Game2GamePlay() {
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
-      setRoundStarted(false)
+      setRoundStarted(true) // 다음 문제에서는 바로 게임 시작
       setShowAnswer(false)
       // 새 문제로 넘어갈 때 캔버스 초기화
       setTimeout(() => {
@@ -146,7 +156,7 @@ function Game2GamePlay() {
   const handlePreviousQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1)
-      setRoundStarted(false)
+      setRoundStarted(true) // 이전 문제로 갈 때도 바로 게임 시작
       setShowAnswer(false)
       // 이전 문제로 갈 때 캔버스 초기화
       setTimeout(() => {
@@ -251,6 +261,11 @@ function Game2GamePlay() {
               </div>
               
               
+              {showAnswer && (
+                <div className="answer-display">
+                  <p className="answer-text">{currentQuestion?.answer}</p>
+                </div>
+              )}
             </div>
             
             {showAnswer && (
@@ -306,7 +321,7 @@ function Game2GamePlay() {
                     초기화
                   </button>
                   <button className="show-answer-btn" onClick={handleShowAnswer}>
-                    {showAnswer ? currentQuestion?.answer : '정답 확인'}
+                    정답 확인
                   </button>
                 </div>
               )}
@@ -314,6 +329,25 @@ function Game2GamePlay() {
           </div>
         )}
       </div>
+
+      {showConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelExit}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>홈으로 돌아가시겠습니까?</h3>
+              <p>게임이 종료됩니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmExit}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelExit}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

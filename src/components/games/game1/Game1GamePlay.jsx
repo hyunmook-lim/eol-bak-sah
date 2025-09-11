@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game1GamePlay.css'
 import runningPenguin from '../../../assets/images/running-penguin.png'
@@ -7,7 +7,7 @@ import questionMark from '../../../assets/images/question-mark.png'
 function Game1GamePlay() {
   const navigate = useNavigate()
   const location = useLocation()
-  const questions = location.state?.questions || []
+  const questions = useMemo(() => location.state?.questions || [], [location.state?.questions])
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
@@ -16,6 +16,7 @@ function Game1GamePlay() {
   const [showAnswer, setShowAnswer] = useState(false)
   const [speed, setSpeed] = useState(5)
   const [showPreviewModal, setShowPreviewModal] = useState(false)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   useEffect(() => {
     if (questions.length === 0) {
@@ -24,10 +25,19 @@ function Game1GamePlay() {
   }, [questions, navigate])
 
   const handleBackToHome = () => {
+    setShowConfirmModal(true)
+  }
+
+  const handleConfirmExit = () => {
+    setShowConfirmModal(false)
     navigate('/')
     setTimeout(() => {
       window.scrollTo({ top: 800, behavior: 'smooth' })
     }, 50)
+  }
+
+  const handleCancelExit = () => {
+    setShowConfirmModal(false)
   }
 
   const handleStartGame = () => {
@@ -98,6 +108,127 @@ function Game1GamePlay() {
 
   const handleClosePreviewModal = () => {
     setShowPreviewModal(false)
+  }
+
+  const handleExportToPDF = () => {
+    // 새 창에서 PDF 출력 다이얼로그 열기
+    const printWindow = window.open('', '_blank')
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>슝 글자 게임 - 정답 목록</title>
+          <style>
+            body {
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+              margin: 0;
+              padding: 20px;
+              background: white;
+            }
+            h1 {
+              background-color: #01275b;
+              color: white;
+              margin: 0 0 30px 0;
+              font-size: 1.5rem;
+              font-weight: 700;
+              padding: 20px 30px;
+              text-align: center;
+            }
+            .preview-questions-list {
+              display: flex;
+              flex-direction: column;
+              gap: 15px;
+              padding: 0 20px;
+            }
+            .preview-question-item {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+            }
+            .preview-question-item.current {
+              background-color: #fef9f0;
+              border: 2px solid #f5ae43;
+              border-radius: 8px;
+              padding: 10px;
+            }
+            .preview-question-header {
+              display: flex;
+              align-items: center;
+              gap: 15px;
+            }
+            .preview-question-number-box {
+              background-color: white;
+              color: #333;
+              border: 2px solid #333;
+              font-size: 1.2rem;
+              font-weight: 700;
+              flex-shrink: 0;
+              width: 40px;
+              height: 40px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 8px;
+            }
+            .preview-question-item.current .preview-question-number-box {
+              background-color: #f5ae43;
+              color: white;
+              border-color: #f5ae43;
+            }
+            .preview-question-content {
+              background-color: #f0f0f0;
+              border-radius: 8px;
+              padding: 12px 16px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: relative;
+              flex: 1;
+            }
+            .preview-question-item.current .preview-question-content {
+              background-color: #fef9f0;
+              border: 2px solid #f5ae43;
+            }
+            .preview-question-text {
+              color: #333;
+              font-size: 1rem;
+              font-weight: 500;
+              text-align: center;
+              flex: 1;
+            }
+            .preview-question-item.current .preview-question-text {
+              color: #01275b;
+              font-weight: 600;
+            }
+            @media print {
+              body { padding: 10px; }
+              .preview-question-item { break-inside: avoid; }
+            }
+          </style>
+        </head>
+        <body>
+          <h1>슝 글자 게임 - 정답 목록</h1>
+          <div class="preview-questions-list">
+            ${questions.map((question, index) => `
+              <div class="preview-question-item ${index === currentQuestionIndex ? 'current' : ''}">
+                <div class="preview-question-header">
+                  <div class="preview-question-number-box">${index + 1}</div>
+                  <div class="preview-question-content">
+                    <span class="preview-question-text">${question}</span>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </body>
+      </html>
+    `)
+    printWindow.document.close()
+    
+    // 문서 로드 후 인쇄 다이얼로그 열기
+    printWindow.onload = () => {
+      printWindow.print()
+    }
   }
 
   if (questions.length === 0) {
@@ -196,7 +327,7 @@ function Game1GamePlay() {
                 </button>
               ) : (
                 <div className="round-buttons">
-                  <button className="replay-btn" onClick={handleReplay}>
+                  <button className="replay-btn" onClick={handleReplay} disabled={isAnimating}>
                     다시보기
                   </button>
                   <button className="answer-btn" onClick={handleShowAnswer}>
@@ -231,6 +362,30 @@ function Game1GamePlay() {
                   </div>
                 ))}
               </div>
+              <div className="preview-modal-footer">
+                <button className="pdf-export-btn" onClick={handleExportToPDF}>
+                  📄 PDF로 출력
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelExit}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>홈으로 돌아가시겠습니까?</h3>
+              <p>게임이 종료됩니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmExit}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelExit}>
+                취소
+              </button>
             </div>
           </div>
         </div>

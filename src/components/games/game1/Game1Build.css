@@ -221,6 +221,21 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  cursor: grab;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  padding: 5px;
+}
+
+.game1-build-container .question-item:hover {
+  background-color: rgba(245, 174, 67, 0.1);
+}
+
+.game1-build-container .question-item.dragging {
+  opacity: 0.5;
+  transform: scale(1.02);
+  cursor: grabbing;
+  background-color: rgba(245, 174, 67, 0.2);
 }
 
 .game1-build-container .question-header {
@@ -335,4 +350,101 @@
   .game-maker-placeholder p {
     font-size: 1.1rem;
   }
+}
+
+/* Confirm Modal Styles */
+.game1-build-container .confirm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.game1-build-container .confirm-modal-content {
+  background: white;
+  border-radius: 20px;
+  max-width: 400px;
+  width: 90%;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.game1-build-container .confirm-modal-body {
+  padding: 40px 30px 30px;
+  text-align: center;
+}
+
+.game1-build-container .confirm-modal-body h3 {
+  color: #01275b;
+  margin: 0 0 15px 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.game1-build-container .confirm-modal-body p {
+  color: #666;
+  margin: 0 0 30px 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.game1-build-container .confirm-modal-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 0 30px 30px;
+}
+
+.game1-build-container .confirm-btn {
+  background-color: #f5ae43;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 80px;
+}
+
+.game1-build-container .confirm-btn:hover {
+  background-color: #e49a2e;
+  transform: translateY(-1px);
+}
+
+.game1-build-container .cancel-btn {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 80px;
+}
+
+.game1-build-container .cancel-btn:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
 }

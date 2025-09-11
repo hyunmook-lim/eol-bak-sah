@@ -40,6 +40,34 @@
   background-color: rgba(255, 255, 255, 0.2);
 }
 
+.game1-video-container .header-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game1-video-container .header-skip-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arrow-left {
+  width: 12px;
+  height: 12px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(45deg);
+}
+
+.arrow-right {
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid white;
+  border-top: 2px solid white;
+  transform: rotate(45deg);
+}
+
 .game1-video-container .video-container {
   height: calc(100vh - 80px);
   padding: 20px;

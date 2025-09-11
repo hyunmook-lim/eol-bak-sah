@@ -259,7 +259,7 @@
   background-color: #01275b;
   color: white;
   border: none;
-  padding: 12px 30px;
+  padding: 16px 30px;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
@@ -314,10 +314,10 @@
 
 @keyframes floatVertical1 {
   0%, 100% {
-    transform: translateY(200px) rotate(20deg);
+    transform: translateY(200px) rotate(10deg);
   }
   50% {
-    transform: translateY(400px) rotate(-10deg);
+    transform: translateY(250px) rotate(-10deg);
   }
 }
 
@@ -326,7 +326,7 @@
     transform: translateY(300px) rotate(10deg);
   }
   50% {
-    transform: translateY(600px) rotate(20deg);
+    transform: translateY(350px) rotate(10deg);
   }
 }
 
