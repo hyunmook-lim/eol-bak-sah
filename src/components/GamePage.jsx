@@ -1,32 +1,22 @@
 import { useParams } from 'react-router-dom'
-import Game1Video from './games/game1/Game1Video'
-import Game2Video from './games/game2/Game2Video'
-import Game3Video from './games/game3/Game3Video'
-import Game4Video from './games/game4/Game4Video'
-import Game5Video from './games/game5/Game5Video'
-import Game6Video from './games/game6/Game6Video'
-import Game7Video from './games/game7/Game7Video'
-import Game8Video from './games/game8/Game8Video'
-import Game9Video from './games/game9/Game9Video'
+import GameVideo from './games/GameVideo'
 
 function GamePage() {
   const { gameId } = useParams()
 
-  const gameComponents = {
-    '1': Game1Video,
-    '2': Game2Video,
-    '3': Game3Video,
-    '4': Game4Video,
-    '5': Game5Video,
-    '6': Game6Video,
-    '7': Game7Video,
-    '8': Game8Video,
-    '9': Game9Video,
+  const gameVideos = {
+    '1': null, // 동영상 URL을 추후 추가
+    '2': null,
+    '3': null,
+    '4': null,
+    '5': null,
+    '6': null,
+    '7': null,
+    '8': null,
+    '9': null,
   }
 
-  const GameComponent = gameComponents[gameId]
-
-  if (!GameComponent) {
+  if (!gameVideos.hasOwnProperty(gameId)) {
     return (
       <div className="game-page">
         <div className="game-container">
@@ -39,7 +29,7 @@ function GamePage() {
     )
   }
 
-  return <GameComponent />
+  return <GameVideo videoUrl={gameVideos[gameId]} />
 }
 
 export default GamePage

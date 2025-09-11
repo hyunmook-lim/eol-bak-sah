@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import './Game1Finish.css'
-import gameFinished from '../../../assets/images/game-finished.png'
+import { useNavigate, useParams } from 'react-router-dom'
+import './GameFinish.css'
+import gameFinished from '../../assets/images/game-finished.png'
 
-function Game1Finish() {
+function GameFinish({ gameTitle }) {
   const navigate = useNavigate()
+  const { gameNumber } = useParams()
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   const handleBackToHome = () => {
@@ -23,11 +24,15 @@ function Game1Finish() {
     setShowConfirmModal(false)
   }
 
+  const handleReplay = () => {
+    navigate(`/game/${gameNumber}/build`)
+  }
+
   return (
-    <div className="game1-finish-container">
+    <div className="game-finish-container">
       <header className="finish-header">
         <div></div>
-        <h1>슝 글자 게임 완료!</h1>
+        <h1>{gameTitle || `게임 ${gameNumber}`} 완료!</h1>
         <button onClick={handleBackToHome} className="header-close-btn">
           X
         </button>
@@ -39,7 +44,7 @@ function Game1Finish() {
         </div>
         
         <div className="finish-buttons">
-          <button className="replay-game-btn" onClick={() => navigate('/game/1/build')}>
+          <button className="replay-game-btn" onClick={handleReplay}>
             다시 하기
           </button>
           <button className="back-home-btn" onClick={handleBackToHome}>
@@ -70,4 +75,4 @@ function Game1Finish() {
   )
 }
 
-export default Game1Finish
+export default GameFinish

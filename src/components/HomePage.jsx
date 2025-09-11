@@ -32,8 +32,8 @@ function HomePage() {
     },
     {
       id: 3,
-      title: "얼음깨기 게임 3",
-      description: "창의적인 표현력을 키우는 그림 그리기 게임입니다. 웃음이 끊이지 않아요!",
+      title: "슝 글자 게임 (글자)",
+      description: "글자를 맞추는 게임입니다. 모두가 함께 즐길 수 있어요!",
       videoUrl: "/videos/game3.mp4",
       route: "/game/3/video"
     },

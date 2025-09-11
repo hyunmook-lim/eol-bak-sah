@@ -1,10 +1,10 @@
-.game1-video-container {
+.game-video-container {
   height: 100vh;
   background: white;
   overflow: hidden;
 }
 
-.game1-video-container .game-title-header {
+.game-video-container .game-title-header {
   background-color: #01275b;
   padding: 20px;
   display: flex;
@@ -17,14 +17,14 @@
   z-index: 1000;
 }
 
-.game1-video-container .game-title-header h1 {
+.game-video-container .game-title-header h1 {
   color: white;
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
 }
 
-.game1-video-container .header-back-btn, .game1-video-container .header-skip-btn {
+.game-video-container .header-back-btn, .game-video-container .header-skip-btn {
   background: transparent;
   color: white;
   border: none;
@@ -36,17 +36,17 @@
   transition: all 0.3s ease;
 }
 
-.game1-video-container .header-back-btn:hover, .game1-video-container .header-skip-btn:hover {
+.game-video-container .header-back-btn:hover, .game-video-container .header-skip-btn:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.game1-video-container .header-back-btn {
+.game-video-container .header-back-btn {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.game1-video-container .header-skip-btn {
+.game-video-container .header-skip-btn {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -68,7 +68,7 @@
   transform: rotate(45deg);
 }
 
-.game1-video-container .video-container {
+.game-video-container .video-container {
   height: calc(100vh - 80px);
   padding: 20px;
   display: flex;
@@ -81,7 +81,7 @@
   bottom: 0;
 }
 
-.game1-video-container .video-wrapper {
+.game-video-container .video-wrapper {
   width: 90%;
   height: calc(90vh - 80px);
   display: flex;
@@ -89,7 +89,7 @@
   justify-content: center;
 }
 
-.game1-video-container .video-placeholder {
+.game-video-container .video-placeholder {
   width: 100%;
   height: 85%;
   background: white;
@@ -102,7 +102,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.game1-video-container .video-placeholder p {
+.game-video-container .video-placeholder p {
   color: #01275b;
   font-size: 1.5rem;
   font-weight: 600;
@@ -110,7 +110,7 @@
   text-align: center;
 }
 
-.game1-video-container .video-icon {
+.game-video-container .video-icon {
   font-size: 4rem;
   opacity: 0.7;
 }
