@@ -39,15 +39,15 @@ function HomePage() {
     },
     {
       id: 4,
-      title: "얼음깨기 게임 4",
-      description: "몸으로 표현하는 재미있는 몸짓 게임입니다. 활동적인 아이스브레이킹!",
+      title: "뒤죽박죽 글자게임",
+      description: "뒤죽박죽으로 섞인 글자들을 원래대로 맞추는 게임입니다. 머리를 잘 써보세요!",
       videoUrl: "/videos/game4.mp4",
       route: "/game/4/video"
     },
     {
       id: 5,
-      title: "얼음깨기 게임 5",
-      description: "질문과 답변으로 소통하는 대화형 게임입니다. 서로를 더 깊이 알아가요!",
+      title: "초성 게임",
+      description: "초성을 맞추는 게임입니다. 빠른 사고력과 단어 실력이 필요해요!",
       videoUrl: "/videos/game5.mp4",
       route: "/game/5/video"
     },
