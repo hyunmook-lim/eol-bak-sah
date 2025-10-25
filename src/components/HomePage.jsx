@@ -53,8 +53,8 @@ function HomePage() {
     },
     {
       id: 6,
-      title: "얼음깨기 게임 6",
-      description: "역할놀이를 통한 상상력 게임입니다. 다양한 캐릭터로 변신해보세요!",
+      title: "OX 게임",
+      description: "O 또는 X로 정답을 맞추는 퀴즈 게임입니다. 빠른 판단력과 지식을 발휘해보세요!",
       videoUrl: "/videos/game6.mp4",
       route: "/game/6/video"
     },
