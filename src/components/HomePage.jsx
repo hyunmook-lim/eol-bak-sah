@@ -60,8 +60,8 @@ function HomePage() {
     },
     {
       id: 7,
-      title: "얼음깨기 게임 7",
-      description: "음악과 함께하는 리듬감 있는 게임입니다. 신나는 비트에 맞춰 움직여요!",
+      title: "메모리 카드 게임",
+      description: "같은 그림의 카드 2장을 찾아 맞추는 기억력 게임입니다. 집중력과 기억력을 키워요!",
       videoUrl: "/videos/game7.mp4",
       route: "/game/7/video"
     },
@@ -126,7 +126,7 @@ function HomePage() {
         <section className="games-section">
           <div className="games-grid">
             {games.map((game) => (
-              <div key={game.id} className="game-card">
+              <div key={game.id} className="home-game-card">
                 <div className="game-image">
                   <video 
                     src={game.videoUrl} 

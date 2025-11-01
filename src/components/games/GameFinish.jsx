@@ -1,12 +1,16 @@
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import './GameFinish.css'
 import gameFinished from '../../assets/images/game-finished.png'
 
 function GameFinish({ gameTitle }) {
   const navigate = useNavigate()
   const { gameNumber } = useParams()
+  const location = useLocation()
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  
+  // state로 전달된 게임 정보 가져오기
+  const gameType = location.state?.gameType || `게임 ${gameNumber}`
 
   const handleBackToHome = () => {
     setShowConfirmModal(true)
@@ -32,7 +36,7 @@ function GameFinish({ gameTitle }) {
     <div className="game-finish-container">
       <header className="finish-header">
         <div></div>
-        <h1>{gameTitle || `게임 ${gameNumber}`} 완료!</h1>
+        <h1>{gameTitle || gameType} 완료!</h1>
         <button onClick={handleBackToHome} className="header-close-btn">
           X
         </button>

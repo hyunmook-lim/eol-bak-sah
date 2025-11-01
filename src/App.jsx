@@ -14,6 +14,8 @@ import Game5Build from './components/games/game5/Game5Build'
 import Game5GamePlay from './components/games/game5/Game5GamePlay'
 import Game6Build from './components/games/game6/Game6Build'
 import Game6GamePlay from './components/games/game6/Game6GamePlay'
+import Game7Build from './components/games/game7/Game7Build'
+import Game7Gameplay from './components/games/game7/Game7Gameplay'
 import './App.css'
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
       <Route path="/game/5/gameplay" element={<Game5GamePlay />} />
       <Route path="/game/6/build" element={<Game6Build />} />
       <Route path="/game/6/gameplay" element={<Game6GamePlay />} />
+      <Route path="/game/7/build" element={<Game7Build />} />
+      <Route path="/game/7/gameplay" element={<Game7Gameplay />} />
     </Routes>
   )
 }

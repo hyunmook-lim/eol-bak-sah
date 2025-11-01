@@ -1,0 +1,573 @@
+.game7-gameplay-container {
+  height: 100vh;
+  background: white;
+  overflow: hidden;
+  cursor: none;
+}
+
+.game7-gameplay-container .game-title-header {
+  background-color: #01275b;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.game7-gameplay-container .game-title-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.game7-gameplay-container .header-back-btn,
+.game7-gameplay-container .header-close-btn {
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: none;
+  transition: all 0.3s ease;
+}
+
+.game7-gameplay-container .header-close-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+.game7-gameplay-container .header-back-btn:hover,
+.game7-gameplay-container .header-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.game7-gameplay-container .gameplay-container {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.game7-gameplay-container .gameplay-container.game-paused {
+  opacity: 0.3;
+}
+
+/* 상단 컨트롤 영역 */
+.game7-gameplay-container .control-section {
+  margin: 20px 30px 0 30px;
+  padding: 20px 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.game7-gameplay-container .control-buttons {
+  display: flex;
+  gap: 25px;
+}
+
+.game7-gameplay-container .toggle-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.game7-gameplay-container .toggle-icon {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game7-gameplay-container .toggle-switch {
+  width: 50px;
+  height: 26px;
+  background-color: #ccc;
+  border-radius: 13px;
+  position: relative;
+  cursor: none;
+  transition: background-color 0.3s ease;
+}
+
+.game7-gameplay-container .toggle-switch:hover {
+  background-color: #b3b3b3;
+}
+
+.game7-gameplay-container .toggle-slider {
+  width: 22px;
+  height: 22px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.game7-gameplay-container .toggle-slider.active {
+  transform: translateX(24px);
+}
+
+.game7-gameplay-container .toggle-switch:has(.toggle-slider.active) {
+  background-color: #f5ae43;
+}
+
+.game7-gameplay-container .toggle-switch:has(.toggle-slider.active):hover {
+  background-color: #e49a2e;
+}
+
+/* 하단 게임 영역 */
+.game7-gameplay-container .game-section {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.game7-gameplay-container .game-section.hide-cursor {
+  cursor: none;
+}
+
+.game7-gameplay-container .penguin-foot-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: none;
+}
+
+/* 카드 그리드 */
+.game7-gameplay-container .cards-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 15px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+/* 게임 카드 */
+.game7-gameplay-container .game-card {
+  aspect-ratio: 1;
+  cursor: none;
+  perspective: 1000px;
+}
+
+.game7-gameplay-container .card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  -webkit-transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+}
+
+.game7-gameplay-container .card-inner.flipped {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+
+.game7-gameplay-container .card-front,
+.game7-gameplay-container .card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 8px;
+  border: 2px solid #f5ae43;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+.game7-gameplay-container .card-front {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+
+.game7-gameplay-container .card-back {
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+}
+
+/* 매칭된 카드 */
+.game7-gameplay-container .card-inner.matched .card-front,
+.game7-gameplay-container .card-inner.matched .card-back {
+  border-color: #4CAF50;
+}
+
+.game7-gameplay-container .game-card:hover .card-inner:not(.matched) .card-front,
+.game7-gameplay-container .game-card:hover .card-inner:not(.matched) .card-back {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  border-color: #e49a2e;
+}
+
+/* 흔들기 애니메이션 (틀렸을 때) */
+@keyframes shake {
+  0%, 100% {
+    transform: rotateY(180deg) translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: rotateY(180deg) translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: rotateY(180deg) translateX(5px);
+  }
+}
+
+.game7-gameplay-container .card-inner.shaking {
+  animation: shake 0.4s ease-in-out;
+}
+
+/* 성공 애니메이션 (맞췄을 때) */
+@keyframes success {
+  0% {
+    transform: rotateY(180deg) scale(1);
+  }
+  25% {
+    transform: rotateY(180deg) scale(1.1);
+  }
+  50% {
+    transform: rotateY(180deg) scale(0.95);
+  }
+  75% {
+    transform: rotateY(180deg) scale(1.05);
+  }
+  100% {
+    transform: rotateY(180deg) scale(1);
+  }
+}
+
+.game7-gameplay-container .card-inner.success {
+  animation: success 0.8s ease-in-out;
+}
+
+.game7-gameplay-container .card-inner.success .card-front,
+.game7-gameplay-container .card-inner.success .card-back {
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+}
+
+/* 힌트 모드 */
+.game7-gameplay-container .card-inner.hint .card-front,
+.game7-gameplay-container .card-inner.hint .card-back {
+  opacity: 0.7;
+  border-color: #FFD700;
+}
+
+.game7-gameplay-container .game-card:hover .card-inner.hint .card-front,
+.game7-gameplay-container .game-card:hover .card-inner.hint .card-back {
+  opacity: 0.7;
+  border-color: #FFD700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.game7-gameplay-container .card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.game7-gameplay-container .card-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* 반응형 그리드 - 짝수 열 유지 */
+@media (max-width: 1200px) {
+  .game7-gameplay-container .cards-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .game7-gameplay-container .cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game7-gameplay-container .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}
+
+/* 게임 시작 화면 */
+.game7-gameplay-container .game-start-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.game7-gameplay-container .game-start-content {
+  background: white;
+  padding: 60px 80px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  pointer-events: auto;
+}
+
+.game7-gameplay-container .game-start-content h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #01275b;
+  margin: 0 0 20px 0;
+}
+
+.game7-gameplay-container .game-start-content p {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 0 0 40px 0;
+  line-height: 1.5;
+}
+
+.game7-gameplay-container .start-game-btn {
+  background-color: #ffe48f;
+  border: 3px solid #f5ae43;
+  color: #01275b;
+  padding: 20px 50px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-radius: 15px;
+  cursor: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(245, 174, 67, 0.3);
+}
+
+.game7-gameplay-container .start-game-btn:hover {
+  background-color: #f5ae43;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 174, 67, 0.4);
+}
+
+.game7-gameplay-container .start-game-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(245, 174, 67, 0.3);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .game7-gameplay-container .game-start-content {
+    padding: 40px 50px;
+    margin: 20px;
+  }
+  
+  .game7-gameplay-container .game-start-content h2 {
+    font-size: 2rem;
+  }
+  
+  .game7-gameplay-container .game-start-content p {
+    font-size: 1rem;
+  }
+  
+  .game7-gameplay-container .start-game-btn {
+    padding: 15px 40px;
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game7-gameplay-container .game-start-content {
+    padding: 30px 30px;
+    margin: 15px;
+  }
+  
+  .game7-gameplay-container .game-start-content h2 {
+    font-size: 1.8rem;
+  }
+  
+  .game7-gameplay-container .start-game-btn {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+  }
+}
+
+/* 게임 완료 화면 */
+.game7-gameplay-container .game-complete-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.game7-gameplay-container .game-complete-content {
+  background: white;
+  padding: 60px 80px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  pointer-events: auto;
+  animation: completePop 0.6s ease-out;
+}
+
+@keyframes completePop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.game7-gameplay-container .game-complete-content h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #4CAF50;
+  margin: 0 0 20px 0;
+}
+
+.game7-gameplay-container .game-complete-content p {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 0 0 40px 0;
+  line-height: 1.5;
+}
+
+.game7-gameplay-container .complete-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.game7-gameplay-container .complete-btn {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: none;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.game7-gameplay-container .complete-btn.primary {
+  background-color: #4CAF50;
+  color: white;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.game7-gameplay-container .complete-btn.primary:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.game7-gameplay-container .complete-btn.secondary {
+  background-color: #f5ae43;
+  color: white;
+  box-shadow: 0 4px 15px rgba(245, 174, 67, 0.3);
+}
+
+.game7-gameplay-container .complete-btn.secondary:hover {
+  background-color: #e49a2e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 174, 67, 0.4);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .game7-gameplay-container .game-complete-content {
+    padding: 40px 50px;
+    margin: 20px;
+  }
+  
+  .game7-gameplay-container .game-complete-content h2 {
+    font-size: 2rem;
+  }
+  
+  .game7-gameplay-container .game-complete-content p {
+    font-size: 1rem;
+  }
+  
+  .game7-gameplay-container .complete-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .game7-gameplay-container .complete-btn {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game7-gameplay-container .game-complete-content {
+    padding: 30px 30px;
+    margin: 15px;
+  }
+  
+  .game7-gameplay-container .game-complete-content h2 {
+    font-size: 1.8rem;
+  }
+  
+  .game7-gameplay-container .complete-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+}

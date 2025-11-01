@@ -183,7 +183,7 @@
   }
 }
 
-.game-card {
+.home-game-card {
   background: white;
   border-radius: 12px;
   padding: 20px;
@@ -202,7 +202,7 @@
 }
 
 @media (min-width: 1200px) {
-  .game-card {
+  .home-game-card {
     padding: 30px;
   }
   .games-grid {
@@ -213,7 +213,7 @@
   }
 }
 
-.game-card:hover {
+.home-game-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
 }
