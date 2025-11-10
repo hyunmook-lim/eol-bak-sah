@@ -16,6 +16,9 @@ import Game6Build from './components/games/game6/Game6Build'
 import Game6GamePlay from './components/games/game6/Game6GamePlay'
 import Game7Build from './components/games/game7/Game7Build'
 import Game7Gameplay from './components/games/game7/Game7Gameplay'
+import Game8Build from './components/games/game8/Game8Build'
+import Game8Build2 from './components/games/game8/Game8Build2'
+import Game8GamePlay from './components/games/game8/Game8GamePlay'
 import './App.css'
 
 function App() {
@@ -38,6 +41,9 @@ function App() {
       <Route path="/game/6/gameplay" element={<Game6GamePlay />} />
       <Route path="/game/7/build" element={<Game7Build />} />
       <Route path="/game/7/gameplay" element={<Game7Gameplay />} />
+      <Route path="/game/8/build" element={<Game8Build />} />
+      <Route path="/game/8/build2" element={<Game8Build2 />} />
+      <Route path="/game/8/gameplay" element={<Game8GamePlay />} />
     </Routes>
   )
 }
