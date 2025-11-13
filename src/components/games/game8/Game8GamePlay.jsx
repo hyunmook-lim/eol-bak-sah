@@ -14,6 +14,8 @@ function Game8GamePlay() {
   const [showResult, setShowResult] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
+  const [showStartGuide, setShowStartGuide] = useState(false)
+  const [fadeOutGuide, setFadeOutGuide] = useState(false)
 
   const zoomLevels = [20, 15, 10, 8, 6, 4, 2, 1]
 
@@ -41,6 +43,19 @@ function Game8GamePlay() {
 
   const handleStartGame = () => {
     setGameStarted(true)
+    setShowStartGuide(true)
+    setFadeOutGuide(false)
+
+    // 2초 후 페이드아웃 시작
+    setTimeout(() => {
+      setFadeOutGuide(true)
+    }, 2000)
+
+    // 페이드아웃 애니메이션 완료 후 제거 (2초 + 0.5초)
+    setTimeout(() => {
+      setShowStartGuide(false)
+      setFadeOutGuide(false)
+    }, 2500)
   }
 
   const handleSubmitAnswer = () => {
@@ -192,6 +207,13 @@ function Game8GamePlay() {
                       onClick={handleImageClick}
                       onLoad={handleImageLoad}
                     />
+                  )}
+                  {showStartGuide && (
+                    <div className={`start-guide-overlay ${fadeOutGuide ? 'fade-out' : ''}`}>
+                      <div className="start-guide-message">
+                        사진을 클릭하면 이미지가 점점 드러나요!
+                      </div>
+                    </div>
                   )}
                 </>
               )}

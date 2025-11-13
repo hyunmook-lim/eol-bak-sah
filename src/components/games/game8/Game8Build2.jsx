@@ -11,6 +11,7 @@ function Game8Build2() {
   const [questions, setQuestions] = useState(initialQuestions)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [previewBox, setPreviewBox] = useState(null)
   const [fixedBox, setFixedBox] = useState(null)
   const [showZoomPreview, setShowZoomPreview] = useState(false)
@@ -115,6 +116,10 @@ function Game8Build2() {
   }
 
   const handleDeleteQuestion = () => {
+    setShowDeleteModal(true)
+  }
+
+  const handleConfirmDelete = () => {
     const updatedQuestions = questions.filter((_, idx) => idx !== currentIndex)
 
     if (updatedQuestions.length === 0) {
@@ -127,6 +132,12 @@ function Game8Build2() {
     if (currentIndex >= updatedQuestions.length) {
       setCurrentIndex(updatedQuestions.length - 1)
     }
+
+    setShowDeleteModal(false)
+  }
+
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false)
   }
 
   const handleComplete = () => {
@@ -410,6 +421,25 @@ function Game8Build2() {
         </div>
       )}
 
+      {showDeleteModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelDelete}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>문제를 삭제하시겠습니까?</h3>
+              <p>삭제된 문제는 복구할 수 없습니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmDelete}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelDelete}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showZoomPreview && currentQuestion?.startX !== undefined && (
         <div className="zoom-preview-overlay" onClick={handleClosePreview}>
           <div className="zoom-preview-content" onClick={(e) => e.stopPropagation()}>
@@ -470,6 +500,9 @@ function Game8Build2() {
                 className="zoomed-image"
                 style={{ cursor: 'pointer' }}
               />
+            </div>
+            <div className="zoom-guide-message">
+              사진을 클릭하면 이미지가 점점 드러나요!
             </div>
           </div>
         </div>

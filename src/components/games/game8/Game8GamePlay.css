@@ -142,6 +142,53 @@
   z-index: 10;
 }
 
+.game8-gameplay-container .start-guide-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.game8-gameplay-container .start-guide-overlay.fade-out {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+.game8-gameplay-container .start-guide-message {
+  background: #01275b;
+  color: white;
+  padding: 30px 50px;
+  border-radius: 100px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .game8-gameplay-container .game-start-button {
   background-color: #f5ae43;
   color: white;
@@ -308,14 +355,22 @@
   background-color: #f5ae43;
   color: white;
   border: none;
-  padding: 20px 60px;
+  padding: 12px 20px;
   border-radius: 12px;
   font-size: 1.4rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(245, 174, 67, 0.3);
-  min-width: 250px;
+  width: 250px;
+  height: 60px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .game8-gameplay-container .reveal-answer-btn:hover {
@@ -335,13 +390,21 @@
 .game8-gameplay-container .answer-display {
   background-color: #01275b;
   color: white;
-  padding: 20px 60px;
+  padding: 12px 20px;
   border-radius: 12px;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  min-width: 250px;
+  width: 250px;
+  height: 60px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   box-shadow: 0 4px 12px rgba(1, 39, 91, 0.3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .game8-gameplay-container .result-buttons {
