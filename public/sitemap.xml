@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- 메인 페이지 -->
   <url>
     <loc>https://eol-bak-sah.vercel.app/</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-
-  <!-- 게임 페이지들 (프로젝트에 실제 경로가 있다면 추가) -->
-  <!-- 예시:
-  <url>
-    <loc>https://eol-bak-sah.vercel.app/game1</loc>
-    <lastmod>2025-11-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  -->
 </urlset>
