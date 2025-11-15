@@ -236,7 +236,7 @@ function Game5GamePlay() {
           </style>
         </head>
         <body>
-          <h1>슝 글자 게임 - 정답 목록</h1>
+          <h1>초성 게임 - 정답 목록</h1>
           <div class="preview-questions-list">
             ${questions.map((question, index) => `
               <div class="preview-question-item ${index === currentQuestionIndex ? 'current' : ''}">
@@ -267,7 +267,7 @@ function Game5GamePlay() {
     <div className="game5-gameplay-container">
       <header className="game-title-header">
         <div></div>
-        <h1>슝 글자 게임 (단어)</h1>
+        <h1>초성 게임</h1>
         <div className="header-right-buttons">
           <button onClick={handleOpenPreviewModal} className="header-menu-btn">
             <span></span>

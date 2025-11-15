@@ -1,6 +1,7 @@
 .game3-gameplay-container {
   height: 100vh;
-  background: white;
+  background: url('../../../assets/images/background.png') no-repeat center center;
+  background-size: cover;
   overflow: hidden;
 }
 
@@ -116,16 +117,29 @@
   background-color: #f5ae43;
   color: white;
   border: none;
-  padding: 15px 40px;
+  padding: 25px 60px;
   border-radius: 50px;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(245, 174, 67, 0.4);
+  animation: pulse 2s infinite;
 }
 
 .game3-gameplay-container .start-game-btn:hover {
   background-color: #e49a2e;
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(245, 174, 67, 0.5);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 .game3-gameplay-container .game-play-section {
@@ -140,8 +154,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
-  border-radius: 20px;
+  background: transparent;
   margin-bottom: 20px;
   position: relative;
 }

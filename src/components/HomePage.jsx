@@ -4,6 +4,7 @@ import '../App.css'
 import twoIcesImg from '../assets/images/two-ices.png'
 import oneIceImg from '../assets/images/one-ice.png'
 import mainPenguinImg from '../assets/images/main-penguin.png'
+import FeedbackModal from './FeedbackModal'
 
 function HomePage() {
   const [scrollY, setScrollY] = useState(0)
@@ -67,8 +68,8 @@ function HomePage() {
     },
     {
       id: 8,
-      title: "얼음깨기 게임 8",
-      description: "스토리텔링을 통한 상상력 발달 게임입니다. 함께 이야기를 만들어가요!",
+      title: "돋보기 게임",
+      description: "확대된 사진을 보고 무엇의 사진인지 맞추는 관찰력 게임입니다. 부분만 보고 전체를 추리하는 재미를 느껴보세요!",
       videoUrl: "/videos/game8.mp4",
       route: "/game/8/video"
     },
@@ -90,46 +91,46 @@ function HomePage() {
       <header className="title-header">
         <h1>얼박사</h1>
       </header>
-      
+
       <main className="main-content">
         <div className="content-spacer"></div>
-        
+
         <div className="text-container">
-            <div 
+            <div
               className={`animated-text subtitle ${scrollY > 50 ? 'visible' : ''}`}
             >
               <span className="highlight-text">어린이 박사</span>의 <span className="highlight-text">얼음 박살</span> 아이스 브레이킹 게임모음
             </div>
-          
-            <div 
+
+            <div
               className={`animated-text main-title ${scrollY > 100 ? 'visible' : ''}`}
             >
               <img src={mainPenguinImg} alt="펭귄" className="main-penguin" />
               얼박사
             </div>
-          
-          <div 
+
+          <div
             className={`additional-text left-text ${scrollY > 150 ? 'visible' : ''}`}
           >
             재미있는 수업을 하고 싶은 교사도!
           </div>
-          
-          <div 
+
+          <div
             className={`additional-text right-text ${scrollY > 200 ? 'visible' : ''}`}
           >
             아이스 브레이킹을 원하는 누구나!
           </div>
         </div>
-        
+
         <div className="content-spacer"></div>
-        
+
         <section className="games-section">
           <div className="games-grid">
             {games.map((game) => (
               <div key={game.id} className="home-game-card">
                 <div className="game-image">
-                  <video 
-                    src={game.videoUrl} 
+                  <video
+                    src={game.videoUrl}
                     alt={game.title}
                     muted
                     loop
@@ -141,7 +142,7 @@ function HomePage() {
                 <p className="game-description">
                   {game.description}
                 </p>
-                <button 
+                <button
                   className="game-start-btn"
                   onClick={() => handleGameStart(game)}
                 >
@@ -150,8 +151,16 @@ function HomePage() {
               </div>
             ))}
           </div>
+
+          <div className="feedback-button-container">
+            <button
+              className="feedback-btn"
+            >
+              의견 보내기
+            </button>
+          </div>
         </section>
-        
+
         <div className="ice-animation-container container-1">
           <img src={twoIcesImg} alt="" className="floating-ice ice-1" />
         </div>

@@ -1,6 +1,7 @@
 .game8-gameplay-container {
   height: 100vh;
-  background: white;
+  background: url('../../../assets/images/background.png') no-repeat center center;
+  background-size: cover;
   overflow: hidden;
 }
 
@@ -296,7 +297,7 @@
 }
 
 .game8-gameplay-container .game-utilities {
-  background: white;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 15px;
   padding: 20px;
   display: flex;

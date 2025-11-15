@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game8GamePlay.css'
 import findingPenguinImg from '../../../assets/images/finding-penguin.png'
@@ -16,6 +16,7 @@ function Game8GamePlay() {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [showStartGuide, setShowStartGuide] = useState(false)
   const [fadeOutGuide, setFadeOutGuide] = useState(false)
+  const canvasRef = useRef(null)
 
   const zoomLevels = [20, 15, 10, 8, 6, 4, 2, 1]
 
@@ -96,74 +97,74 @@ function Game8GamePlay() {
 
   const currentQuestion = questions[currentQuestionIndex]
 
-  // 이미지 줌 스타일 계산
-  const getImageStyle = () => {
-    if (!currentQuestion || !gameStarted) return { opacity: 0 }
+  // Canvas에 이미지 그리기
+  useEffect(() => {
+    if (!gameStarted || !currentQuestion || !imageLoaded) return
 
-    const currentZoom = zoomLevels[zoomLevel]
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-    // 이미지가 로드되기 전에는 숨김
-    if (!imageLoaded) {
-      return {
-        opacity: 0,
-        transform: `scale(${currentZoom})`
+    const ctx = canvas.getContext('2d')
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.src = currentQuestion.imageUrl
+
+    img.onload = () => {
+      // 선택 영역의 중심점
+      const centerX = currentQuestion.startX + currentQuestion.startWidth / 2
+      const centerY = currentQuestion.startY + currentQuestion.startHeight / 2
+
+      // 현재 줌 레벨
+      const currentZoom = zoomLevels[zoomLevel]
+
+      // 줌 레벨에 따라 보여줄 영역 크기 계산
+      const viewWidth = (currentQuestion.startWidth * 20) / currentZoom
+      const viewHeight = (currentQuestion.startHeight * 20) / currentZoom
+
+      // 보여줄 영역의 시작점 (중심점 기준)
+      let sourceX = centerX - viewWidth / 2
+      let sourceY = centerY - viewHeight / 2
+
+      // 이미지 경계를 벗어나지 않도록 조정
+      sourceX = Math.max(0, Math.min(sourceX, img.naturalWidth - viewWidth))
+      sourceY = Math.max(0, Math.min(sourceY, img.naturalHeight - viewHeight))
+
+      // 캔버스 크기 설정 (컨테이너에 맞춤)
+      const container = canvas.parentElement
+      const containerRect = container.getBoundingClientRect()
+
+      // 원본 비율 유지하면서 컨테이너에 맞춤
+      const aspectRatio = currentQuestion.startWidth / currentQuestion.startHeight
+      let canvasWidth, canvasHeight
+
+      if (containerRect.width / containerRect.height > aspectRatio) {
+        canvasHeight = containerRect.height
+        canvasWidth = canvasHeight * aspectRatio
+      } else {
+        canvasWidth = containerRect.width
+        canvasHeight = canvasWidth / aspectRatio
       }
+
+      canvas.width = canvasWidth
+      canvas.height = canvasHeight
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.drawImage(
+        img,
+        sourceX,
+        sourceY,
+        viewWidth,
+        viewHeight,
+        0,
+        0,
+        canvasWidth,
+        canvasHeight
+      )
     }
-
-    // Build2에서 저장한 실제 이미지 좌표를 사용
-    // startX, startY는 픽셀 좌표이고, startWidth, startHeight는 박스 크기
-    // 선택 영역의 중심점을 계산
-    const centerX = currentQuestion.startX + currentQuestion.startWidth / 2
-    const centerY = currentQuestion.startY + currentQuestion.startHeight / 2
-
-    // 이미지 요소를 찾아서 실제 크기 확인
-    const imgElement = document.querySelector('.question-image')
-    if (!imgElement || !imgElement.naturalWidth || !imgElement.naturalHeight) {
-      return { opacity: 0 }
-    }
-
-    // 실제 이미지 크기 기준으로 퍼센트 계산
-    const xPercent = (centerX / imgElement.naturalWidth) * 100
-    const yPercent = (centerY / imgElement.naturalHeight) * 100
-
-    return {
-      opacity: 1,
-      transform: `scale(${currentZoom})`,
-      transformOrigin: `${xPercent}% ${yPercent}%`,
-      transition: zoomLevel === 0 ? 'opacity 0.1s ease-in' : 'transform 0.5s ease-out, opacity 0.1s ease-in',
-      cursor: zoomLevel < zoomLevels.length - 1 ? 'pointer' : 'default'
-    }
-  }
+  }, [gameStarted, currentQuestion, imageLoaded, zoomLevel, zoomLevels])
 
   const handleImageLoad = () => {
     setImageLoaded(true)
-    // 디버깅: 좌표 정보 확인
-    if (currentQuestion) {
-      console.log('Question data:', {
-        startX: currentQuestion.startX,
-        startY: currentQuestion.startY,
-        startWidth: currentQuestion.startWidth,
-        startHeight: currentQuestion.startHeight,
-        answer: currentQuestion.answer
-      })
-
-      const imgElement = document.querySelector('.question-image')
-      if (imgElement) {
-        const centerX = currentQuestion.startX + currentQuestion.startWidth / 2
-        const centerY = currentQuestion.startY + currentQuestion.startHeight / 2
-        const xPercent = (centerX / imgElement.naturalWidth) * 100
-        const yPercent = (centerY / imgElement.naturalHeight) * 100
-
-        console.log('Image info:', {
-          naturalWidth: imgElement.naturalWidth,
-          naturalHeight: imgElement.naturalHeight,
-          centerX,
-          centerY,
-          xPercent,
-          yPercent
-        })
-      }
-    }
   }
 
   if (questions.length === 0) {
@@ -174,7 +175,7 @@ function Game8GamePlay() {
     <div className="game8-gameplay-container">
       <header className="game-title-header">
         <div></div>
-        <h1>이미지 맞추기 게임</h1>
+        <h1>돋보기 게임</h1>
         <button onClick={handleBackToHome} className="header-close-btn">
           X
         </button>
@@ -199,14 +200,24 @@ function Game8GamePlay() {
               ) : (
                 <>
                   {currentQuestion && (
-                    <img
-                      src={currentQuestion.imageUrl}
-                      alt={`문제 ${currentQuestionIndex + 1}`}
-                      className="question-image"
-                      style={getImageStyle()}
-                      onClick={handleImageClick}
-                      onLoad={handleImageLoad}
-                    />
+                    <>
+                      <img
+                        src={currentQuestion.imageUrl}
+                        alt={`문제 ${currentQuestionIndex + 1}`}
+                        style={{ display: 'none' }}
+                        onLoad={handleImageLoad}
+                      />
+                      <canvas
+                        ref={canvasRef}
+                        className="question-image"
+                        onClick={handleImageClick}
+                        style={{
+                          opacity: imageLoaded ? 1 : 0,
+                          transition: 'opacity 0.3s ease-in',
+                          cursor: zoomLevel < zoomLevels.length - 1 && !showResult ? 'pointer' : 'default'
+                        }}
+                      />
+                    </>
                   )}
                   {showStartGuide && (
                     <div className={`start-guide-overlay ${fadeOutGuide ? 'fade-out' : ''}`}>

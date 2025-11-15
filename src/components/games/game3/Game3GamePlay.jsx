@@ -20,6 +20,7 @@ function Game3GamePlay() {
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [currentCharIndex, setCurrentCharIndex] = useState(-1)
   const [isCharacterAnimating, setIsCharacterAnimating] = useState(false)
+  const [animationTimers, setAnimationTimers] = useState([])
 
   useEffect(() => {
     if (questions.length === 0) {
@@ -48,11 +49,15 @@ function Game3GamePlay() {
   }
 
   const handleStartRound = () => {
+    // 기존 타이머들이 있으면 모두 제거
+    animationTimers.forEach(timer => clearTimeout(timer))
+    setAnimationTimers([])
+
     setRoundStarted(true)
     setShowAnswer(false)
     setCurrentCharIndex(-1)
     setIsCharacterAnimating(true)
-    
+
     // 각 글자별로 애니메이션 시작
     animateCharacters()
   }
@@ -61,54 +66,67 @@ function Game3GamePlay() {
     const currentQuestion = questions[currentQuestionIndex]
     const characters = currentQuestion.split('')
     console.log('Starting animation for:', currentQuestion, 'characters:', characters)
-    
+
     let charIndex = 0
-    
+    const timers = []
+
     const animateNextChar = () => {
       if (charIndex < characters.length) {
         console.log('Showing character:', characters[charIndex], 'at index:', charIndex)
         setCurrentCharIndex(charIndex)
         setIsAnimating(true)
-        
+
         // 속도에 따른 애니메이션 시간 계산
         const animationDuration = (6 - speed) * 1000
         console.log('Animation duration:', animationDuration)
-        
-        setTimeout(() => {
+
+        const timer1 = setTimeout(() => {
           // 애니메이션 끝나고 캐릭터를 왼쪽으로 이동
           setIsAnimating(false)
           charIndex++
-          
+
           // 다음 글자가 있으면 계속, 없으면 끝
           if (charIndex < characters.length) {
-            setTimeout(() => {
+            const timer2 = setTimeout(() => {
               animateNextChar()
             }, 500) // 글자 간 간격
+            timers.push(timer2)
           } else {
             console.log('Animation completed')
             // 모든 글자 애니메이션이 끝나면 애니메이션 상태만 해제
             setIsCharacterAnimating(false)
           }
         }, animationDuration)
+        timers.push(timer1)
       }
     }
-    
+
     animateNextChar()
+    setAnimationTimers(timers)
   }
 
   const handleReplay = () => {
+    // 기존 타이머들이 있으면 모두 제거
+    animationTimers.forEach(timer => clearTimeout(timer))
+    setAnimationTimers([])
+
     setShowAnswer(false)
     setCurrentCharIndex(-1)
     setIsCharacterAnimating(true)
-    
+
     // 각 글자별로 애니메이션 시작
     animateCharacters()
   }
 
   const handleShowAnswer = () => {
+    // 모든 애니메이션 타이머 중지
+    animationTimers.forEach(timer => clearTimeout(timer))
+    setAnimationTimers([])
+
     setShowAnswer(true)
     // 캐릭터는 왼쪽에 그대로 두고 애니메이션만 중지
     setIsCharacterAnimating(false)
+    setIsAnimating(false)
   }
 
   const handleNextQuestion = () => {
@@ -249,7 +267,7 @@ function Game3GamePlay() {
           </style>
         </head>
         <body>
-          <h1>초성 퀴즈 게임 - 정답 목록</h1>
+          <h1>슝 글자 게임 (글자) - 정답 목록</h1>
           <div class="preview-questions-list">
             ${questions.map((question, index) => `
               <div class="preview-question-item ${index === currentQuestionIndex ? 'current' : ''}">
@@ -281,7 +299,7 @@ function Game3GamePlay() {
     <div className="game3-gameplay-container">
       <header className="game-title-header">
         <div></div>
-        <h1>초성 퀴즈 게임</h1>
+        <h1>슝 글자 게임 (글자)</h1>
         <div className="header-right-buttons">
           <button onClick={handleOpenPreviewModal} className="header-menu-btn">
             <span></span>

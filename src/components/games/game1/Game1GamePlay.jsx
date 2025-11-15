@@ -17,6 +17,7 @@ function Game1GamePlay() {
   const [speed, setSpeed] = useState(5)
   const [showPreviewModal, setShowPreviewModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [animationTimer, setAnimationTimer] = useState(null)
 
   useEffect(() => {
     if (questions.length === 0) {
@@ -45,30 +46,50 @@ function Game1GamePlay() {
   }
 
   const handleStartRound = () => {
+    // 기존 타이머가 있으면 제거
+    if (animationTimer) {
+      clearTimeout(animationTimer)
+    }
+
     setIsAnimating(true)
     setRoundStarted(true)
     setShowAnswer(false)
-    
+
     // 속도에 따른 애니메이션 시간 계산 (속도가 높을수록 빠르게)
     const animationDuration = (6 - speed) * 1000 // x1: 5초, x5: 1초
-    
-    setTimeout(() => {
+
+    const timer = setTimeout(() => {
       setIsAnimating(false)
     }, animationDuration)
+
+    setAnimationTimer(timer)
   }
 
   const handleReplay = () => {
+    // 기존 타이머가 있으면 제거
+    if (animationTimer) {
+      clearTimeout(animationTimer)
+    }
+
     setIsAnimating(true)
     setShowAnswer(false)
-    
+
     const animationDuration = (6 - speed) * 1000
-    
-    setTimeout(() => {
+
+    const timer = setTimeout(() => {
       setIsAnimating(false)
     }, animationDuration)
+
+    setAnimationTimer(timer)
   }
 
   const handleShowAnswer = () => {
+    // 애니메이션 타이머 중지
+    if (animationTimer) {
+      clearTimeout(animationTimer)
+      setAnimationTimer(null)
+    }
+
     setShowAnswer(true)
     setIsAnimating(false)
   }
