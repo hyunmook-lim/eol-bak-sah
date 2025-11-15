@@ -25,8 +25,7 @@
   font-weight: 700;
 }
 
-.game7-gameplay-container .header-back-btn,
-.game7-gameplay-container .header-close-btn {
+.game7-gameplay-container .header-back-btn {
   background: transparent;
   color: white;
   border: none;
@@ -43,11 +42,16 @@
   height: 40px;
   border-radius: 50%;
   border: 2px solid white;
+  background: transparent;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
   padding: 0;
+  cursor: none;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .game7-gameplay-container .header-back-btn:hover,

@@ -73,7 +73,7 @@ function Game7Build() {
     <div className="game7-build-container">
       <header className="game-title-header">
         <button onClick={handleBackToVideo} className="header-back-btn">
-          &lt;
+          <div className="arrow-left"></div>
         </button>
         <h1>메모리 카드 만들기</h1>
         <button onClick={handleBackToHome} className="header-close-btn">

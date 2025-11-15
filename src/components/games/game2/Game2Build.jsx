@@ -98,7 +98,7 @@ function Game2Build() {
     <div className="game2-build-container">
       <header className="game-title-header">
         <button onClick={handleBackToVideo} className="header-back-btn">
-          &lt;
+          <div className="arrow-left"></div>
         </button>
         <h1>게임 만들기</h1>
         <button onClick={handleBackToHome} className="header-close-btn">

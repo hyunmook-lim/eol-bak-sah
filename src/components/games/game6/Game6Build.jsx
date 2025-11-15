@@ -104,7 +104,7 @@ function Game6Build() {
     <div className="game6-build-container">
       <header className="game-title-header">
         <button onClick={handleBackToVideo} className="header-back-btn">
-          &lt;
+          <div className="arrow-left"></div>
         </button>
         <h1>OX 퀴즈 만들기</h1>
         <button onClick={handleBackToHome} className="header-close-btn">

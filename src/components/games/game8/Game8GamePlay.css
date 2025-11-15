@@ -343,6 +343,7 @@
   align-items: center;
   flex: 1;
   justify-content: flex-end;
+  animation: fadeIn 0.3s ease-in;
 }
 
 .game8-gameplay-container .answer-label {
@@ -387,6 +388,21 @@
   justify-content: flex-end;
 }
 
+.game8-gameplay-container .answer-display-section .answer-label {
+  animation: slideInFromLeft 0.5s ease-out;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .game8-gameplay-container .answer-display {
   background-color: #01275b;
   color: white;
@@ -405,6 +421,21 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  animation: answerReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes answerReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotateY(-90deg);
+  }
+  50% {
+    transform: scale(1.1) rotateY(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotateY(0deg);
+  }
 }
 
 .game8-gameplay-container .result-buttons {

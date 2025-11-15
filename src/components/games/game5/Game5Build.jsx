@@ -80,7 +80,7 @@ function Game5Build() {
     <div className="game5-build-container">
       <header className="game-title-header">
         <button onClick={handleBackToVideo} className="header-back-btn">
-          &lt;
+          <div className="arrow-left"></div>
         </button>
         <h1>게임 만들기</h1>
         <button onClick={handleBackToHome} className="header-close-btn">
