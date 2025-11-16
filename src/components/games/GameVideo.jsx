@@ -1,9 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import './GameVideo.css'
 
-function GameVideo({ videoUrl }) {
+function GameVideo({ gameVideos }) {
   const navigate = useNavigate()
   const { gameNumber } = useParams()
+
+  // 게임 번호에 해당하는 비디오 URL 가져오기
+  const videoUrl = gameVideos?.[gameNumber]
 
   const handleBackToHome = () => {
     navigate('/')

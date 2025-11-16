@@ -25,16 +25,43 @@ function Game7Gameplay() {
   const [shakingCards, setShakingCards] = useState([])
   const [successCards, setSuccessCards] = useState([])
   const [gameCompleted, setGameCompleted] = useState(false)
+  const [gridLayout, setGridLayout] = useState({ columns: 4, rows: 4 })
 
   // 소리 효과
   const [playCorrect] = useSound(correctSound, { volume: 0.5 })
   const [playWrong] = useSound(wrongSound, { volume: 0.5 })
+
+  // 카드 쌍 개수에 따른 그리드 레이아웃 계산
+  const getGridLayout = (pairCount) => {
+    const layouts = {
+      3: { columns: 3, rows: 2 },
+      4: { columns: 4, rows: 2 },
+      5: { columns: 4, rows: 3 },
+      6: { columns: 4, rows: 3 },
+      7: { columns: 4, rows: 4 },
+      8: { columns: 4, rows: 4 },
+      9: { columns: 6, rows: 3 },
+      10: { columns: 5, rows: 4 },
+      11: { columns: 6, rows: 4 },
+      12: { columns: 6, rows: 4 },
+      13: { columns: 7, rows: 4 },
+      14: { columns: 7, rows: 4 },
+      15: { columns: 10, rows: 3 },
+      16: { columns: 8, rows: 4 }
+    }
+    return layouts[pairCount] || { columns: 4, rows: 4 }
+  }
 
   useEffect(() => {
     if (!gameData || !gameData.cardPairs) {
       navigate('/game/7/build')
       return
     }
+
+    // 카드 쌍 개수에 따른 그리드 레이아웃 설정
+    const pairCount = gameData.cardPairs.length
+    const layout = getGridLayout(pairCount)
+    setGridLayout(layout)
 
     // 각 이미지를 2장씩 만들고 섞기
     const cardDeck = []
@@ -188,7 +215,13 @@ function Game7Gameplay() {
 
         {/* 하단 게임 영역 */}
         <div className="game-section hide-cursor">
-          <div className="cards-grid">
+          <div
+            className="cards-grid"
+            style={{
+              gridTemplateColumns: `repeat(${gridLayout.columns}, minmax(60px, 120px))`,
+              gridTemplateRows: `repeat(${gridLayout.rows}, minmax(60px, 120px))`
+            }}
+          >
             {cards.map((card) => {
               const isFlipped = isHintOn || flippedCards.includes(card.id) || matchedCards.includes(card.id)
               const isMatched = matchedCards.includes(card.id)

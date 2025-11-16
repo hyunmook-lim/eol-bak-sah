@@ -95,6 +95,14 @@
   justify-content: center;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
+  overflow: hidden;
+}
+
+.game-video-container .video-placeholder video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .game-video-container .video-placeholder p {

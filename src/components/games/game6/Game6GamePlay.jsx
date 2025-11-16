@@ -11,6 +11,7 @@ function Game6GamePlay() {
   console.log('Game6GamePlay - questions received:', questions)
   console.log('Game6GamePlay - questions length:', questions.length)
   
+  const [gameStarted, setGameStarted] = useState(false)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [showPreviewModal, setShowPreviewModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
@@ -39,6 +40,10 @@ function Game6GamePlay() {
 
   const handleCancelExit = () => {
     setShowConfirmModal(false)
+  }
+
+  const handleStartGame = () => {
+    setGameStarted(true)
   }
 
   const handleOpenExplanationModal = () => {
@@ -223,17 +228,30 @@ function Game6GamePlay() {
         <div></div>
         <h1>OX 게임</h1>
         <div className="header-right-buttons">
-          <button onClick={handleOpenPreviewModal} className="header-menu-btn">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+          {gameStarted && (
+            <button onClick={handleOpenPreviewModal} className="header-menu-btn">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          )}
           <button onClick={handleBackToHome} className="header-close-btn">
             X
           </button>
         </div>
       </header>
-      
+
+      {!gameStarted ? (
+        <div className="gameplay-container">
+          <div className="game-start-section">
+            <h2>게임을 시작하시겠습니까?</h2>
+            <p>총 {questions.length}개의 문제가 준비되었습니다.</p>
+            <button className="start-game-btn" onClick={handleStartGame}>
+              게임 시작
+            </button>
+          </div>
+        </div>
+      ) : (
       <div className="gameplay-container">
         <div className="game-play-section">
           <div className="game-screen-container">
@@ -374,6 +392,7 @@ function Game6GamePlay() {
           </div>
         </div>
       </div>
+      )}
 
       {showPreviewModal && (
         <div className="preview-modal-overlay" onClick={handleClosePreviewModal}>
