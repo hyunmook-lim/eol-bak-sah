@@ -259,8 +259,8 @@ function Game6GamePlay() {
               <div className="answer-image-container">
                 <img
                   src={questions[currentQuestionIndex].answer === 'O'
-                    ? '/src/assets/images/answer-is-o.png'
-                    : '/src/assets/images/answer-is-x.png'
+                    ? '/images/answer-is-o.png'
+                    : '/images/answer-is-x.png'
                   }
                   alt={`정답은 ${questions[currentQuestionIndex].answer}입니다`}
                   className="answer-image"
@@ -274,7 +274,7 @@ function Game6GamePlay() {
 
                 <div className="question-stack-wrapper">
                   <div className="penguin-decoration-wrapper">
-                    <img src="/src/assets/images/ox-penguin.png" alt="OX 펭귄" className="penguin-decoration" />
+                    <img src="/images/ox-penguin.png" alt="OX 펭귄" className="penguin-decoration" />
                   </div>
                   <div className="question-content-wrapper">
                     {questions[currentQuestionIndex].image && (
@@ -284,10 +284,10 @@ function Game6GamePlay() {
                     )}
                     <div className="question-text">
                       <div className="question-text-decoration">
-                        <img src="/src/assets/images/question-mark.png" alt="물음표 왼쪽" className="question-mark-decoration-left" />
+                        <img src="/images/question-mark.png" alt="물음표 왼쪽" className="question-mark-decoration-left" />
                         <div className="bottom-right-decorations">
-                          <img src="/src/assets/images/question-mark.png" alt="물음표 오른쪽" className="question-mark-decoration-right" />
-                          <img src="/src/assets/images/exclamation-mark.png" alt="느낌표" className="exclamation-mark-decoration" />
+                          <img src="/images/question-mark.png" alt="물음표 오른쪽" className="question-mark-decoration-right" />
+                          <img src="/images/exclamation-mark.png" alt="느낌표" className="exclamation-mark-decoration" />
                         </div>
                       </div>
                       <div className="question-text-content">

@@ -4,10 +4,10 @@ import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
 import { HiLightBulb } from 'react-icons/hi'
 import useSound from 'use-sound'
 import './Game7Gameplay.css'
-import penguinImage from '../../../assets/images/curious-penguin.png'
-import penguinFootCursor from '../../../assets/images/penguin-foot.png'
-import correctSound from '../../../assets/sounds/correct.wav'
-import wrongSound from '../../../assets/sounds/wrong.wav'
+const penguinImage = '/images/curious-penguin.png'
+const penguinFootCursor = '/images/penguin-foot.png'
+const correctSound = '/sounds/correct.wav'
+const wrongSound = '/sounds/wrong.wav'
 
 function Game7Gameplay() {
   const navigate = useNavigate()

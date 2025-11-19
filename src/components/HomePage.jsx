@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
-import twoIcesImg from '../assets/images/two-ices.png'
-import oneIceImg from '../assets/images/one-ice.png'
-import mainPenguinImg from '../assets/images/main-penguin.png'
+const twoIcesImg = '/images/two-ices.png'
+const oneIceImg = '/images/one-ice.png'
+const mainPenguinImg = '/images/main-penguin.png'
 import FeedbackModal from './FeedbackModal'
 
 function HomePage() {
@@ -32,63 +32,63 @@ function HomePage() {
       id: 1,
       title: "슝 글자 게임 (단어)",
       description: "빠르게 지나가는 단어들을 집중해서 보고 정확하게 맞추는 반응 속도 게임입니다. 순발력과 집중력을 기를 수 있어요!",
-      videoUrl: "/src/assets/video/game1video.mov",
+      videoUrl: "/videos/game1video.mov",
       route: "/game/1/video"
     },
     {
       id: 2,
       title: "창문닦기 게임",
       description: "가려진 사진을 점점 닦아나가며 숨겨진 정답을 맞추는 추리 게임입니다. 관찰력과 추론 능력을 발휘해보세요!",
-      videoUrl: "/src/assets/video/game2video.mov",
+      videoUrl: "/videos/game2video.mov",
       route: "/game/2/video"
     },
     {
       id: 3,
       title: "슝 글자 게임 (글자)",
       description: "빠르게 지나가는 개별 글자들을 보고 의미있는 단어로 조합하는 인지 게임입니다. 빠른 사고력과 단어 실력이 필요해요!",
-      videoUrl: "/src/assets/video/game3video.mov",
+      videoUrl: "/videos/game3video.mov",
       route: "/game/3/video"
     },
     {
       id: 4,
       title: "뒤죽박죽 글자게임",
       description: "뒤죽박죽으로 섞인 글자들을 원래대로 맞추는 게임입니다. 머리를 잘 써보세요!",
-      videoUrl: "/src/assets/video/game4video.mov",
+      videoUrl: "/videos/game4video.mov",
       route: "/game/4/video"
     },
     {
       id: 5,
       title: "초성 게임",
       description: "초성을 맞추는 게임입니다. 빠른 사고력과 단어 실력이 필요해요!",
-      videoUrl: "/src/assets/video/game5video.mov",
+      videoUrl: "/videos/game5video.mov",
       route: "/game/5/video"
     },
     {
       id: 6,
       title: "OX 게임",
       description: "O 또는 X로 정답을 맞추는 퀴즈 게임입니다. 빠른 판단력과 지식을 발휘해보세요!",
-      videoUrl: "/src/assets/video/game6video.mov",
+      videoUrl: "/videos/game6video.mov",
       route: "/game/6/video"
     },
     {
       id: 7,
       title: "메모리 카드 게임",
       description: "같은 그림의 카드 2장을 찾아 맞추는 기억력 게임입니다. 집중력과 기억력을 키워요!",
-      videoUrl: "/src/assets/video/game7video.mov",
+      videoUrl: "/videos/game7video.mov",
       route: "/game/7/video"
     },
     {
       id: 8,
       title: "돋보기 게임",
       description: "확대된 사진을 보고 무엇의 사진인지 맞추는 관찰력 게임입니다. 부분만 보고 전체를 추리하는 재미를 느껴보세요!",
-      videoUrl: "/src/assets/video/game8video.mov",
+      videoUrl: "/videos/game8video.mov",
       route: "/game/8/video"
     },
     {
       id: 9,
       title: "얼음깨기 게임 9",
       description: "마지막 게임으로 모두가 함께하는 단체 게임입니다. 즐거운 마무리!",
-      videoUrl: "/src/assets/video/game9video.mov",
+      videoUrl: "/videos/game9video.mov",
       route: "/game/9/video"
     }
   ]

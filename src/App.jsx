@@ -44,15 +44,15 @@ function App() {
 
   // 게임별 비디오 URL 매핑
   const gameVideos = {
-    1: '/src/assets/video/game1video.mov',
-    2: '/src/assets/video/game2video.mov',
-    3: '/src/assets/video/game3video.mov',
-    4: '/src/assets/video/game4video.mov',
-    5: '/src/assets/video/game5video.mov',
-    6: '/src/assets/video/game6video.mov',
-    7: '/src/assets/video/game7video.mov',
-    8: '/src/assets/video/game8video.mov',
-    9: '/src/assets/video/game9video.mov'
+    1: '/videos/game1video.mov',
+    2: '/videos/game2video.mov',
+    3: '/videos/game3video.mov',
+    4: '/videos/game4video.mov',
+    5: '/videos/game5video.mov',
+    6: '/videos/game6video.mov',
+    7: '/videos/game7video.mov',
+    8: '/videos/game8video.mov',
+    9: '/videos/game9video.mov'
   }
 
   return (

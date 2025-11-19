@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game2GamePlay.css'
-import findingPenguin from '../../../assets/images/finding-penguin.png'
-import tissue from '../../../assets/images/tissue.png'
+const findingPenguin = '/images/finding-penguin.png'
+const tissue = '/images/tissue.png'
 
 function Game2GamePlay() {
   const navigate = useNavigate()

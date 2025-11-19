@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game8GamePlay.css'
-import findingPenguinImg from '../../../assets/images/finding-penguin.png'
+const findingPenguinImg = '/images/finding-penguin.png'
 
 function Game8GamePlay() {
   const navigate = useNavigate()

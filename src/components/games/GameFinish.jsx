@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import './GameFinish.css'
-import gameFinished from '../../assets/images/game-finished.png'
+const gameFinished = '/images/game-finished.png'
 
 function GameFinish() {
   const navigate = useNavigate()

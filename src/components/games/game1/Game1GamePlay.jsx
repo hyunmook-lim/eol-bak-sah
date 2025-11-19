@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game1GamePlay.css'
-import runningPenguin from '../../../assets/images/running-penguin.png'
-import questionMark from '../../../assets/images/question-mark.png'
+const runningPenguin = '/images/running-penguin.png'
+const questionMark = '/images/question-mark.png'
 
 function Game1GamePlay() {
   const navigate = useNavigate()

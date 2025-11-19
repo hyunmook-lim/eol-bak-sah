@@ -1,5 +1,5 @@
 import './Loading.css'
-import penguinFoot from '../assets/images/penguin-foot.png'
+const penguinFoot = '/images/penguin-foot.png'
 
 function Loading() {
   return (
