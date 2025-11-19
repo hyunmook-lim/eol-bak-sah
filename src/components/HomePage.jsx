@@ -181,7 +181,7 @@ function HomePage() {
             <img src={penguinFoot} alt="Loading" className="loading-foot foot-2" />
             <img src={penguinFoot} alt="Loading" className="loading-foot foot-3" />
           </div>
-          <h2 className="loading-title">얼박사 에듀 로딩 중...</h2>
+          <h2 className="loading-title">얼박사 로딩 중...</h2>
           <div className="loading-bar">
             <div
               className="loading-progress"
@@ -197,7 +197,7 @@ function HomePage() {
   return (
     <div className="app">
       <header className="title-header">
-        <h1>얼박사 에듀</h1>
+        <h1>얼박사</h1>
       </header>
 
       <main className="main-content">
@@ -214,7 +214,7 @@ function HomePage() {
               className={`animated-text main-title ${scrollY > 100 ? 'visible' : ''}`}
             >
               <img src={mainPenguinImg} alt="펭귄" className="main-penguin" />
-              얼박사 에듀
+              얼박사
             </div>
 
           <div
