@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 import './FeedbackModal.css'
 
 function FeedbackModal({ isOpen, onClose }) {
@@ -17,20 +18,27 @@ function FeedbackModal({ isOpen, onClose }) {
     setIsSubmitting(true)
 
     try {
-      // mailto 링크를 사용하여 이메일 클라이언트 열기
-      const subject = encodeURIComponent(`얼박사 피드백${name ? ` - ${name}` : ''}`)
-      const body = encodeURIComponent(message)
-      const mailtoLink = `mailto:hmlim0320@naver.com?subject=${subject}&body=${body}`
+      // EmailJS를 사용하여 이메일 전송
+      const templateParams = {
+        from_name: name || '익명',
+        message: message,
+        to_email: 'hmlim0320@gmail.com'
+      }
 
-      window.location.href = mailtoLink
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+
+      alert('의견이 성공적으로 전송되었습니다!')
 
       // 폼 초기화 및 모달 닫기
-      setTimeout(() => {
-        setName('')
-        setMessage('')
-        setIsSubmitting(false)
-        onClose()
-      }, 500)
+      setName('')
+      setMessage('')
+      setIsSubmitting(false)
+      onClose()
     } catch (error) {
       console.error('이메일 전송 오류:', error)
       alert('이메일 전송에 실패했습니다. 다시 시도해주세요.')

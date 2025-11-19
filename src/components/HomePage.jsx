@@ -10,6 +10,8 @@ function HomePage() {
   const [scrollY, setScrollY] = useState(0)
   const navigate = useNavigate()
   const videoRefs = useRef({})
+  const [hoveredGame, setHoveredGame] = useState(null)
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -17,79 +19,76 @@ function HomePage() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(() => {
-    // 게임별로 다른 섬네일 시간 설정
-    Object.entries(videoRefs.current).forEach(([gameId, video]) => {
-      if (video) {
-        // 게임 1, 3은 0초, 나머지는 4.5초
-        video.currentTime = (gameId === '1' || gameId === '3') ? 0 : 5.5
-      }
-    })
-  }, [])
-
   const games = [
     {
       id: 1,
       title: "슝 글자 게임 (단어)",
       description: "빠르게 지나가는 단어들을 집중해서 보고 정확하게 맞추는 반응 속도 게임입니다. 순발력과 집중력을 기를 수 있어요!",
-      videoUrl: "/videos/game1video.mov",
+      videoUrl: "/videos/game1video.mp4",
+      thumbnailUrl: "/thumbnail/game1thumbnail.png",
       route: "/game/1/video"
     },
     {
       id: 2,
       title: "창문닦기 게임",
       description: "가려진 사진을 점점 닦아나가며 숨겨진 정답을 맞추는 추리 게임입니다. 관찰력과 추론 능력을 발휘해보세요!",
-      videoUrl: "/videos/game2video.mov",
+      videoUrl: "/videos/game2video.mp4",
+      thumbnailUrl: "/thumbnail/game2thumbnail.png",
       route: "/game/2/video"
     },
     {
       id: 3,
       title: "슝 글자 게임 (글자)",
       description: "빠르게 지나가는 개별 글자들을 보고 의미있는 단어로 조합하는 인지 게임입니다. 빠른 사고력과 단어 실력이 필요해요!",
-      videoUrl: "/videos/game3video.mov",
+      videoUrl: "/videos/game3video.mp4",
+      thumbnailUrl: "/thumbnail/game3thumbnail.png",
       route: "/game/3/video"
     },
     {
       id: 4,
       title: "뒤죽박죽 글자게임",
       description: "뒤죽박죽으로 섞인 글자들을 원래대로 맞추는 게임입니다. 머리를 잘 써보세요!",
-      videoUrl: "/videos/game4video.mov",
+      videoUrl: "/videos/game4video.mp4",
+      thumbnailUrl: "/thumbnail/game4thumbnail.png",
       route: "/game/4/video"
     },
     {
       id: 5,
       title: "초성 게임",
       description: "초성을 맞추는 게임입니다. 빠른 사고력과 단어 실력이 필요해요!",
-      videoUrl: "/videos/game5video.mov",
+      videoUrl: "/videos/game5video.mp4",
+      thumbnailUrl: "/thumbnail/game5thumbnail.png",
       route: "/game/5/video"
     },
     {
       id: 6,
       title: "OX 게임",
       description: "O 또는 X로 정답을 맞추는 퀴즈 게임입니다. 빠른 판단력과 지식을 발휘해보세요!",
-      videoUrl: "/videos/game6video.mov",
+      videoUrl: "/videos/game6video.mp4",
+      thumbnailUrl: "/thumbnail/game6thumbnail.png",
       route: "/game/6/video"
     },
     {
       id: 7,
       title: "메모리 카드 게임",
       description: "같은 그림의 카드 2장을 찾아 맞추는 기억력 게임입니다. 집중력과 기억력을 키워요!",
-      videoUrl: "/videos/game7video.mov",
+      videoUrl: "/videos/game7video.mp4",
+      thumbnailUrl: "/thumbnail/game7thumbnail.png",
       route: "/game/7/video"
     },
     {
       id: 8,
       title: "돋보기 게임",
       description: "확대된 사진을 보고 무엇의 사진인지 맞추는 관찰력 게임입니다. 부분만 보고 전체를 추리하는 재미를 느껴보세요!",
-      videoUrl: "/videos/game8video.mov",
+      videoUrl: "/videos/game8video.mp4",
+      thumbnailUrl: "/thumbnail/game8thumbnail.png",
       route: "/game/8/video"
     },
     {
       id: 9,
-      title: "얼음깨기 게임 9",
-      description: "마지막 게임으로 모두가 함께하는 단체 게임입니다. 즐거운 마무리!",
-      videoUrl: "/videos/game9video.mov",
-      route: "/game/9/video"
+      title: "Coming Soon!",
+      description: "새로운 게임을 만들고 있어요! 조금만 기다려주세요!",
+      isComingSoon: true
     }
   ]
 
@@ -140,45 +139,67 @@ function HomePage() {
             {games.map((game) => (
               <div
                 key={game.id}
-                className="home-game-card"
-                onMouseEnter={(e) => {
-                  const video = e.currentTarget.querySelector('video')
-                  if (video) {
-                    video.currentTime = 0
-                    video.playbackRate = 2
-                    video.play()
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  const video = e.currentTarget.querySelector('video')
-                  if (video) {
-                    video.pause()
-                    // 게임 1, 3은 0초, 나머지는 4.5초
-                    video.currentTime = (game.id === 1 || game.id === 3) ? 0 : 5.5
-                  }
-                }}
+                className={`home-game-card ${game.isComingSoon ? 'coming-soon-card' : ''}`}
+                onMouseEnter={() => !game.isComingSoon && setHoveredGame(game.id)}
+                onMouseLeave={() => !game.isComingSoon && setHoveredGame(null)}
               >
-                <div className="game-image">
-                  <video
-                    ref={(el) => {
-                      if (el) videoRefs.current[game.id] = el
-                    }}
-                    src={game.videoUrl}
-                    alt={game.title}
-                    muted
-                    loop
-                  />
-                </div>
-                <h3 className="game-title">{game.title}</h3>
-                <p className="game-description">
-                  {game.description}
-                </p>
-                <button
-                  className="game-start-btn"
-                  onClick={() => handleGameStart(game)}
-                >
-                  게임 시작
-                </button>
+                {game.isComingSoon ? (
+                  <>
+                    <div className="game-image coming-soon-image">
+                      <div className="coming-soon-content">
+                        <span className="coming-soon-icon">🎁</span>
+                        <span className="coming-soon-text">준비 중</span>
+                      </div>
+                    </div>
+                    <h3 className="game-title">{game.title}</h3>
+                    <p className="game-description">
+                      {game.description}
+                    </p>
+                    <button
+                      className="game-start-btn coming-soon-btn"
+                      disabled
+                    >
+                      준비 중
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="game-image">
+                      {hoveredGame === game.id ? (
+                        <video
+                          ref={(el) => {
+                            if (el) {
+                              videoRefs.current[game.id] = el
+                              el.currentTime = 0
+                              el.playbackRate = 2
+                              el.play()
+                            }
+                          }}
+                          src={game.videoUrl}
+                          alt={game.title}
+                          muted
+                          loop
+                          autoPlay
+                        />
+                      ) : (
+                        <img
+                          src={game.thumbnailUrl}
+                          alt={game.title}
+                        />
+                      )}
+                    </div>
+                    <h3 className="game-title">{game.title}</h3>
+                    <p className="game-description">
+                      {game.description}
+                    </p>
+                    <button
+                      className="game-start-btn"
+                      onClick={() => handleGameStart(game)}
+                    >
+                      게임 시작
+                    </button>
+                  </>
+                )}
               </div>
             ))}
           </div>
@@ -186,11 +207,17 @@ function HomePage() {
           <div className="feedback-button-container">
             <button
               className="feedback-btn"
+              onClick={() => setIsFeedbackModalOpen(true)}
             >
               의견 보내기
             </button>
           </div>
         </section>
+
+        <FeedbackModal
+          isOpen={isFeedbackModalOpen}
+          onClose={() => setIsFeedbackModalOpen(false)}
+        />
 
         <div className="ice-animation-container container-1">
           <img src={twoIcesImg} alt="" className="floating-ice ice-1" />
