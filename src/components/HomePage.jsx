@@ -4,6 +4,7 @@ import '../App.css'
 const twoIcesImg = '/images/two-ices.png'
 const oneIceImg = '/images/one-ice.png'
 const mainPenguinImg = '/images/main-penguin.png'
+const penguinFoot = '/images/penguin-foot.png'
 import FeedbackModal from './FeedbackModal'
 
 function HomePage() {
@@ -12,11 +13,86 @@ function HomePage() {
   const videoRefs = useRef({})
   const [hoveredGame, setHoveredGame] = useState(null)
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadingProgress, setLoadingProgress] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // 리소스 프리로딩
+  useEffect(() => {
+    const preloadResources = async () => {
+      const resources = [
+        // 비디오 파일들
+        '/videos/game1video.mp4',
+        '/videos/game2video.mp4',
+        '/videos/game3video.mp4',
+        '/videos/game4video.mp4',
+        '/videos/game5video.mp4',
+        '/videos/game6video.mp4',
+        '/videos/game7video.mp4',
+        '/videos/game8video.mp4',
+        // 썸네일 이미지들
+        '/thumbnail/game1thumbnail.png',
+        '/thumbnail/game2thumbnail.png',
+        '/thumbnail/game3thumbnail.png',
+        '/thumbnail/game4thumbnail.png',
+        '/thumbnail/game5thumbnail.png',
+        '/thumbnail/game6thumbnail.png',
+        '/thumbnail/game7thumbnail.png',
+        '/thumbnail/game8thumbnail.png',
+        // 기타 이미지들
+        '/images/two-ices.png',
+        '/images/one-ice.png',
+        '/images/main-penguin.png'
+      ]
+
+      let loaded = 0
+      const total = resources.length
+
+      const loadPromises = resources.map((src) => {
+        return new Promise((resolve) => {
+          if (src.endsWith('.mp4')) {
+            // 비디오 프리로드
+            const video = document.createElement('video')
+            video.preload = 'auto'
+            video.src = src
+            video.onloadeddata = () => {
+              loaded++
+              setLoadingProgress(Math.round((loaded / total) * 100))
+              resolve()
+            }
+            video.onerror = () => {
+              loaded++
+              setLoadingProgress(Math.round((loaded / total) * 100))
+              resolve() // 에러가 나도 계속 진행
+            }
+          } else {
+            // 이미지 프리로드
+            const img = new Image()
+            img.src = src
+            img.onload = () => {
+              loaded++
+              setLoadingProgress(Math.round((loaded / total) * 100))
+              resolve()
+            }
+            img.onerror = () => {
+              loaded++
+              setLoadingProgress(Math.round((loaded / total) * 100))
+              resolve() // 에러가 나도 계속 진행
+            }
+          }
+        })
+      })
+
+      await Promise.all(loadPromises)
+      setIsLoading(false)
+    }
+
+    preloadResources()
   }, [])
 
   const games = [
@@ -94,6 +170,28 @@ function HomePage() {
 
   const handleGameStart = (game) => {
     navigate(game.route)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-content">
+          <div className="loading-penguin-feet">
+            <img src={penguinFoot} alt="Loading" className="loading-foot foot-1" />
+            <img src={penguinFoot} alt="Loading" className="loading-foot foot-2" />
+            <img src={penguinFoot} alt="Loading" className="loading-foot foot-3" />
+          </div>
+          <h2 className="loading-title">얼박사 로딩 중...</h2>
+          <div className="loading-bar">
+            <div
+              className="loading-progress"
+              style={{ width: `${loadingProgress}%` }}
+            ></div>
+          </div>
+          <p className="loading-percentage">{loadingProgress}%</p>
+        </div>
+      </div>
+    )
   }
 
   return (
