@@ -47,7 +47,22 @@ function HomePage() {
         // 기타 이미지들
         '/images/two-ices.png',
         '/images/one-ice.png',
-        '/images/main-penguin.png'
+        '/images/main-penguin.png',
+        '/images/running-penguin.png',
+        '/images/question-mark.png',
+        '/images/question-ice.png',
+        '/images/curious-penguin.png',
+        '/images/penguin-foot.png',
+        '/images/answer-is-o.png',
+        '/images/answer-is-x.png',
+        '/images/ox-penguin.png',
+        '/images/background.png',
+        '/images/game-finished.png',
+        '/images/exclamation-mark.png',
+        '/images/finding-penguin.png',
+        '/images/tissue.png',
+        '/images/x-penguin.png',
+        '/images/o-penguin.png',
       ]
 
       let loaded = 0
