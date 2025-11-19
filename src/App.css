@@ -498,7 +498,7 @@
   height: 100%;
   background: linear-gradient(90deg, #f5ae43 0%, #f7be5e 100%);
   transition: width 0.3s ease;
-  border-radius: 15px;
+  border-radius: 12px;
 }
 
 .loading-percentage {
