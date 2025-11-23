@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game8GamePlay.css'
 const findingPenguinImg = '/images/finding-penguin.png'
@@ -6,7 +6,7 @@ const findingPenguinImg = '/images/finding-penguin.png'
 function Game8GamePlay() {
   const navigate = useNavigate()
   const location = useLocation()
-  const questions = location.state?.questions || []
+  const questions = useMemo(() => location.state?.questions || [], [location.state?.questions])
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
@@ -18,7 +18,7 @@ function Game8GamePlay() {
   const [fadeOutGuide, setFadeOutGuide] = useState(false)
   const canvasRef = useRef(null)
 
-  const zoomLevels = [20, 15, 10, 8, 6, 4, 2, 1]
+  const zoomLevels = useMemo(() => [20, 15, 10, 8, 6, 4, 2, 1], [])
 
   useEffect(() => {
     if (questions.length === 0) {

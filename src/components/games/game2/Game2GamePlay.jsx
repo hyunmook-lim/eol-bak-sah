@@ -1,13 +1,15 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game2GamePlay.css'
-const findingPenguin = '/images/finding-penguin.png'
-const tissue = '/images/tissue.png'
+const dirtyWindow = '/images/dirty-window.png'
+const cleaningHand = '/images/cleaning-hand.png'
+const spray = '/images/spray.png'
+const bubble = '/images/bubble.png'
 
 function Game2GamePlay() {
   const navigate = useNavigate()
   const location = useLocation()
-  const questions = location.state?.questions || []
+  const questions = useMemo(() => location.state?.questions || [], [location.state?.questions])
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
@@ -19,12 +21,25 @@ function Game2GamePlay() {
   const canvasRef = useRef(null)
   const [maskDataUrl, setMaskDataUrl] = useState(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [imageAspectRatio, setImageAspectRatio] = useState(null)
+  const containerRef = useRef(null)
 
   useEffect(() => {
     if (questions.length === 0) {
       navigate('/game/2/build')
     }
   }, [questions, navigate])
+
+  useEffect(() => {
+    // 문제가 변경될 때 이미지 비율 리셋
+    setImageAspectRatio(null)
+  }, [currentQuestionIndex])
+
+  const handleImageLoad = (e) => {
+    const img = e.target
+    const aspectRatio = img.naturalWidth / img.naturalHeight
+    setImageAspectRatio(aspectRatio)
+  }
 
   const handleBackToHome = () => {
     setShowConfirmModal(true)
@@ -183,7 +198,7 @@ function Game2GamePlay() {
         <button onClick={handleBackToHome} className="header-close-btn">
           X
         </button>
-      </header>ㅈ
+      </header>
       
       <div className="gameplay-container">
         {!gameStarted ? (
@@ -196,20 +211,28 @@ function Game2GamePlay() {
           </div>
         ) : (
           <div className="game-play-section">
-            <div 
+            <div
+              ref={containerRef}
               className={`photo-display-container ${roundStarted ? 'hide-cursor' : ''}`}
+              style={{ aspectRatio: imageAspectRatio || 'auto' }}
               onMouseMove={roundStarted ? handleMouseMove : undefined}
               onMouseDown={handleMouseDown}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
             >
-              {currentQuestion && (
-                <img 
-                  src={currentQuestion.imageUrl} 
-                  alt={`문제 ${currentQuestionIndex + 1}`}
-                  className="question-image"
-                />
-              )}
+              <img src={spray} alt="Spray" className="spray-decoration" />
+              <img src={bubble} alt="Bubble" className="bubble-decoration" />
+
+              <div className="question-image-wrapper">
+                {currentQuestion && (
+                  <img
+                    src={currentQuestion.imageUrl}
+                    alt={`문제 ${currentQuestionIndex + 1}`}
+                    className="question-image"
+                    onLoad={handleImageLoad}
+                  />
+                )}
+              </div>
               
               <div className="photo-overlay">
                 <canvas 
@@ -217,15 +240,15 @@ function Game2GamePlay() {
                   className="mask-canvas"
                   style={{ display: 'none' }}
                 />
-                <div 
+                <div
                   className="finding-penguin-layer"
                   style={{
                     maskImage: maskDataUrl ? `url(${maskDataUrl})` : 'none'
                   }}
                 >
-                  <img 
-                    src={findingPenguin} 
-                    alt="Finding Penguin" 
+                  <img
+                    src={dirtyWindow}
+                    alt="Dirty Window"
                     className="finding-penguin-fullscreen"
                   />
                 </div>
@@ -247,25 +270,18 @@ function Game2GamePlay() {
                 )}
                 {roundStarted && (
                   <img
-                    src={tissue}
-                    alt="Tissue"
+                    src={cleaningHand}
+                    alt="Cleaning Hand"
                     className="tissue-cursor"
                     style={{
                       left: mousePosition.x - brushSize,
                       top: mousePosition.y - brushSize,
                       width: brushSize * 2,
-                      height: brushSize * 2
+                      height: 'auto'
                     }}
                   />
                 )}
               </div>
-              
-              
-              {showAnswer && (
-                <div className="answer-display">
-                  <p className="answer-text">{currentQuestion?.answer}</p>
-                </div>
-              )}
             </div>
             
             {showAnswer && (
@@ -303,7 +319,7 @@ function Game2GamePlay() {
               
               {roundStarted && (
                 <div className="brush-size-control">
-                  <img src={tissue} alt="Tissue" className="brush-icon" />
+                  <img src={cleaningHand} alt="Cleaning Hand" className="brush-icon" />
                   <input
                     type="range"
                     min="15"
@@ -320,9 +336,18 @@ function Game2GamePlay() {
                   <button className="reset-btn" onClick={handleReset}>
                     초기화
                   </button>
-                  <button className="show-answer-btn" onClick={handleShowAnswer}>
-                    정답 확인
-                  </button>
+                  {!showAnswer ? (
+                    <button className="reveal-answer-btn" onClick={handleShowAnswer}>
+                      정답 확인하기
+                    </button>
+                  ) : (
+                    <div className="answer-display-section">
+                      <span className="answer-label">정답:</span>
+                      <div className="answer-display-text">
+                        {currentQuestion?.answer}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
