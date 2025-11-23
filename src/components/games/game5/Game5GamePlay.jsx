@@ -1,17 +1,17 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game5GamePlay.css'
-const questionMark = '/images/question-mark.png'
-const questionIce = '/images/question-ice.png'
+
+
 
 function Game5GamePlay() {
   const navigate = useNavigate()
   const location = useLocation()
   const questions = useMemo(() => location.state?.questions || [], [location.state?.questions])
-  
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
-  const [roundStarted, setRoundStarted] = useState(false)
+
   const [showPreviewModal, setShowPreviewModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [isRearranging, setIsRearranging] = useState(false)
@@ -47,12 +47,12 @@ function Game5GamePlay() {
   const getInitialConsonant = (char) => {
     const code = char.charCodeAt(0) - 44032
     if (code < 0 || code > 11171) return char // 한글이 아닌 경우 원본 반환
-    
+
     const initialConsonants = [
       'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ',
       'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
     ]
-    
+
     const initialIndex = Math.floor(code / 588)
     return initialConsonants[initialIndex]
   }
@@ -63,7 +63,7 @@ function Game5GamePlay() {
       setShowHint(true)
       setHintOpacity(1)
       setHintShown(true)
-      
+
       // 3초 후 힌트 투명도 0으로
       setTimeout(() => {
         setHintOpacity(0)
@@ -72,9 +72,7 @@ function Game5GamePlay() {
   }
 
 
-  const handleStartRound = () => {
-    setRoundStarted(true)
-  }
+
 
   const handleReplay = () => {
     setShowAnswer(false)
@@ -84,7 +82,7 @@ function Game5GamePlay() {
   const handleShowAnswer = () => {
     setIsRearranging(true)
     setShowAnswer(true)
-    
+
     setTimeout(() => {
       setIsRearranging(false)
     }, 800)
@@ -93,7 +91,6 @@ function Game5GamePlay() {
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
-      setRoundStarted(false)
       setIsRearranging(false)
       setShowAnswer(false)
       setClickedCharIndices([])
@@ -109,7 +106,6 @@ function Game5GamePlay() {
   const handlePreviousQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1)
-      setRoundStarted(false)
       setIsRearranging(false)
       setShowAnswer(false)
       setClickedCharIndices([])
@@ -121,8 +117,8 @@ function Game5GamePlay() {
   }
 
   const handleCharClick = (index) => {
-    if (!roundStarted || showAnswer) return
-    
+    if (showAnswer) return
+
     setClickedCharIndices(prev => {
       if (prev.includes(index)) {
         return prev.filter(i => i !== index)
@@ -253,7 +249,7 @@ function Game5GamePlay() {
       </html>
     `)
     printWindow.document.close()
-    
+
     printWindow.onload = () => {
       printWindow.print()
     }
@@ -279,7 +275,7 @@ function Game5GamePlay() {
           </button>
         </div>
       </header>
-      
+
       <div className="gameplay-container">
         {!gameStarted ? (
           <div className="game-start-section">
@@ -294,81 +290,32 @@ function Game5GamePlay() {
             <div className="game-screen-container">
               <div className="question-display-container">
                 {showHint && (
-                  <div className="hint-container" style={{opacity: hintOpacity}}>
+                  <div className="hint-container" style={{ opacity: hintOpacity }}>
                     <p>클릭하면 한 글자씩 정답을 볼 수 있어요!</p>
                   </div>
                 )}
                 {(() => {
                   const chars = questions[currentQuestionIndex] ? questions[currentQuestionIndex].split('') : []
-                  
-                  if (chars.length <= 4) {
-                    return (
-                      <div className="question-ice-blocks">
-                        {chars.map((char, index) => (
-                          <div 
-                            key={index} 
-                            className={`question-ice-item ${isRearranging ? 'rearranging' : ''} ${showAnswer ? 'answer-revealed' : ''} ${roundStarted ? 'clickable' : ''}`}
-                            onClick={() => handleCharClick(index)}
-                          >
-                            <img src={questionIce} alt="Question Ice" className="question-ice" />
-                            {!roundStarted ? (
-                              <img src={questionMark} alt="Question Mark" className="question-mark-overlay" />
-                            ) : (
-                              <span className="question-char-overlay">
-                                {showAnswer || clickedCharIndices.includes(index) ? char : getInitialConsonant(char)}
-                              </span>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )
-                  } else {
-                    const firstRow = chars.slice(0, Math.ceil(chars.length / 2))
-                    const secondRow = chars.slice(Math.ceil(chars.length / 2))
-                    return (
-                      <div className="question-ice-rows">
-                        <div className="question-ice-blocks">
-                          {firstRow.map((char, index) => (
-                            <div 
-                              key={index} 
-                              className={`question-ice-item ${isRearranging ? 'rearranging' : ''} ${showAnswer ? 'answer-revealed' : ''} ${roundStarted ? 'clickable' : ''}`}
-                              onClick={() => handleCharClick(index)}
-                            >
-                              <img src={questionIce} alt="Question Ice" className="question-ice" />
-                              {!roundStarted ? (
-                                <img src={questionMark} alt="Question Mark" className="question-mark-overlay" />
-                              ) : (
-                                <span className="question-char-overlay">
-                                  {showAnswer || clickedCharIndices.includes(index) ? char : getInitialConsonant(char)}
-                                </span>
-                              )}
-                            </div>
-                          ))}
+
+                  return (
+                    <div className={`question-ice-blocks count-${chars.length}`}>
+                      {chars.map((char, index) => (
+                        <div
+                          key={index}
+                          className={`question-ice-item ${isRearranging ? 'rearranging' : ''} ${showAnswer ? 'answer-revealed' : ''} clickable`}
+                          onClick={() => handleCharClick(index)}
+                        >
+                          <span className="question-char-overlay">
+                            {showAnswer || clickedCharIndices.includes(index) ? char : getInitialConsonant(char)}
+                          </span>
                         </div>
-                        <div className="question-ice-blocks">
-                          {secondRow.map((char, index) => (
-                            <div 
-                              key={index + firstRow.length} 
-                              className={`question-ice-item ${isRearranging ? 'rearranging' : ''} ${showAnswer ? 'answer-revealed' : ''} ${roundStarted ? 'clickable' : ''}`}
-                              onClick={() => handleCharClick(index + firstRow.length)}
-                            >
-                              <img src={questionIce} alt="Question Ice" className="question-ice" />
-                              {!roundStarted ? (
-                                <img src={questionMark} alt="Question Mark" className="question-mark-overlay" />
-                              ) : (
-                                <span className="question-char-overlay">
-                                  {showAnswer || clickedCharIndices.includes(index + firstRow.length) ? char : getInitialConsonant(char)}
-                                </span>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )
-                  }
+                      ))}
+                    </div>
+                  )
                 })()}
+                <img src="/images/king-se-jong.png" alt="King Sejong" className="king-sejong-image" />
               </div>
-              
+
               {showAnswer && (
                 <div className="navigation-buttons">
                   {currentQuestionIndex > 0 && (
@@ -401,22 +348,16 @@ function Game5GamePlay() {
               <div className="round-counter">
                 <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
               </div>
-              
+
               <div className="utility-right-section">
-                {!roundStarted ? (
-                  <button className="round-start-btn" onClick={handleStartRound}>
-                    게임 시작
+                <div className="round-buttons">
+                  <button className="replay-btn" onClick={handleReplay}>
+                    다시하기
                   </button>
-                ) : (
-                  <div className="round-buttons">
-                    <button className="replay-btn" onClick={handleReplay}>
-                      다시하기
-                    </button>
-                    <button className="answer-btn" onClick={handleShowAnswer}>
-                      정답확인
-                    </button>
-                  </div>
-                )}
+                  <button className="answer-btn" onClick={handleShowAnswer}>
+                    정답확인
+                  </button>
+                </div>
               </div>
             </div>
           </div>
