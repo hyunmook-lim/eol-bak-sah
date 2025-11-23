@@ -204,18 +204,18 @@ function HomePage() {
         <div className="content-spacer"></div>
 
         <div className="text-container">
-            <div
-              className={`animated-text subtitle ${scrollY > 50 ? 'visible' : ''}`}
-            >
-              <span className="highlight-text">어린이 박사</span>의 <span className="highlight-text">얼음 박살</span> 아이스 브레이킹 게임모음
-            </div>
+          <div
+            className={`animated-text subtitle ${scrollY > 50 ? 'visible' : ''}`}
+          >
+            <span className="highlight-text">어린이 박사</span>의 <span className="highlight-text">얼음 박살</span> 아이스 브레이킹 게임모음
+          </div>
 
-            <div
-              className={`animated-text main-title ${scrollY > 100 ? 'visible' : ''}`}
-            >
-              <img src={mainPenguinImg} alt="펭귄" className="main-penguin" />
-              얼박사
-            </div>
+          <div
+            className={`animated-text main-title ${scrollY > 100 ? 'visible' : ''}`}
+          >
+            <img src={mainPenguinImg} alt="펭귄" className="main-penguin" />
+            얼박사
+          </div>
 
           <div
             className={`additional-text left-text ${scrollY > 150 ? 'visible' : ''}`}

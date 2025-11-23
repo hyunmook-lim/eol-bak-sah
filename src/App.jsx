@@ -39,7 +39,27 @@ function App() {
       window.addEventListener('load', handleLoad)
     }
 
-    return () => window.removeEventListener('load', handleLoad)
+    // 전역 클릭 사운드 설정
+    const clickSound = new Audio('/sounds/click.wav')
+    clickSound.preload = 'auto'
+
+    const handleGlobalClick = (e) => {
+      // 클릭된 요소가 버튼이거나, 버튼의 자식 요소인지 확인
+      const target = e.target.closest('button, a, [role="button"], .clickable')
+
+      if (target) {
+        // 소리 재생 (cloneNode를 사용하여 빠르게 연속 클릭 시에도 소리가 겹쳐서 나도록 함)
+        const soundClone = clickSound.cloneNode()
+        soundClone.play().catch(err => console.log('Audio play failed:', err))
+      }
+    }
+
+    window.addEventListener('click', handleGlobalClick)
+
+    return () => {
+      window.removeEventListener('load', handleLoad)
+      window.removeEventListener('click', handleGlobalClick)
+    }
   }, [])
 
   // 게임별 비디오 URL 매핑
