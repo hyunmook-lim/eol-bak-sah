@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './Game6Build.css'
 
 function Game6Build() {
   const navigate = useNavigate()
-  const [questions, setQuestions] = useState([])
+  const location = useLocation()
+  const [questions, setQuestions] = useState(location.state?.questions || [])
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   // 문제 객체 생성 함수

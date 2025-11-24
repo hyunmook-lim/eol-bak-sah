@@ -8,13 +8,14 @@ function Game4GamePlay() {
   const navigate = useNavigate()
   const location = useLocation()
   const questions = useMemo(() => location.state?.questions || [], [location.state?.questions])
-  
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
   const [roundStarted, setRoundStarted] = useState(false)
   const [shuffledChars, setShuffledChars] = useState([])
   const [showPreviewModal, setShowPreviewModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showBackConfirmModal, setShowBackConfirmModal] = useState(false)
   const [isRearranging, setIsRearranging] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
 
@@ -48,7 +49,7 @@ function Game4GamePlay() {
     const shuffled = [...array]
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
-      ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+        ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
     }
     return shuffled
   }
@@ -62,13 +63,13 @@ function Game4GamePlay() {
     let shuffled = shuffleArray(originalArray)
     let attempts = 0
     const maxAttempts = 10 // 무한 루프 방지
-    
+
     // 원본과 같거나 글자가 1개 이하인 경우가 아닐 때까지 반복
     while (isArrayEqual(shuffled, originalArray) && attempts < maxAttempts && originalArray.length > 1) {
       shuffled = shuffleArray(originalArray)
       attempts++
     }
-    
+
     return shuffled
   }
 
@@ -91,11 +92,11 @@ function Game4GamePlay() {
   const handleShowAnswer = () => {
     // 애니메이션을 통해 원본 정답 순서로 글자들을 재배치
     const originalChars = questions[currentQuestionIndex].split('')
-    
+
     // 애니메이션 클래스 추가
     setIsRearranging(true)
     setShowAnswer(true)
-    
+
     // 잠시 후 정답 순서로 변경
     setTimeout(() => {
       setShuffledChars(originalChars)
@@ -258,7 +259,7 @@ function Game4GamePlay() {
       </html>
     `)
     printWindow.document.close()
-    
+
     // 문서 로드 후 인쇄 다이얼로그 열기
     printWindow.onload = () => {
       printWindow.print()
@@ -269,10 +270,25 @@ function Game4GamePlay() {
     return null
   }
 
+  const handleBackToBuild = () => {
+    setShowBackConfirmModal(true)
+  }
+
+  const handleConfirmBackToBuild = () => {
+    setShowBackConfirmModal(false)
+    navigate('/game/4/build', { state: { questions } })
+  }
+
+  const handleCancelBackToBuild = () => {
+    setShowBackConfirmModal(false)
+  }
+
   return (
     <div className="game4-gameplay-container">
       <header className="game-title-header">
-        <div></div>
+        <button onClick={handleBackToBuild} className="header-back-btn">
+          <div className="arrow-left"></div>
+        </button>
         <h1>뒤죽박죽 글자게임</h1>
         <div className="header-right-buttons">
           <button onClick={handleOpenPreviewModal} className="header-menu-btn">
@@ -285,7 +301,7 @@ function Game4GamePlay() {
           </button>
         </div>
       </header>
-      
+
       <div className="gameplay-container">
         {!gameStarted ? (
           <div className="game-start-section">
@@ -300,10 +316,10 @@ function Game4GamePlay() {
             <div className="game-screen-container">
               <div className="question-display-container">
                 {(() => {
-                  const chars = roundStarted && shuffledChars.length > 0 
-                    ? shuffledChars 
+                  const chars = roundStarted && shuffledChars.length > 0
+                    ? shuffledChars
                     : (questions[currentQuestionIndex] ? questions[currentQuestionIndex].split('') : [])
-                  
+
                   if (chars.length <= 4) {
                     return (
                       <div className="question-ice-blocks">
@@ -353,7 +369,7 @@ function Game4GamePlay() {
                   }
                 })()}
               </div>
-              
+
               {showAnswer && (
                 <div className="navigation-buttons">
                   {currentQuestionIndex > 0 && (
@@ -386,7 +402,7 @@ function Game4GamePlay() {
               <div className="round-counter">
                 <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
               </div>
-              
+
               <div className="utility-right-section">
                 {!roundStarted ? (
                   <button className="round-start-btn" onClick={handleStartRound}>
@@ -452,6 +468,25 @@ function Game4GamePlay() {
                 확인
               </button>
               <button className="cancel-btn" onClick={handleCancelExit}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBackConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelBackToBuild}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>게임 만들기로 돌아가시겠습니까?</h3>
+              <p>진행중인 게임은 저장되지 않습니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmBackToBuild}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelBackToBuild}>
                 취소
               </button>
             </div>

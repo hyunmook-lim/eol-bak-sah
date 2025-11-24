@@ -10,7 +10,7 @@ function Game2GamePlay() {
   const navigate = useNavigate()
   const location = useLocation()
   const questions = useMemo(() => location.state?.questions || [], [location.state?.questions])
-  
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
   const [roundStarted, setRoundStarted] = useState(false)
@@ -21,8 +21,10 @@ function Game2GamePlay() {
   const canvasRef = useRef(null)
   const [maskDataUrl, setMaskDataUrl] = useState(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showBackConfirmModal, setShowBackConfirmModal] = useState(false)
   const [imageAspectRatio, setImageAspectRatio] = useState(null)
   const containerRef = useRef(null)
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   useEffect(() => {
     if (questions.length === 0) {
@@ -39,6 +41,15 @@ function Game2GamePlay() {
     const img = e.target
     const aspectRatio = img.naturalWidth / img.naturalHeight
     setImageAspectRatio(aspectRatio)
+
+    // 이미지 로드 후 캔버스 초기화
+    if (roundStarted) {
+      setTimeout(() => {
+        initializeCanvas()
+        // 캔버스 초기화 완료 후 전환 오버레이 제거
+        setIsTransitioning(false)
+      }, 50)
+    }
   }
 
   const handleBackToHome = () => {
@@ -70,25 +81,25 @@ function Game2GamePlay() {
   const initializeCanvas = () => {
     const canvas = canvasRef.current
     if (!canvas) return
-    
+
     const rect = canvas.parentElement.getBoundingClientRect()
     canvas.width = rect.width
     canvas.height = rect.height
-    
+
     const ctx = canvas.getContext('2d')
     ctx.fillStyle = 'black'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
-    
+
     setMaskDataUrl(canvas.toDataURL())
   }
 
   const drawOnCanvas = (x, y, isStarting = false) => {
     const canvas = canvasRef.current
     if (!canvas) return
-    
+
     const ctx = canvas.getContext('2d')
     ctx.globalCompositeOperation = 'destination-out'
-    
+
     if (isStarting) {
       ctx.beginPath()
       ctx.arc(x, y, brushSize, 0, 2 * Math.PI)
@@ -99,7 +110,7 @@ function Game2GamePlay() {
       ctx.arc(x, y, brushSize, 0, 2 * Math.PI)
       ctx.fill()
     }
-    
+
     setMaskDataUrl(canvas.toDataURL())
   }
 
@@ -112,7 +123,7 @@ function Game2GamePlay() {
       y: event.clientY - rect.top
     }
     setMousePosition(newPosition)
-    
+
     if (isWiping) {
       drawOnCanvas(newPosition.x, newPosition.y, false)
     }
@@ -128,7 +139,7 @@ function Game2GamePlay() {
         x: event.clientX - rect.left,
         y: event.clientY - rect.top
       }
-      
+
       drawOnCanvas(position.x, position.y, true)
     }
   }
@@ -156,13 +167,12 @@ function Game2GamePlay() {
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
+      setShowAnswer(false)
+      // 전환 오버레이 표시
+      setIsTransitioning(true)
+      // 그 다음 문제 인덱스 변경
       setCurrentQuestionIndex(currentQuestionIndex + 1)
       setRoundStarted(true) // 다음 문제에서는 바로 게임 시작
-      setShowAnswer(false)
-      // 새 문제로 넘어갈 때 캔버스 초기화
-      setTimeout(() => {
-        initializeCanvas()
-      }, 50)
     } else {
       navigate('/game/2/finish')
     }
@@ -170,13 +180,12 @@ function Game2GamePlay() {
 
   const handlePreviousQuestion = () => {
     if (currentQuestionIndex > 0) {
+      setShowAnswer(false)
+      // 전환 오버레이 표시
+      setIsTransitioning(true)
+      // 그 다음 문제 인덱스 변경
       setCurrentQuestionIndex(currentQuestionIndex - 1)
       setRoundStarted(true) // 이전 문제로 갈 때도 바로 게임 시작
-      setShowAnswer(false)
-      // 이전 문제로 갈 때 캔버스 초기화
-      setTimeout(() => {
-        initializeCanvas()
-      }, 50)
     }
   }
 
@@ -190,16 +199,31 @@ function Game2GamePlay() {
     return null
   }
 
+  const handleBackToBuild = () => {
+    setShowBackConfirmModal(true)
+  }
+
+  const handleConfirmBackToBuild = () => {
+    setShowBackConfirmModal(false)
+    navigate('/game/2/build', { state: { questions } })
+  }
+
+  const handleCancelBackToBuild = () => {
+    setShowBackConfirmModal(false)
+  }
+
   return (
     <div className="game2-gameplay-container">
       <header className="game-title-header">
-        <div></div>
+        <button onClick={handleBackToBuild} className="header-back-btn">
+          <div className="arrow-left"></div>
+        </button>
         <h1>창문닦기 게임</h1>
         <button onClick={handleBackToHome} className="header-close-btn">
           X
         </button>
       </header>
-      
+
       <div className="gameplay-container">
         {!gameStarted ? (
           <div className="game-start-section">
@@ -233,9 +257,9 @@ function Game2GamePlay() {
                   />
                 )}
               </div>
-              
+
               <div className="photo-overlay">
-                <canvas 
+                <canvas
                   ref={canvasRef}
                   className="mask-canvas"
                   style={{ display: 'none' }}
@@ -252,7 +276,7 @@ function Game2GamePlay() {
                     className="finding-penguin-fullscreen"
                   />
                 </div>
-                <div 
+                <div
                   className="dark-overlay"
                   style={{
                     maskImage: maskDataUrl ? `url(${maskDataUrl})` : 'none'
@@ -281,9 +305,12 @@ function Game2GamePlay() {
                     }}
                   />
                 )}
+                {isTransitioning && (
+                  <div className="transition-overlay"></div>
+                )}
               </div>
             </div>
-            
+
             {showAnswer && (
               <div className="navigation-buttons">
                 {currentQuestionIndex > 0 && (
@@ -311,12 +338,12 @@ function Game2GamePlay() {
                 )}
               </div>
             )}
-            
+
             <div className="game-utilities">
               <div className="round-counter">
                 <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
               </div>
-              
+
               {roundStarted && (
                 <div className="brush-size-control">
                   <img src={cleaningHand} alt="Cleaning Hand" className="brush-icon" />
@@ -330,7 +357,7 @@ function Game2GamePlay() {
                   />
                 </div>
               )}
-              
+
               {roundStarted && (
                 <div className="round-buttons">
                   <button className="reset-btn" onClick={handleReset}>
@@ -367,6 +394,25 @@ function Game2GamePlay() {
                 확인
               </button>
               <button className="cancel-btn" onClick={handleCancelExit}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBackConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelBackToBuild}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>게임 만들기로 돌아가시겠습니까?</h3>
+              <p>진행중인 게임은 저장되지 않습니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmBackToBuild}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelBackToBuild}>
                 취소
               </button>
             </div>

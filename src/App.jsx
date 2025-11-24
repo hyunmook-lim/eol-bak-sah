@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import HomePage from './components/HomePage'
 import GameVideo from './components/games/GameVideo'
@@ -21,10 +21,88 @@ import Game8Build from './components/games/game8/Game8Build'
 import Game8Build2 from './components/games/game8/Game8Build2'
 import Game8GamePlay from './components/games/game8/Game8GamePlay'
 import Loading from './components/Loading'
+import GlobalUtilityBar from './components/common/GlobalUtilityBar'
 import './App.css'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
+  const [isSoundEnabled, setIsSoundEnabled] = useState(true)
+  const [isMusicEnabled, setIsMusicEnabled] = useState(true)
+  const isSoundEnabledRef = useRef(isSoundEnabled)
+  const audioRef = useRef(null)
+
+  useEffect(() => {
+    isSoundEnabledRef.current = isSoundEnabled
+  }, [isSoundEnabled])
+
+  const toggleSound = () => {
+    setIsSoundEnabled(prev => !prev)
+  }
+
+  const toggleMusic = () => {
+    setIsMusicEnabled(prev => !prev)
+  }
+
+  // 배경음악 초기화 및 자동재생
+  useEffect(() => {
+    // Audio 인스턴스 생성
+    const audio = new Audio('/sounds/background-music.mp3')
+    audio.loop = true
+    audio.volume = 0.1
+    audioRef.current = audio
+
+    // 자동재생 시도 함수
+    const attemptPlay = async () => {
+      try {
+        await audio.play()
+        console.log('Music started')
+      } catch {
+        console.log('Autoplay blocked, will start on first interaction')
+      }
+    }
+
+    // 사용자 인터랙션 핸들러
+    const handleFirstInteraction = () => {
+      if (audioRef.current && audioRef.current.paused) {
+        audioRef.current.play().catch(() => {})
+        // 한 번만 실행되도록 이벤트 제거
+        document.removeEventListener('click', handleFirstInteraction)
+        document.removeEventListener('keydown', handleFirstInteraction)
+      }
+    }
+
+    // 자동재생 시도
+    attemptPlay()
+
+    // 자동재생 실패 대비 이벤트 리스너 등록
+    document.addEventListener('click', handleFirstInteraction)
+    document.addEventListener('keydown', handleFirstInteraction)
+
+    return () => {
+      document.removeEventListener('click', handleFirstInteraction)
+      document.removeEventListener('keydown', handleFirstInteraction)
+      if (audio) {
+        audio.pause()
+        audio.src = ''
+      }
+    }
+  }, [])
+
+  // 음악 ON/OFF 처리
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    if (isMusicEnabled) {
+      audio.muted = false
+      // 멈춰있으면 재생
+      if (audio.paused) {
+        audio.play().catch(() => console.log('Cannot play music'))
+      }
+    } else {
+      audio.muted = true
+    }
+  }, [isMusicEnabled])
 
   useEffect(() => {
     // 페이지가 완전히 로드되면 로딩 상태를 false로 변경
@@ -44,6 +122,8 @@ function App() {
     clickSound.preload = 'auto'
 
     const handleGlobalClick = (e) => {
+      if (!isSoundEnabledRef.current) return
+
       // 클릭된 요소가 버튼이거나, 버튼의 자식 요소인지 확인
       const target = e.target.closest('button, a, [role="button"], .clickable')
 
@@ -78,6 +158,12 @@ function App() {
   return (
     <>
       {isLoading && <Loading />}
+      <GlobalUtilityBar
+        isSoundEnabled={isSoundEnabled}
+        toggleSound={toggleSound}
+        isMusicEnabled={isMusicEnabled}
+        toggleMusic={toggleMusic}
+      />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route

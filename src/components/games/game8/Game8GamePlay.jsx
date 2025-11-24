@@ -13,6 +13,7 @@ function Game8GamePlay() {
   const [zoomLevel, setZoomLevel] = useState(0) // 0: 20x, 1: 15x, 2: 10x, 3: 8x, 4: 6x, 5: 4x, 6: 2x, 7: 1x (원본)
   const [showResult, setShowResult] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showBackConfirmModal, setShowBackConfirmModal] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
   const [showStartGuide, setShowStartGuide] = useState(false)
   const [fadeOutGuide, setFadeOutGuide] = useState(false)
@@ -171,10 +172,25 @@ function Game8GamePlay() {
     return null
   }
 
+  const handleBackToBuild = () => {
+    setShowBackConfirmModal(true)
+  }
+
+  const handleConfirmBackToBuild = () => {
+    setShowBackConfirmModal(false)
+    navigate('/game/8/build', { state: { questions } })
+  }
+
+  const handleCancelBackToBuild = () => {
+    setShowBackConfirmModal(false)
+  }
+
   return (
     <div className="game8-gameplay-container">
       <header className="game-title-header">
-        <div></div>
+        <button onClick={handleBackToBuild} className="header-back-btn">
+          <div className="arrow-left"></div>
+        </button>
         <h1>돋보기 게임</h1>
         <button onClick={handleBackToHome} className="header-close-btn">
           X
@@ -183,114 +199,114 @@ function Game8GamePlay() {
 
       <div className="gameplay-container">
         <div className="game-play-section">
-            <div className="photo-display-container">
-              {!gameStarted ? (
-                <>
-                  <img
-                    src={findingPenguinImg}
-                    alt="게임 시작"
-                    className="question-image"
-                  />
-                  <div className="game-start-overlay">
-                    <button className="game-start-button" onClick={handleStartGame}>
-                      게임 시작
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  {currentQuestion && (
-                    <>
-                      <img
-                        src={currentQuestion.imageUrl}
-                        alt={`문제 ${currentQuestionIndex + 1}`}
-                        style={{ display: 'none' }}
-                        onLoad={handleImageLoad}
-                      />
-                      <canvas
-                        ref={canvasRef}
-                        className="question-image"
-                        onClick={handleImageClick}
-                        style={{
-                          opacity: imageLoaded ? 1 : 0,
-                          transition: 'opacity 0.3s ease-in',
-                          cursor: zoomLevel < zoomLevels.length - 1 && !showResult ? 'pointer' : 'default'
-                        }}
-                      />
-                    </>
-                  )}
-                  {showStartGuide && (
-                    <div className={`start-guide-overlay ${fadeOutGuide ? 'fade-out' : ''}`}>
-                      <div className="start-guide-message">
-                        사진을 클릭하면 이미지가 점점 드러나요!
-                      </div>
+          <div className="photo-display-container">
+            {!gameStarted ? (
+              <>
+                <img
+                  src={findingPenguinImg}
+                  alt="게임 시작"
+                  className="question-image"
+                />
+                <div className="game-start-overlay">
+                  <button className="game-start-button" onClick={handleStartGame}>
+                    게임 시작
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                {currentQuestion && (
+                  <>
+                    <img
+                      src={currentQuestion.imageUrl}
+                      alt={`문제 ${currentQuestionIndex + 1}`}
+                      style={{ display: 'none' }}
+                      onLoad={handleImageLoad}
+                    />
+                    <canvas
+                      ref={canvasRef}
+                      className="question-image"
+                      onClick={handleImageClick}
+                      style={{
+                        opacity: imageLoaded ? 1 : 0,
+                        transition: 'opacity 0.3s ease-in',
+                        cursor: zoomLevel < zoomLevels.length - 1 && !showResult ? 'pointer' : 'default'
+                      }}
+                    />
+                  </>
+                )}
+                {showStartGuide && (
+                  <div className={`start-guide-overlay ${fadeOutGuide ? 'fade-out' : ''}`}>
+                    <div className="start-guide-message">
+                      사진을 클릭하면 이미지가 점점 드러나요!
                     </div>
-                  )}
-                </>
-              )}
-            </div>
-
-            {showResult && (
-              <div className="navigation-buttons">
-                {currentQuestionIndex > 0 && (
-                  <div className="nav-button-container">
-                    <div className="nav-tooltip">이전 문제</div>
-                    <button className="prev-arrow-btn" onClick={handlePreviousQuestion}>
-                      <span className="arrow-icon">←</span>
-                    </button>
                   </div>
                 )}
-                {currentQuestionIndex < questions.length - 1 ? (
-                  <div className="nav-button-container">
-                    <div className="nav-tooltip">다음 문제</div>
-                    <button className="next-arrow-btn" onClick={handleNextQuestion}>
-                      <span className="arrow-icon">→</span>
+              </>
+            )}
+          </div>
+
+          {showResult && (
+            <div className="navigation-buttons">
+              {currentQuestionIndex > 0 && (
+                <div className="nav-button-container">
+                  <div className="nav-tooltip">이전 문제</div>
+                  <button className="prev-arrow-btn" onClick={handlePreviousQuestion}>
+                    <span className="arrow-icon">←</span>
+                  </button>
+                </div>
+              )}
+              {currentQuestionIndex < questions.length - 1 ? (
+                <div className="nav-button-container">
+                  <div className="nav-tooltip">다음 문제</div>
+                  <button className="next-arrow-btn" onClick={handleNextQuestion}>
+                    <span className="arrow-icon">→</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="nav-button-container">
+                  <div className="nav-tooltip">엔딩보기</div>
+                  <button className="next-arrow-btn" onClick={handleGameEnd}>
+                    <span className="arrow-icon">→</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="game-utilities">
+            <div className="round-counter">
+              <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
+            </div>
+
+            {gameStarted && (
+              <>
+                <div className="zoom-progress-bar">
+                  <div
+                    className="zoom-progress-fill"
+                    style={{ width: `${((zoomLevel + 1) / zoomLevels.length) * 100}%` }}
+                  ></div>
+                </div>
+
+                {!showResult ? (
+                  <div className="answer-reveal-section">
+                    <span className="answer-label">정답:</span>
+                    <button className="reveal-answer-btn" onClick={handleSubmitAnswer}>
+                      정답 확인하기
                     </button>
                   </div>
                 ) : (
-                  <div className="nav-button-container">
-                    <div className="nav-tooltip">엔딩보기</div>
-                    <button className="next-arrow-btn" onClick={handleGameEnd}>
-                      <span className="arrow-icon">→</span>
-                    </button>
+                  <div className="answer-display-section">
+                    <span className="answer-label">정답:</span>
+                    <div className="answer-display">
+                      {currentQuestion.answer}
+                    </div>
                   </div>
                 )}
-              </div>
+              </>
             )}
-
-            <div className="game-utilities">
-              <div className="round-counter">
-                <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
-              </div>
-
-              {gameStarted && (
-                <>
-                  <div className="zoom-progress-bar">
-                    <div
-                      className="zoom-progress-fill"
-                      style={{ width: `${((zoomLevel + 1) / zoomLevels.length) * 100}%` }}
-                    ></div>
-                  </div>
-
-                  {!showResult ? (
-                    <div className="answer-reveal-section">
-                      <span className="answer-label">정답:</span>
-                      <button className="reveal-answer-btn" onClick={handleSubmitAnswer}>
-                        정답 확인하기
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="answer-display-section">
-                      <span className="answer-label">정답:</span>
-                      <div className="answer-display">
-                        {currentQuestion.answer}
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
           </div>
+        </div>
       </div>
 
       {showConfirmModal && (
@@ -305,6 +321,25 @@ function Game8GamePlay() {
                 확인
               </button>
               <button className="cancel-btn" onClick={handleCancelExit}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBackConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelBackToBuild}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>게임 만들기로 돌아가시겠습니까?</h3>
+              <p>진행중인 게임은 저장되지 않습니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmBackToBuild}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelBackToBuild}>
                 취소
               </button>
             </div>

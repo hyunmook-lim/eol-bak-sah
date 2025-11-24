@@ -9,7 +9,7 @@ function Game3GamePlay() {
   const navigate = useNavigate()
   const location = useLocation()
   const questions = useMemo(() => location.state?.questions || [], [location.state?.questions])
-  
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
   const [roundStarted, setRoundStarted] = useState(false)
@@ -18,6 +18,7 @@ function Game3GamePlay() {
   const [speed, setSpeed] = useState(5)
   const [showPreviewModal, setShowPreviewModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showBackConfirmModal, setShowBackConfirmModal] = useState(false)
   const [currentCharIndex, setCurrentCharIndex] = useState(-1)
   const [isCharacterAnimating, setIsCharacterAnimating] = useState(false)
   const [animationTimers, setAnimationTimers] = useState([])
@@ -284,7 +285,7 @@ function Game3GamePlay() {
       </html>
     `)
     printWindow.document.close()
-    
+
     // 문서 로드 후 인쇄 다이얼로그 열기
     printWindow.onload = () => {
       printWindow.print()
@@ -295,10 +296,25 @@ function Game3GamePlay() {
     return null
   }
 
+  const handleBackToBuild = () => {
+    setShowBackConfirmModal(true)
+  }
+
+  const handleConfirmBackToBuild = () => {
+    setShowBackConfirmModal(false)
+    navigate('/game/3/build', { state: { questions } })
+  }
+
+  const handleCancelBackToBuild = () => {
+    setShowBackConfirmModal(false)
+  }
+
   return (
     <div className="game3-gameplay-container">
       <header className="game-title-header">
-        <div></div>
+        <button onClick={handleBackToBuild} className="header-back-btn">
+          <div className="arrow-left"></div>
+        </button>
         <h1>슝 글자 게임 (글자)</h1>
         <div className="header-right-buttons">
           <button onClick={handleOpenPreviewModal} className="header-menu-btn">
@@ -311,7 +327,7 @@ function Game3GamePlay() {
           </button>
         </div>
       </header>
-      
+
       <div className="gameplay-container">
         {!gameStarted ? (
           <div className="game-start-section">
@@ -324,7 +340,7 @@ function Game3GamePlay() {
         ) : (
           <div className="game-play-section">
             <div className="game-screen-container">
-              <div className={`character-container ${isAnimating ? 'animating' : ''} ${showAnswer ? 'show-answer' : ''} ${!roundStarted ? 'pre-round' : ''}`} style={{'--animation-duration': `${(6 - speed)}s`}}>
+              <div className={`character-container ${isAnimating ? 'animating' : ''} ${showAnswer ? 'show-answer' : ''} ${!roundStarted ? 'pre-round' : ''}`} style={{ '--animation-duration': `${(6 - speed)}s` }}>
                 <div className="question-box">
                   <div className="question-ice-container">
                     <img src={questionIce} alt="Question Ice" className="question-ice" />
@@ -341,7 +357,7 @@ function Game3GamePlay() {
                   <img src={runningPenguin} alt="Running Penguin" />
                 </div>
               </div>
-              
+
               {showAnswer && (
                 <div className="answer-display-container">
                   {(() => {
@@ -384,7 +400,7 @@ function Game3GamePlay() {
                   })()}
                 </div>
               )}
-              
+
               {showAnswer && (
                 <div className="navigation-buttons">
                   {currentQuestionIndex > 0 && (
@@ -417,7 +433,7 @@ function Game3GamePlay() {
               <div className="round-counter">
                 <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
               </div>
-              
+
               <div className="speed-selector">
                 <span className="speed-label">속도:</span>
                 <div className="speed-buttons">
@@ -432,7 +448,7 @@ function Game3GamePlay() {
                   ))}
                 </div>
               </div>
-              
+
               {!roundStarted ? (
                 <button className="next-question-btn" onClick={handleStartRound}>
                   라운드 시작
@@ -496,6 +512,25 @@ function Game3GamePlay() {
                 확인
               </button>
               <button className="cancel-btn" onClick={handleCancelExit}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBackConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelBackToBuild}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>게임 만들기로 돌아가시겠습니까?</h3>
+              <p>진행중인 게임은 저장되지 않습니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmBackToBuild}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelBackToBuild}>
                 취소
               </button>
             </div>

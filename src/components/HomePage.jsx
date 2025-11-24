@@ -48,6 +48,10 @@ function HomePage() {
         '/images/two-ices.png',
         '/images/one-ice.png',
         '/images/main-penguin.png',
+        '/images/penguin-foot.png',
+        // 사운드 파일들
+        '/sounds/background-music.mp3',
+        '/sounds/click.wav',
       ]
 
       let loaded = 0
@@ -66,6 +70,21 @@ function HomePage() {
               resolve()
             }
             video.onerror = () => {
+              loaded++
+              setLoadingProgress(Math.round((loaded / total) * 100))
+              resolve() // 에러가 나도 계속 진행
+            }
+          } else if (src.endsWith('.mp3') || src.endsWith('.wav')) {
+            // 오디오 프리로드
+            const audio = new Audio()
+            audio.preload = 'auto'
+            audio.src = src
+            audio.onloadeddata = () => {
+              loaded++
+              setLoadingProgress(Math.round((loaded / total) * 100))
+              resolve()
+            }
+            audio.onerror = () => {
               loaded++
               setLoadingProgress(Math.round((loaded / total) * 100))
               resolve() // 에러가 나도 계속 진행
@@ -106,19 +125,19 @@ function HomePage() {
     },
     {
       id: 2,
-      title: "창문닦기 게임",
-      description: "가려진 사진을 점점 닦아나가며 숨겨진 정답을 맞추는 추리 게임입니다. 관찰력과 추론 능력을 발휘해보세요!",
-      videoUrl: "/videos/game2video.mp4",
-      thumbnailUrl: "/thumbnail/game2thumbnail.png",
-      route: "/game/2/video"
-    },
-    {
-      id: 3,
       title: "슝 글자 게임 (글자)",
       description: "빠르게 지나가는 개별 글자들을 보고 의미있는 단어로 조합하는 인지 게임입니다. 빠른 사고력과 단어 실력이 필요해요!",
       videoUrl: "/videos/game3video.mp4",
       thumbnailUrl: "/thumbnail/game3thumbnail.png",
       route: "/game/3/video"
+    },
+    {
+      id: 3,
+      title: "창문닦기 게임",
+      description: "가려진 사진을 점점 닦아나가며 숨겨진 정답을 맞추는 추리 게임입니다. 관찰력과 추론 능력을 발휘해보세요!",
+      videoUrl: "/videos/game2video.mp4",
+      thumbnailUrl: "/thumbnail/game2thumbnail.png",
+      route: "/game/2/video"
     },
     {
       id: 4,
@@ -197,6 +216,7 @@ function HomePage() {
   return (
     <div className="app">
       <header className="title-header">
+        <img src={oneIceImg} alt="" className="header-ice" />
         <h1>얼박사</h1>
       </header>
 

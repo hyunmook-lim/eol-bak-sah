@@ -14,6 +14,7 @@ function Game5GamePlay() {
 
   const [showPreviewModal, setShowPreviewModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showBackConfirmModal, setShowBackConfirmModal] = useState(false)
   const [isRearranging, setIsRearranging] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
   const [showHint, setShowHint] = useState(false)
@@ -259,10 +260,25 @@ function Game5GamePlay() {
     return null
   }
 
+  const handleBackToBuild = () => {
+    setShowBackConfirmModal(true)
+  }
+
+  const handleConfirmBackToBuild = () => {
+    setShowBackConfirmModal(false)
+    navigate('/game/5/build', { state: { questions } })
+  }
+
+  const handleCancelBackToBuild = () => {
+    setShowBackConfirmModal(false)
+  }
+
   return (
     <div className="game5-gameplay-container">
       <header className="game-title-header">
-        <div></div>
+        <button onClick={handleBackToBuild} className="header-back-btn">
+          <div className="arrow-left"></div>
+        </button>
         <h1>초성 게임</h1>
         <div className="header-right-buttons">
           <button onClick={handleOpenPreviewModal} className="header-menu-btn">
@@ -408,6 +424,25 @@ function Game5GamePlay() {
                 확인
               </button>
               <button className="cancel-btn" onClick={handleCancelExit}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBackConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelBackToBuild}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>게임 만들기로 돌아가시겠습니까?</h3>
+              <p>진행중인 게임은 저장되지 않습니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmBackToBuild}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelBackToBuild}>
                 취소
               </button>
             </div>

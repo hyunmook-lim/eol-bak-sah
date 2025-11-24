@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './Game2Build.css'
 
 function Game2Build() {
   const navigate = useNavigate()
-  const [questions, setQuestions] = useState([])
+  const location = useLocation()
+  const [questions, setQuestions] = useState(location.state?.questions || [])
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   const handleBackToVideo = () => {

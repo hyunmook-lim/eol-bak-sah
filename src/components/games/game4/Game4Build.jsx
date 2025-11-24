@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './Game4Build.css'
 
 function Game4Build() {
   const navigate = useNavigate()
-  const [questions, setQuestions] = useState([])
+  const location = useLocation()
+  const [questions, setQuestions] = useState(location.state?.questions || [])
   const [inputValue, setInputValue] = useState('')
   const [draggedIndex, setDraggedIndex] = useState(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false)

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
 import { HiLightBulb } from 'react-icons/hi'
@@ -26,6 +26,8 @@ function Game7Gameplay() {
   const [successCards, setSuccessCards] = useState([])
   const [gameCompleted, setGameCompleted] = useState(false)
   const [gridLayout, setGridLayout] = useState({ columns: 4, rows: 4 })
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showBackConfirmModal, setShowBackConfirmModal] = useState(false)
 
   // 소리 효과
   const [playCorrect] = useSound(correctSound, { volume: 0.5 })
@@ -95,14 +97,32 @@ function Game7Gameplay() {
   }, [matchedCards, cards.length])
 
   const handleBackToBuild = () => {
-    navigate('/game/7/build')
+    setShowBackConfirmModal(true)
+  }
+
+  const handleConfirmBackToBuild = () => {
+    setShowBackConfirmModal(false)
+    navigate('/game/7/build', { state: { pairs: gameData?.pairs } })
+  }
+
+  const handleCancelBackToBuild = () => {
+    setShowBackConfirmModal(false)
   }
 
   const handleBackToHome = () => {
+    setShowConfirmModal(true)
+  }
+
+  const handleConfirmExit = () => {
+    setShowConfirmModal(false)
     navigate('/')
     setTimeout(() => {
       window.scrollTo({ top: 800, behavior: 'smooth' })
     }, 50)
+  }
+
+  const handleCancelExit = () => {
+    setShowConfirmModal(false)
   }
 
   const handleMouseMove = (e) => {
@@ -177,11 +197,47 @@ function Game7Gameplay() {
     }
   }
 
+  const containerRef = useRef(null)
+  const [cardSize, setCardSize] = useState(100)
+
+  useEffect(() => {
+    const calculateCardSize = () => {
+      if (!containerRef.current) return
+
+      const containerWidth = containerRef.current.clientWidth
+      const containerHeight = containerRef.current.clientHeight
+      const gap = 15 // CSS gap
+      const padding = 60 // Container padding (30px * 2)
+
+      // Available space for cards
+      const availableWidth = containerWidth - padding
+      const availableHeight = containerHeight - padding
+
+      // Calculate max possible size based on width and height constraints
+      // (cols * size) + ((cols - 1) * gap) <= availableWidth
+      // (rows * size) + ((rows - 1) * gap) <= availableHeight
+
+      const maxWidthSize = (availableWidth - (gridLayout.columns - 1) * gap) / gridLayout.columns
+      const maxHeightSize = (availableHeight - (gridLayout.rows - 1) * gap) / gridLayout.rows
+
+      // Use the smaller of the two to ensure it fits in both dimensions
+      const size = Math.min(maxWidthSize, maxHeightSize)
+
+      // Set a reasonable minimum and maximum size
+      setCardSize(Math.max(60, Math.min(size, 200)))
+    }
+
+    calculateCardSize()
+    window.addEventListener('resize', calculateCardSize)
+
+    return () => window.removeEventListener('resize', calculateCardSize)
+  }, [gridLayout])
+
   return (
     <div className="game7-gameplay-container" onMouseMove={handleMouseMove}>
       <header className="game-title-header">
         <button onClick={handleBackToBuild} className="header-back-btn">
-          &lt;
+          <div className="arrow-left"></div>
         </button>
         <h1>메모리 카드 게임</h1>
         <button onClick={handleBackToHome} className="header-close-btn">
@@ -214,12 +270,12 @@ function Game7Gameplay() {
         </div>
 
         {/* 하단 게임 영역 */}
-        <div className="game-section hide-cursor">
+        <div className="game-section hide-cursor" ref={containerRef}>
           <div
             className="cards-grid"
             style={{
-              gridTemplateColumns: `repeat(${gridLayout.columns}, minmax(60px, 120px))`,
-              gridTemplateRows: `repeat(${gridLayout.rows}, minmax(60px, 120px))`
+              gridTemplateColumns: `repeat(${gridLayout.columns}, ${cardSize}px)`,
+              gridTemplateRows: `repeat(${gridLayout.rows}, ${cardSize}px)`
             }}
           >
             {cards.map((card) => {
@@ -292,6 +348,44 @@ function Game7Gameplay() {
           height: 40
         }}
       />
+
+      {showConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelExit}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>홈으로 돌아가시겠습니까?</h3>
+              <p>게임이 종료됩니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmExit}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelExit}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBackConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelBackToBuild}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>게임 만들기로 돌아가시겠습니까?</h3>
+              <p>진행중인 게임은 저장되지 않습니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmBackToBuild}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelBackToBuild}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -6,15 +6,16 @@ function Game6GamePlay() {
   const navigate = useNavigate()
   const location = useLocation()
   const questions = useMemo(() => location.state?.questions || [], [location.state?.questions])
-  
+
   console.log('Game6GamePlay - location.state:', location.state)
   console.log('Game6GamePlay - questions received:', questions)
   console.log('Game6GamePlay - questions length:', questions.length)
-  
+
   const [gameStarted, setGameStarted] = useState(false)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [showPreviewModal, setShowPreviewModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showBackConfirmModal, setShowBackConfirmModal] = useState(false)
   const [userAnswer, setUserAnswer] = useState(null) // 사용자가 선택한 답변
   const [showResult, setShowResult] = useState(false) // 정답/오답 결과 표시 여부
   const [showAnswer, setShowAnswer] = useState(false) // 정답 이미지 표시 여부
@@ -212,7 +213,7 @@ function Game6GamePlay() {
       </html>
     `)
     printWindow.document.close()
-    
+
     printWindow.onload = () => {
       printWindow.print()
     }
@@ -222,10 +223,25 @@ function Game6GamePlay() {
     return null
   }
 
+  const handleBackToBuild = () => {
+    setShowBackConfirmModal(true)
+  }
+
+  const handleConfirmBackToBuild = () => {
+    setShowBackConfirmModal(false)
+    navigate('/game/6/build', { state: { questions } })
+  }
+
+  const handleCancelBackToBuild = () => {
+    setShowBackConfirmModal(false)
+  }
+
   return (
     <div className="game6-gameplay-container">
       <header className="game-title-header">
-        <div></div>
+        <button onClick={handleBackToBuild} className="header-back-btn">
+          <div className="arrow-left"></div>
+        </button>
         <h1>OX 게임</h1>
         <div className="header-right-buttons">
           {gameStarted && (
@@ -252,146 +268,146 @@ function Game6GamePlay() {
           </div>
         </div>
       ) : (
-      <div className="gameplay-container">
-        <div className="game-play-section">
-          <div className="game-screen-container">
-            {showAnswer ? (
-              <div className="answer-image-container">
-                <img
-                  src={questions[currentQuestionIndex].answer === 'O'
-                    ? '/images/answer-is-o.png'
-                    : '/images/answer-is-x.png'
-                  }
-                  alt={`정답은 ${questions[currentQuestionIndex].answer}입니다`}
-                  className="answer-image"
-                />
-              </div>
-            ) : (
-              <div className="question-display-container">
-                <div className="question-number">
-                  {currentQuestionIndex + 1}번 문제
+        <div className="gameplay-container">
+          <div className="game-play-section">
+            <div className="game-screen-container">
+              {showAnswer ? (
+                <div className="answer-image-container">
+                  <img
+                    src={questions[currentQuestionIndex].answer === 'O'
+                      ? '/images/answer-is-o.png'
+                      : '/images/answer-is-x.png'
+                    }
+                    alt={`정답은 ${questions[currentQuestionIndex].answer}입니다`}
+                    className="answer-image"
+                  />
                 </div>
-
-                <div className="question-stack-wrapper">
-                  <div className="penguin-decoration-wrapper">
-                    <img src="/images/ox-penguin.png" alt="OX 펭귄" className="penguin-decoration" />
+              ) : (
+                <div className="question-display-container">
+                  <div className="question-number">
+                    {currentQuestionIndex + 1}번 문제
                   </div>
-                  <div className="question-content-wrapper">
-                    {questions[currentQuestionIndex].image && (
-                      <div className="question-image">
-                        <img src={questions[currentQuestionIndex].image} alt="문제 이미지" />
-                      </div>
-                    )}
-                    <div className="question-text">
-                      <div className="question-text-decoration">
-                        <img src="/images/question-mark.png" alt="물음표 왼쪽" className="question-mark-decoration-left" />
-                        <div className="bottom-right-decorations">
-                          <img src="/images/question-mark.png" alt="물음표 오른쪽" className="question-mark-decoration-right" />
-                          <img src="/images/exclamation-mark.png" alt="느낌표" className="exclamation-mark-decoration" />
+
+                  <div className="question-stack-wrapper">
+                    <div className="penguin-decoration-wrapper">
+                      <img src="/images/ox-penguin.png" alt="OX 펭귄" className="penguin-decoration" />
+                    </div>
+                    <div className="question-content-wrapper">
+                      {questions[currentQuestionIndex].image && (
+                        <div className="question-image">
+                          <img src={questions[currentQuestionIndex].image} alt="문제 이미지" />
+                        </div>
+                      )}
+                      <div className="question-text">
+                        <div className="question-text-decoration">
+                          <img src="/images/question-mark.png" alt="물음표 왼쪽" className="question-mark-decoration-left" />
+                          <div className="bottom-right-decorations">
+                            <img src="/images/question-mark.png" alt="물음표 오른쪽" className="question-mark-decoration-right" />
+                            <img src="/images/exclamation-mark.png" alt="느낌표" className="exclamation-mark-decoration" />
+                          </div>
+                        </div>
+                        <div className="question-text-content">
+                          {questions[currentQuestionIndex].question}
                         </div>
                       </div>
-                      <div className="question-text-content">
-                        {questions[currentQuestionIndex].question}
+                    </div>
+                  </div>
+
+                  {showResult && (
+                    <div className={`result-feedback ${isCorrectAnswer() ? 'correct' : 'incorrect'}`}>
+                      <div className="result-icon">
+                        {isCorrectAnswer() ? '✓' : '✗'}
                       </div>
-                    </div>
-                  </div>
-                </div>
-
-                {showResult && (
-                  <div className={`result-feedback ${isCorrectAnswer() ? 'correct' : 'incorrect'}`}>
-                    <div className="result-icon">
-                      {isCorrectAnswer() ? '✓' : '✗'}
-                    </div>
-                    <div className="result-text">
-                      {isCorrectAnswer() ? '정답입니다!' : '오답입니다!'}
-                    </div>
-                    <div className="correct-answer">
-                      정답: {questions[currentQuestionIndex].answer}
-                    </div>
-                    {questions[currentQuestionIndex].explanation && (
-                      <div className="explanation">
-                        <div className="explanation-label">해설:</div>
-                        <div className="explanation-text">{questions[currentQuestionIndex].explanation}</div>
+                      <div className="result-text">
+                        {isCorrectAnswer() ? '정답입니다!' : '오답입니다!'}
                       </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {showResult && (
-              <div className="navigation-buttons">
-                {currentQuestionIndex > 0 && (
-                  <div className="nav-button-container">
-                    <div className="nav-tooltip">이전 문제</div>
-                    <button className="prev-arrow-btn" onClick={handlePreviousQuestion}>
-                      <span className="arrow-icon">←</span>
-                    </button>
-                  </div>
-                )}
-                {currentQuestionIndex < questions.length - 1 ? (
-                  <div className="nav-button-container">
-                    <div className="nav-tooltip">다음 문제</div>
-                    <button className="next-arrow-btn" onClick={handleNextQuestion}>
-                      <span className="arrow-icon">→</span>
-                    </button>
-                  </div>
-                ) : (
-                  <div className="nav-button-container">
-                    <div className="nav-tooltip">엔딩보기</div>
-                    <button className="next-arrow-btn" onClick={handleGameEnd}>
-                      <span className="arrow-icon">→</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-          <div className="game-utilities">
-            <div className="utility-left-section">
-              {currentQuestionIndex > 0 && (
-                <button className="prev-question-btn" onClick={handlePreviousQuestion}>
-                  ← 이전 문제
-                </button>
-              )}
-            </div>
-
-            <div className="utility-center-section">
-              <div className="round-counter">
-                <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
-              </div>
-              {showAnswer ? (
-                <div className="answer-action-buttons">
-                  <button className="retry-btn" onClick={() => setShowAnswer(false)}>
-                    다시하기
-                  </button>
-                  {questions[currentQuestionIndex].explanation && (
-                    <button className="explanation-btn" onClick={handleOpenExplanationModal}>
-                      해설 보기
-                    </button>
+                      <div className="correct-answer">
+                        정답: {questions[currentQuestionIndex].answer}
+                      </div>
+                      {questions[currentQuestionIndex].explanation && (
+                        <div className="explanation">
+                          <div className="explanation-label">해설:</div>
+                          <div className="explanation-text">{questions[currentQuestionIndex].explanation}</div>
+                        </div>
+                      )}
+                    </div>
                   )}
                 </div>
-              ) : (
-                <button className="check-answer-btn" onClick={handleCheckAnswer}>
-                  정답 확인
-                </button>
+              )}
+
+              {showResult && (
+                <div className="navigation-buttons">
+                  {currentQuestionIndex > 0 && (
+                    <div className="nav-button-container">
+                      <div className="nav-tooltip">이전 문제</div>
+                      <button className="prev-arrow-btn" onClick={handlePreviousQuestion}>
+                        <span className="arrow-icon">←</span>
+                      </button>
+                    </div>
+                  )}
+                  {currentQuestionIndex < questions.length - 1 ? (
+                    <div className="nav-button-container">
+                      <div className="nav-tooltip">다음 문제</div>
+                      <button className="next-arrow-btn" onClick={handleNextQuestion}>
+                        <span className="arrow-icon">→</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="nav-button-container">
+                      <div className="nav-tooltip">엔딩보기</div>
+                      <button className="next-arrow-btn" onClick={handleGameEnd}>
+                        <span className="arrow-icon">→</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
+            <div className="game-utilities">
+              <div className="utility-left-section">
+                {currentQuestionIndex > 0 && (
+                  <button className="prev-question-btn" onClick={handlePreviousQuestion}>
+                    ← 이전 문제
+                  </button>
+                )}
+              </div>
 
-            <div className="utility-right-section">
-              {currentQuestionIndex < questions.length - 1 ? (
-                <button className="next-question-btn" onClick={handleNextQuestion}>
-                  다음 문제 →
-                </button>
-              ) : (
-                <button className="game-complete-btn" onClick={handleGameEnd}>
-                  게임 완료
-                </button>
-              )}
+              <div className="utility-center-section">
+                <div className="round-counter">
+                  <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
+                </div>
+                {showAnswer ? (
+                  <div className="answer-action-buttons">
+                    <button className="retry-btn" onClick={() => setShowAnswer(false)}>
+                      다시하기
+                    </button>
+                    {questions[currentQuestionIndex].explanation && (
+                      <button className="explanation-btn" onClick={handleOpenExplanationModal}>
+                        해설 보기
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <button className="check-answer-btn" onClick={handleCheckAnswer}>
+                    정답 확인
+                  </button>
+                )}
+              </div>
+
+              <div className="utility-right-section">
+                {currentQuestionIndex < questions.length - 1 ? (
+                  <button className="next-question-btn" onClick={handleNextQuestion}>
+                    다음 문제 →
+                  </button>
+                ) : (
+                  <button className="game-complete-btn" onClick={handleGameEnd}>
+                    게임 완료
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
       )}
 
       {showPreviewModal && (
@@ -457,6 +473,25 @@ function Game6GamePlay() {
             <div className="explanation-modal-footer">
               <button className="explanation-close-btn" onClick={handleCloseExplanationModal}>
                 닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBackConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelBackToBuild}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>게임 만들기로 돌아가시겠습니까?</h3>
+              <p>진행중인 게임은 저장되지 않습니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmBackToBuild}>
+                확인
+              </button>
+              <button className="cancel-btn" onClick={handleCancelBackToBuild}>
+                취소
               </button>
             </div>
           </div>

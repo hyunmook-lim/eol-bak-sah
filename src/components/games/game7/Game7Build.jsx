@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './Game7Build.css'
 
 function Game7Build() {
   const navigate = useNavigate()
-  const [cardPairs, setCardPairs] = useState([])
+  const location = useLocation()
+  const [cardPairs, setCardPairs] = useState(location.state?.pairs || [])
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   // 카드 쌍 생성 함수

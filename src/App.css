@@ -26,6 +26,15 @@
   left: 0;
   right: 0;
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-ice {
+  height: 3rem;
+  width: auto;
+  object-fit: contain;
 }
 
 .title-header h1 {
@@ -250,7 +259,7 @@
 }
 
 .game-title {
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #01275b;
   margin: 15px 0 10px;
@@ -265,6 +274,7 @@
   line-height: 1.4;
   margin-bottom: 20px;
   flex-grow: 1;
+  font-weight: normal;
 }
 
 .game-start-btn {
@@ -306,7 +316,6 @@
 
 .floating-ice {
   position: absolute;
-  opacity: 0.6;
   pointer-events: none;
 }
 
