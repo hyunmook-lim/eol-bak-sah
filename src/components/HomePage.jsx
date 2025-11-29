@@ -181,9 +181,11 @@ function HomePage() {
     },
     {
       id: 9,
-      title: "Coming Soon!",
-      description: "새로운 게임을 만들고 있어요! 조금만 기다려주세요!",
-      isComingSoon: true
+      title: "투표 게임",
+      description: "여러 후보 중 마음에 드는 후보를 선택하는 투표 게임입니다. 친구들과 함께 의견을 나누고 결과를 확인해보세요!",
+      videoUrl: "/videos/game9video.mp4",
+      thumbnailUrl: "/thumbnail/game9thumbnail.png",
+      route: "/game/9/video"
     }
   ]
 

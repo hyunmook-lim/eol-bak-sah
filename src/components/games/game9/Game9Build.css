@@ -1,0 +1,583 @@
+.game9-build-container {
+  height: 100vh;
+  background: white;
+  overflow: hidden;
+}
+
+.game9-build-container .game-title-header {
+  background-color: #01275b;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.game9-build-container .game-title-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.game9-build-container .header-back-btn, .game9-build-container .header-close-btn {
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.game9-build-container .header-close-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+.game9-build-container .header-back-btn:hover, .game9-build-container .header-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.game9-build-container .game-play-container {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.game9-build-container .candidate-input-section {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.game9-build-container .section-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.game9-build-container .section-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.game9-build-container .section-header h2 {
+  color: #01275b;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.game9-build-container .candidate-counter {
+  background-color: #f0f0f0;
+  color: #666;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.game9-build-container .current-count {
+  background: none;
+  color: #d7560e;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.game9-build-container .total-count {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.game9-build-container .separator {
+  color: inherit;
+  font-weight: inherit;
+}
+
+.game9-build-container .section-description {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.game9-build-container .section-description-multi {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.game9-build-container .divider {
+  height: 2px;
+  background-color: #01275b;
+  margin: 0 auto 20px;
+}
+
+/* Title Input Section */
+.game9-build-container .title-input-container {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.game9-build-container .title-input {
+  width: 100%;
+  padding: 15px 20px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  background-color: white;
+  color: black;
+  font-weight: 500;
+}
+
+.game9-build-container .title-input:focus {
+  outline: none;
+  border-color: #f5ae43;
+}
+
+.game9-build-container .title-input::placeholder {
+  color: #999;
+  font-weight: normal;
+}
+
+.game9-build-container .add-candidate-btn {
+  width: 100%;
+  background-color: white;
+  color: #d7560e;
+  border: 2px solid #d7560e;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 20px 0;
+}
+
+.game9-build-container .add-candidate-btn:hover {
+  background-color: #d7560e;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.game9-build-container .add-candidate-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.game9-build-container .candidates-list {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 100%;
+}
+
+.game9-build-container .candidate-item {
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: grab;
+}
+
+.game9-build-container .candidate-item:active {
+  cursor: grabbing;
+}
+
+.game9-build-container .candidate-item:hover {
+  background-color: rgba(245, 174, 67, 0.1);
+  border-color: #f5ae43;
+}
+
+.game9-build-container .candidate-item.dragging {
+  opacity: 0.5;
+  transform: scale(1.02);
+  cursor: grabbing;
+  background-color: rgba(245, 174, 67, 0.2);
+  border-color: #f5ae43;
+}
+
+.game9-build-container .candidate-layout {
+  display: grid;
+  grid-template-columns: 40px 1fr 60px;
+  gap: 20px;
+  align-items: start;
+}
+
+.game9-build-container .candidate-number-box {
+  background-color: white;
+  color: black;
+  font-size: 1.2rem;
+  font-weight: 700;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 2px solid black;
+  align-self: center;
+}
+
+.game9-build-container .delete-candidate-btn {
+  background-color: #666;
+  border: none;
+  color: #f0f0f0;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  align-self: start;
+  justify-self: end;
+}
+
+.game9-build-container .delete-candidate-btn:hover {
+  background-color: #555;
+}
+
+.game9-build-container .form-row-container {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 20px;
+  min-height: 150px;
+}
+
+.game9-build-container .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+}
+
+.game9-build-container .form-field label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.game9-build-container .required {
+  color: #d7560e;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.game9-build-container .optional {
+  color: #737373;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.game9-build-container .form-field textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  flex: 1;
+  min-height: 100px;
+  background-color: white;
+  color: black;
+}
+
+.game9-build-container .form-field textarea:focus {
+  outline: none;
+  border-color: #f5ae43;
+}
+
+.game9-build-container .image-upload-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+}
+
+.game9-build-container .file-drop-zone {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 80px;
+  border: 2px dashed #e9ecef;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game9-build-container .file-drop-zone:hover {
+  border-color: #f5ae43;
+}
+
+.game9-build-container .file-drop-zone input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.game9-build-container .file-drop-text {
+  color: #999;
+  font-size: 0.9rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.game9-build-container .image-display {
+  position: relative;
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+}
+
+.game9-build-container .image-display:hover {
+  opacity: 0.8;
+}
+
+.game9-build-container .image-display img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.game9-build-container .image-remove-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px;
+  text-align: center;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.game9-build-container .image-display:hover .image-remove-overlay {
+  opacity: 1;
+}
+
+.game9-build-container .add-candidate-form {
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: default;
+}
+
+.game9-build-container .add-candidate-form:hover {
+  background-color: rgba(245, 174, 67, 0.1);
+  border-color: #f5ae43;
+}
+
+.game9-build-container .add-candidate-form .candidate-number-box {
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+  font-size: 1.2rem;
+}
+
+.game9-build-container .completion-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.game9-build-container .complete-btn {
+  background-color: #f5ae43;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.game9-build-container .complete-btn:hover {
+  background-color: #e49a2e;
+}
+
+.game9-build-container .complete-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.game9-build-container .complete-btn:disabled:hover {
+  background-color: #ccc;
+}
+
+/* Confirm Modal Styles */
+.game9-build-container .confirm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.game9-build-container .confirm-modal-content {
+  background: white;
+  border-radius: 20px;
+  max-width: 400px;
+  width: 90%;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.game9-build-container .confirm-modal-body {
+  padding: 40px 30px 30px;
+  text-align: center;
+}
+
+.game9-build-container .confirm-modal-body h3 {
+  color: #01275b;
+  margin: 0 0 15px 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.game9-build-container .confirm-modal-body p {
+  color: #666;
+  margin: 0 0 30px 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.game9-build-container .confirm-modal-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 0 30px 30px;
+}
+
+.game9-build-container .confirm-btn {
+  background-color: #f5ae43;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 80px;
+}
+
+.game9-build-container .confirm-btn:hover {
+  background-color: #e49a2e;
+  transform: translateY(-1px);
+}
+
+.game9-build-container .cancel-btn {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 80px;
+}
+
+.game9-build-container .cancel-btn:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .game9-build-container .form-row-container {
+    grid-template-columns: 1fr;
+  }
+}

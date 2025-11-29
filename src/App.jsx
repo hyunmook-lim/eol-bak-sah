@@ -20,6 +20,8 @@ import Game7Gameplay from './components/games/game7/Game7Gameplay'
 import Game8Build from './components/games/game8/Game8Build'
 import Game8Build2 from './components/games/game8/Game8Build2'
 import Game8GamePlay from './components/games/game8/Game8GamePlay'
+import Game9Build from './components/games/game9/Game9Build'
+import Game9GamePlay from './components/games/game9/Game9GamePlay'
 import Loading from './components/Loading'
 import GlobalUtilityBar from './components/common/GlobalUtilityBar'
 import './App.css'
@@ -188,6 +190,8 @@ function App() {
         <Route path="/game/8/build" element={<Game8Build />} />
         <Route path="/game/8/build2" element={<Game8Build2 />} />
         <Route path="/game/8/gameplay" element={<Game8GamePlay />} />
+        <Route path="/game/9/build" element={<Game9Build />} />
+        <Route path="/game/9/gameplay" element={<Game9GamePlay />} />
       </Routes>
     </>
   )
