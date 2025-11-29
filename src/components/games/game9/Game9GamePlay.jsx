@@ -8,6 +8,7 @@ const fightPenguinRed = '/images/fight-penguin-red.png'
 const voteBlackIcon = '/images/vote-black.png'
 const voteRedIcon = '/images/vote-red.png'
 const crownIcon = '/images/crown.png'
+const winnerSound = '/sounds/vote-winner.wav'
 
 function Game9GamePlay() {
   const navigate = useNavigate()
@@ -33,6 +34,18 @@ function Game9GamePlay() {
       document.body.style.overflow = 'auto'
     }
   }, [])
+
+  // 결과 화면 표시 시 승리 사운드 재생 (0.5초 지연)
+  useEffect(() => {
+    if (showResults && isSoundOn) {
+      const timer = setTimeout(() => {
+        const audio = new Audio(winnerSound)
+        audio.play().catch(err => console.log('Sound play failed:', err))
+      }, 500)
+
+      return () => clearTimeout(timer)
+    }
+  }, [showResults, isSoundOn])
 
   // 투표 처리 함수
   const handleVote = (candidateId) => {
