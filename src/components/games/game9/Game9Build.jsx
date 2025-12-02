@@ -272,7 +272,11 @@ function Game9Build() {
             ))}
           </div>
 
-          <button className="add-candidate-btn" onClick={handleAddCandidate}>
+          <button
+            className="add-candidate-btn"
+            onClick={handleAddCandidate}
+            disabled={candidates.length >= 6}
+          >
             + 후보 추가
           </button>
 
@@ -282,6 +286,7 @@ function Game9Build() {
             <button
               className="complete-btn"
               onClick={handleComplete}
+              disabled={!title.trim() || candidates.length < 2 || candidates.some(c => !c.name.trim())}
             >
               완료
             </button>

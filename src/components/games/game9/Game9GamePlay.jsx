@@ -193,104 +193,99 @@ function Game9GamePlay() {
           {!showResults ? (
             <>
               {/* 후보 카드 그리드 */}
-          <div
-            className="candidates-grid"
-            style={{
-              gridTemplateRows: `repeat(${Math.ceil(candidates.length / 2)}, 1fr)`
-            }}
-          >
-            {candidates.map((candidate, index) => {
-              // 파스텔 색상 배열
-              const pastelColors = [
-                '#FFE5E5', // 파스텔 핑크
-                '#E5F3FF', // 파스텔 블루
-                '#FFF5E5', // 파스텔 오렌지
-                '#E5FFE5', // 파스텔 그린
-                '#F5E5FF', // 파스텔 퍼플
-                '#FFFFE5', // 파스텔 옐로우
-              ]
+              <div className="candidates-grid">
+                {candidates.map((candidate, index) => {
+                  // 파스텔 색상 배열
+                  const pastelColors = [
+                    '#FFE5E5', // 파스텔 핑크
+                    '#E5F3FF', // 파스텔 블루
+                    '#FFF5E5', // 파스텔 오렌지
+                    '#E5FFE5', // 파스텔 그린
+                    '#F5E5FF', // 파스텔 퍼플
+                    '#FFFFE5', // 파스텔 옐로우
+                  ]
 
-              // 진한 파스텔 색상 배열 (번호 배지용)
-              const darkPastelColors = [
-                '#FFB3B3', // 진한 파스텔 핑크
-                '#B3D9FF', // 진한 파스텔 블루
-                '#FFD9B3', // 진한 파스텔 오렌지
-                '#B3FFB3', // 진한 파스텔 그린
-                '#E0B3FF', // 진한 파스텔 퍼플
-                '#FFFFB3', // 진한 파스텔 옐로우
-              ]
+                  // 진한 파스텔 색상 배열 (번호 배지용)
+                  const darkPastelColors = [
+                    '#FFB3B3', // 진한 파스텔 핑크
+                    '#B3D9FF', // 진한 파스텔 블루
+                    '#FFD9B3', // 진한 파스텔 오렌지
+                    '#B3FFB3', // 진한 파스텔 그린
+                    '#E0B3FF', // 진한 파스텔 퍼플
+                    '#FFFFB3', // 진한 파스텔 옐로우
+                  ]
 
-              const backgroundColor = pastelColors[index % pastelColors.length]
-              const badgeColor = darkPastelColors[index % darkPastelColors.length]
-              const hasContent = candidate.description || candidate.image
+                  const backgroundColor = pastelColors[index % pastelColors.length]
+                  const badgeColor = darkPastelColors[index % darkPastelColors.length]
+                  const hasContent = candidate.description || candidate.image
 
-              return (
-                <div key={candidate.id} className="candidate-wrapper">
-                  <div
-                    className={`candidate-card ${candidates.length % 2 !== 0 && index === candidates.length - 1 ? 'centered' : ''} ${!hasContent ? 'simple' : ''}`}
-                    style={{ '--card-bg-color': backgroundColor }}
-                    onClick={() => handleVote(candidate.id)}
-                  >
-                    {!hasContent ? (
-                      // 설명과 이미지가 없을 때: 번호와 이름만
-                      <>
-                        <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
-                        <h3 className="candidate-name">{candidate.name}</h3>
-                      </>
-                    ) : (
-                      // 설명이나 이미지가 있을 때: 번호+이름 상단, 컨텐츠 중앙
-                      <>
-                        <div className="candidate-header">
-                          <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
-                          <h3 className="candidate-name-with-content">{candidate.name}</h3>
-                        </div>
-
-                        <div className="candidate-content">
-                          {candidate.image && (
-                            <div className="candidate-image-container">
-                              <img src={candidate.image} alt={candidate.name} className="candidate-image" />
+                  return (
+                    <div key={candidate.id} className="candidate-wrapper">
+                      <div
+                        className={`candidate-card ${!hasContent ? 'simple' : ''}`}
+                        style={{ '--card-bg-color': backgroundColor }}
+                        onClick={() => handleVote(candidate.id)}
+                      >
+                        {!hasContent ? (
+                          // 설명과 이미지가 없을 때: 번호와 이름만
+                          <>
+                            <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
+                            <h3 className="candidate-name">{candidate.name}</h3>
+                          </>
+                        ) : (
+                          // 설명이나 이미지가 있을 때: 번호+이름 상단, 컨텐츠 중앙
+                          <>
+                            <div className="candidate-header">
+                              <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
+                              <h3 className="candidate-name-with-content">{candidate.name}</h3>
                             </div>
-                          )}
-                          {candidate.description && (
-                            <p className="candidate-description">{candidate.description}</p>
-                          )}
-                        </div>
-                      </>
-                    )}
 
-                    {/* 클릭 효과 - vote-red 이미지 */}
-                    {clickedCard === candidate.id && (
-                      <div className="vote-click-effect">
-                        <img src={voteRedIcon} alt="투표!" className="vote-effect-icon" />
+                            <div className="candidate-content">
+                              {candidate.image && (
+                                <div className="candidate-image-container">
+                                  <img src={candidate.image} alt={candidate.name} className="candidate-image" />
+                                </div>
+                              )}
+                              {candidate.description && (
+                                <p className="candidate-description">{candidate.description}</p>
+                              )}
+                            </div>
+                          </>
+                        )}
+
+                        {/* 클릭 효과 - vote-red 이미지 */}
+                        {clickedCard === candidate.id && (
+                          <div className="vote-click-effect">
+                            <img src={voteRedIcon} alt="투표!" className="vote-effect-icon" />
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
 
-                  {/* 투표 수 표시 */}
-                  <div className={`votes-display ${showVotes ? 'visible' : ''}`} style={{ '--badge-bg-color': badgeColor }}>
-                    {Array.from({ length: candidate.votes }).map((_, voteIndex) => (
-                      <img
-                        key={voteIndex}
-                        src={voteRedIcon}
-                        alt="투표"
-                        className="vote-icon-red"
-                      />
-                    ))}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+                      {/* 투표 수 표시 */}
+                      <div className={`votes-display ${showVotes ? 'visible' : ''}`} style={{ '--badge-bg-color': badgeColor }}>
+                        {Array.from({ length: candidate.votes }).map((_, voteIndex) => (
+                          <img
+                            key={voteIndex}
+                            src={voteRedIcon}
+                            alt="투표"
+                            className="vote-icon-red"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
 
-          {/* 하단 버튼들 */}
-          <div className="action-buttons">
-            <button className="reset-btn" onClick={handleReset}>
-              초기화
-            </button>
-            <button className="results-btn" onClick={handleShowResults}>
-              결과 확인
-            </button>
-          </div>
+              {/* 하단 버튼들 */}
+              <div className="action-buttons">
+                <button className="reset-btn" onClick={handleReset}>
+                  초기화
+                </button>
+                <button className="results-btn" onClick={handleShowResults}>
+                  결과 확인
+                </button>
+              </div>
             </>
           ) : (
             <div className="results-container">
@@ -319,7 +314,7 @@ function Game9GamePlay() {
                   '#FFFFB3', // 진한 파스텔 옐로우
                 ]
 
-return (
+                return (
                   <>
                     <div className={`winners-grid ${winners.length === 1 ? 'single-winner' : ''}`}>
                       {winners.map((winner) => {
