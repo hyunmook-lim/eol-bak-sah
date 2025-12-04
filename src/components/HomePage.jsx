@@ -25,8 +25,10 @@ function HomePage() {
   // 리소스 프리로딩
   useEffect(() => {
     const preloadResources = async () => {
-      const resources = [
-        // 비디오 파일들
+      // 모바일 기기 감지
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768
+
+      const videoResources = [
         '/videos/game1video.mp4',
         '/videos/game2video.mp4',
         '/videos/game3video.mp4',
@@ -35,6 +37,12 @@ function HomePage() {
         '/videos/game6video.mp4',
         '/videos/game7video.mp4',
         '/videos/game8video.mp4',
+        '/videos/game9video.mp4',
+      ]
+
+      const resources = [
+        // 모바일이 아닐 때만 비디오 파일 프리로드
+        ...(isMobile ? [] : videoResources),
         // 썸네일 이미지들
         '/thumbnail/game1thumbnail.png',
         '/thumbnail/game2thumbnail.png',
@@ -44,6 +52,7 @@ function HomePage() {
         '/thumbnail/game6thumbnail.png',
         '/thumbnail/game7thumbnail.png',
         '/thumbnail/game8thumbnail.png',
+        '/thumbnail/game9thumbnail.png',
         // 기타 이미지들
         '/images/two-ices.png',
         '/images/one-ice.png',
