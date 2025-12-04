@@ -6,6 +6,7 @@ const oneIceImg = '/images/one-ice.png'
 const mainPenguinImg = '/images/main-penguin.png'
 const penguinFoot = '/images/penguin-foot.png'
 import FeedbackModal from './FeedbackModal'
+import NoticeModal from './NoticeModal'
 
 function HomePage() {
   const [scrollY, setScrollY] = useState(0)
@@ -13,6 +14,7 @@ function HomePage() {
   const videoRefs = useRef({})
   const [hoveredGame, setHoveredGame] = useState(null)
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false)
+  const [isNoticeModalOpen, setIsNoticeModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [loadingProgress, setLoadingProgress] = useState(0)
 
@@ -224,6 +226,13 @@ function HomePage() {
       <header className="title-header">
         <img src={oneIceImg} alt="" className="header-ice" />
         <h1>얼박사</h1>
+        <button
+          className="notice-btn"
+          onClick={() => setIsNoticeModalOpen(true)}
+          aria-label="공지사항"
+        >
+          📢
+        </button>
       </header>
 
       <main className="main-content">
@@ -341,6 +350,11 @@ function HomePage() {
         <FeedbackModal
           isOpen={isFeedbackModalOpen}
           onClose={() => setIsFeedbackModalOpen(false)}
+        />
+
+        <NoticeModal
+          isOpen={isNoticeModalOpen}
+          onClose={() => setIsNoticeModalOpen(false)}
         />
 
         <div className="ice-animation-container container-1">

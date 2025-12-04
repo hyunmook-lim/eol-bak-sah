@@ -1,0 +1,142 @@
+.notice-modal-content {
+  max-width: 600px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.notice-list {
+  margin: 20px 0;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.notice-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.notice-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.notice-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.notice-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.notice-item {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  text-align: left;
+  border-left: 4px solid #01275b;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.notice-item:hover {
+  background: #e9ecef;
+}
+
+.notice-item:last-child {
+  margin-bottom: 0;
+}
+
+.notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.notice-toggle {
+  font-size: 1.5rem;
+  color: #01275b;
+  font-weight: bold;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.notice-toggle.expanded {
+  transform: rotate(0deg);
+}
+
+.notice-date {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.notice-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #01275b;
+  margin-bottom: 10px;
+}
+
+.notice-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.notice-content.expanded {
+  max-height: 500px;
+  transition: max-height 0.3s ease-in;
+}
+
+.notice-content-inner {
+  color: #495057;
+  line-height: 1.6;
+  font-size: 1rem;
+  padding-top: 10px;
+}
+
+.notice-content-inner ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.notice-content-inner li {
+  margin-bottom: 8px;
+}
+
+.notice-content-inner li:last-child {
+  margin-bottom: 0;
+}
+
+.notice-content .highlight {
+  color: #ff650e;
+  font-weight: 700;
+  background: rgba(255, 101, 14, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.notice-close-btn {
+  width: 100%;
+  padding: 12px;
+  background: #01275b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.notice-close-btn:hover {
+  background: #013a7d;
+}
