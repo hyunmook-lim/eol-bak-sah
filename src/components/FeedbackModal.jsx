@@ -72,7 +72,7 @@ function FeedbackModal({ isOpen, onClose }) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="message">의견 *</label>
+            <label htmlFor="message">의견 ({message.length}/200)</label>
             <textarea
               id="message"
               value={message}
@@ -80,6 +80,7 @@ function FeedbackModal({ isOpen, onClose }) {
               placeholder="의견이나 제안사항을 자유롭게 작성해주세요"
               className="form-textarea"
               rows="6"
+              maxLength={200}
               required
             />
           </div>
@@ -96,7 +97,7 @@ function FeedbackModal({ isOpen, onClose }) {
             <button
               type="submit"
               className="btn-submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !message.trim()}
             >
               {isSubmitting ? '전송 중...' : '보내기'}
             </button>
