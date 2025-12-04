@@ -40,8 +40,13 @@ function HomePage() {
         '/videos/game9video.mp4',
       ]
 
+      const audioResources = [
+        '/sounds/background-music.mp3',
+        '/sounds/click.wav',
+      ]
+
       const resources = [
-        // 모바일이 아닐 때만 비디오 파일 프리로드
+        // 모바일이 아닐 때만 비디오, 오디오 파일 프리로드
         ...(isMobile ? [] : videoResources),
         // 썸네일 이미지들
         '/thumbnail/game1thumbnail.png',
@@ -58,9 +63,8 @@ function HomePage() {
         '/images/one-ice.png',
         '/images/main-penguin.png',
         '/images/penguin-foot.png',
-        // 사운드 파일들
-        '/sounds/background-music.mp3',
-        '/sounds/click.wav',
+        // 사운드 파일들 (모바일이 아닐 때만)
+        ...(isMobile ? [] : audioResources),
       ]
 
       let loaded = 0
@@ -68,50 +72,41 @@ function HomePage() {
 
       const loadPromises = resources.map((src) => {
         return new Promise((resolve) => {
+          // 5초 타임아웃 설정
+          const timeout = setTimeout(() => {
+            console.warn(`Timeout loading: ${src}`)
+            loaded++
+            setLoadingProgress(Math.round((loaded / total) * 100))
+            resolve()
+          }, 5000)
+
+          const clearTimeoutAndResolve = () => {
+            clearTimeout(timeout)
+            loaded++
+            setLoadingProgress(Math.round((loaded / total) * 100))
+            resolve()
+          }
+
           if (src.endsWith('.mp4')) {
             // 비디오 프리로드
             const video = document.createElement('video')
             video.preload = 'auto'
             video.src = src
-            video.onloadeddata = () => {
-              loaded++
-              setLoadingProgress(Math.round((loaded / total) * 100))
-              resolve()
-            }
-            video.onerror = () => {
-              loaded++
-              setLoadingProgress(Math.round((loaded / total) * 100))
-              resolve() // 에러가 나도 계속 진행
-            }
+            video.onloadeddata = clearTimeoutAndResolve
+            video.onerror = clearTimeoutAndResolve
           } else if (src.endsWith('.mp3') || src.endsWith('.wav')) {
             // 오디오 프리로드
             const audio = new Audio()
             audio.preload = 'auto'
             audio.src = src
-            audio.onloadeddata = () => {
-              loaded++
-              setLoadingProgress(Math.round((loaded / total) * 100))
-              resolve()
-            }
-            audio.onerror = () => {
-              loaded++
-              setLoadingProgress(Math.round((loaded / total) * 100))
-              resolve() // 에러가 나도 계속 진행
-            }
+            audio.onloadeddata = clearTimeoutAndResolve
+            audio.onerror = clearTimeoutAndResolve
           } else {
             // 이미지 프리로드
             const img = new Image()
             img.src = src
-            img.onload = () => {
-              loaded++
-              setLoadingProgress(Math.round((loaded / total) * 100))
-              resolve()
-            }
-            img.onerror = () => {
-              loaded++
-              setLoadingProgress(Math.round((loaded / total) * 100))
-              resolve() // 에러가 나도 계속 진행
-            }
+            img.onload = clearTimeoutAndResolve
+            img.onerror = clearTimeoutAndResolve
           }
         })
       })
