@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game2GamePlay.css'
+import LandscapeOnly from '../../common/LandscapeOnly'
 const dirtyWindow = '/images/dirty-window.png'
 const cleaningHand = '/images/cleaning-hand.png'
 const spray = '/images/spray.png'
@@ -213,6 +214,7 @@ function Game2GamePlay() {
   }
 
   return (
+    <LandscapeOnly>
     <div className="game2-gameplay-container">
       <header className="game-title-header">
         <button onClick={handleBackToBuild} className="header-back-btn">
@@ -420,6 +422,7 @@ function Game2GamePlay() {
         </div>
       )}
     </div>
+    </LandscapeOnly>
   )
 }
 

@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useRef } from 'react'
+import LandscapeOnly from '../common/LandscapeOnly'
 import './GameVideo.css'
 
 function GameVideo({ gameVideos }) {
@@ -35,7 +36,8 @@ function GameVideo({ gameVideos }) {
   }
 
   return (
-    <div className="game-video-container">
+    <LandscapeOnly>
+      <div className="game-video-container">
       <header className="game-title-header">
         <button onClick={handleBackToHome} className="header-back-btn">
           <div className="arrow-left"></div>
@@ -85,6 +87,7 @@ function GameVideo({ gameVideos }) {
         </div>
       </div>
     </div>
+    </LandscapeOnly>
   )
 }
 

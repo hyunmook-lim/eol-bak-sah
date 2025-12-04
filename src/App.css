@@ -172,6 +172,42 @@
 }
 
 @media (max-width: 767px) {
+  .title-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .header-ice {
+    height: 2rem;
+  }
+
+  .animated-text.subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .animated-text.main-title {
+    font-size: 5rem;
+  }
+
+  .main-penguin {
+    width: 120px;
+    height: 120px;
+    transform: translate(-170%, -50%);
+  }
+
+  .additional-text {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
+
+  .additional-text.left-text {
+    margin-left: 5%;
+  }
+
+  .additional-text.right-text {
+    margin-right: 5%;
+  }
+
   .games-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
@@ -181,6 +217,50 @@
 }
 
 @media (max-width: 480px) {
+  .title-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-ice {
+    height: 1.5rem;
+  }
+
+  .main-content {
+    padding: 100px 15px 40px;
+  }
+
+  .content-spacer {
+    height: 250px;
+  }
+
+  .animated-text.subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  .animated-text.main-title {
+    font-size: 3.5rem;
+  }
+
+  .main-penguin {
+    width: 90px;
+    height: 90px;
+    transform: translate(-160%, -50%);
+  }
+
+  .additional-text {
+    font-size: 0.95rem;
+    padding: 8px 15px;
+  }
+
+  .additional-text.left-text {
+    margin-left: 2%;
+  }
+
+  .additional-text.right-text {
+    margin-right: 2%;
+  }
+
   .games-grid {
     grid-template-columns: 1fr;
     gap: 25px;
@@ -354,6 +434,35 @@
 
   50% {
     transform: translateY(350px) rotate(10deg);
+  }
+}
+
+/* 모바일 얼음 이미지 크기 조정 */
+@media (max-width: 767px) {
+  .ice-1 {
+    width: 180px;
+    height: 180px;
+    left: 5%;
+  }
+
+  .ice-2 {
+    width: 140px;
+    height: 140px;
+    right: 10%;
+  }
+}
+
+@media (max-width: 480px) {
+  .ice-1 {
+    width: 120px;
+    height: 120px;
+    left: 2%;
+  }
+
+  .ice-2 {
+    width: 90px;
+    height: 90px;
+    right: 5%;
   }
 }
 

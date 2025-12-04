@@ -4,6 +4,7 @@ import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
 import { HiLightBulb } from 'react-icons/hi'
 import useSound from 'use-sound'
 import './Game7Gameplay.css'
+import LandscapeOnly from '../../common/LandscapeOnly'
 const penguinImage = '/images/curious-penguin.png'
 const penguinFootCursor = '/images/penguin-foot.png'
 const correctSound = '/sounds/correct.wav'
@@ -234,6 +235,7 @@ function Game7Gameplay() {
   }, [gridLayout])
 
   return (
+    <LandscapeOnly>
     <div className="game7-gameplay-container" onMouseMove={handleMouseMove}>
       <header className="game-title-header">
         <button onClick={handleBackToBuild} className="header-back-btn">
@@ -387,6 +389,7 @@ function Game7Gameplay() {
         </div>
       )}
     </div>
+    </LandscapeOnly>
   )
 }
 

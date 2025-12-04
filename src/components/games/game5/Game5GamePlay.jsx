@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game5GamePlay.css'
+import LandscapeOnly from '../../common/LandscapeOnly'
 
 
 
@@ -274,6 +275,7 @@ function Game5GamePlay() {
   }
 
   return (
+    <LandscapeOnly>
     <div className="game5-gameplay-container">
       <header className="game-title-header">
         <button onClick={handleBackToBuild} className="header-back-btn">
@@ -450,6 +452,7 @@ function Game5GamePlay() {
         </div>
       )}
     </div>
+    </LandscapeOnly>
   )
 }
 

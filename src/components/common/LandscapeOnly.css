@@ -1,0 +1,124 @@
+/* 기본적으로 세로 모드 오버레이는 숨김 */
+.portrait-overlay {
+  display: none;
+}
+
+/* 가로 모드에서는 콘텐츠 표시 */
+.landscape-content {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* 모바일 세로 모드일 때 */
+@media only screen and (max-width: 768px) and (orientation: portrait) {
+  /* 세로 모드 오버레이 표시 */
+  .portrait-overlay {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, #ffda6a 0%, #fff7de 100%);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 실제 콘텐츠 숨김 */
+  .landscape-content {
+    display: none;
+  }
+
+  .rotate-message {
+    text-align: center;
+    padding: 40px;
+    animation: fadeIn 0.5s ease-in;
+  }
+
+  .phone-icon {
+    font-size: 80px;
+    margin-bottom: 30px;
+    animation: rotate 2s ease-in-out infinite;
+  }
+
+  .rotate-message h2 {
+    font-size: 2rem;
+    color: #01275b;
+    margin-bottom: 20px;
+    font-weight: 800;
+  }
+
+  .rotate-message p {
+    font-size: 1.2rem;
+    color: #01275b;
+    line-height: 1.6;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes rotate {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-15deg);
+    }
+    75% {
+      transform: rotate(15deg);
+    }
+  }
+}
+
+/* 태블릿도 세로 모드면 회전 요청 */
+@media only screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
+  .portrait-overlay {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, #ffda6a 0%, #fff7de 100%);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .landscape-content {
+    display: none;
+  }
+
+  .rotate-message {
+    text-align: center;
+    padding: 40px;
+  }
+
+  .phone-icon {
+    font-size: 100px;
+    margin-bottom: 30px;
+  }
+
+  .rotate-message h2 {
+    font-size: 2.5rem;
+    color: #01275b;
+    margin-bottom: 20px;
+    font-weight: 800;
+  }
+
+  .rotate-message p {
+    font-size: 1.5rem;
+    color: #01275b;
+    line-height: 1.6;
+  }
+}

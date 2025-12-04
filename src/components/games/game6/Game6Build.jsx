@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Game6Build.css'
+import LandscapeOnly from '../../common/LandscapeOnly'
 
 function Game6Build() {
   const navigate = useNavigate()
@@ -102,6 +103,7 @@ function Game6Build() {
 
 
   return (
+    <LandscapeOnly>
     <div className="game6-build-container">
       <header className="game-title-header">
         <button onClick={handleBackToVideo} className="header-back-btn">
@@ -272,6 +274,7 @@ function Game6Build() {
       )}
 
     </div>
+    </LandscapeOnly>
   )
 }
 

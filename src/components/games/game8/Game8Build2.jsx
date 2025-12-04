@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { FaTrash } from 'react-icons/fa'
 import './Game8Build2.css'
+import LandscapeOnly from '../../common/LandscapeOnly'
 
 function Game8Build2() {
   const navigate = useNavigate()
@@ -292,6 +293,7 @@ function Game8Build2() {
   }
 
   return (
+    <LandscapeOnly>
     <div className="game8-build2-container">
       <header className="game-title-header">
         <button onClick={handleBackToBuild} className="header-back-btn">
@@ -508,6 +510,7 @@ function Game8Build2() {
         </div>
       )}
     </div>
+    </LandscapeOnly>
   )
 }
 

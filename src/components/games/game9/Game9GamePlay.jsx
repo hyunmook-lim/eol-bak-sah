@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
 import './Game9GamePlay.css'
+import LandscapeOnly from '../../common/LandscapeOnly'
 
 const fightPenguinBlue = '/images/fight-penguin-blue.png'
 const fightPenguinRed = '/images/fight-penguin-red.png'
@@ -140,6 +141,7 @@ function Game9GamePlay() {
   }
 
   return (
+    <LandscapeOnly>
     <div className="game9-gameplay-container">
       <header className="game-title-header">
         <button onClick={handleBackToBuild} className="header-back-btn">
@@ -452,6 +454,7 @@ function Game9GamePlay() {
         </div>
       )}
     </div>
+    </LandscapeOnly>
   )
 }
 
