@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import LandscapeOnly from '../common/LandscapeOnly'
 import './GameVideo.css'
 
@@ -8,9 +8,27 @@ function GameVideo({ gameVideos }) {
   const { gameNumber } = useParams()
   const videoRef = useRef(null)
   const [showOverlay, setShowOverlay] = useState(false)
+  const [showIntroMessage, setShowIntroMessage] = useState(true)
+  const [isFadingOut, setIsFadingOut] = useState(false)
 
   // 게임 번호에 해당하는 비디오 URL 가져오기
   const videoUrl = gameVideos?.[gameNumber]
+
+  // 2초 후 페이드아웃 시작, 페이드아웃 완료 후 메시지 제거 및 비디오 자동재생
+  useEffect(() => {
+    const fadeOutTimer = setTimeout(() => {
+      setIsFadingOut(true)
+      // 페이드아웃 애니메이션 완료 후 메시지 제거 및 비디오 재생
+      setTimeout(() => {
+        setShowIntroMessage(false)
+        if (videoRef.current) {
+          videoRef.current.play().catch(err => console.log('Auto-play prevented:', err))
+        }
+      }, 500) // CSS transition 시간과 동일
+    }, 2000)
+
+    return () => clearTimeout(fadeOutTimer)
+  }, [])
 
   const handleBackToHome = () => {
     navigate('/')
@@ -56,7 +74,6 @@ function GameVideo({ gameVideos }) {
                 <video
                   ref={videoRef}
                   controls
-                  autoPlay
                   width="100%"
                   height="100%"
                   onEnded={handleVideoEnded}
@@ -64,6 +81,13 @@ function GameVideo({ gameVideos }) {
                   <source src={videoUrl} type="video/mp4" />
                   게임 방법 동영상을 재생할 수 없습니다.
                 </video>
+                {showIntroMessage && (
+                  <div className={`intro-message-overlay ${isFadingOut ? 'fade-out' : ''}`}>
+                    <div className="intro-message">
+                      <h2>게임 방법을 알려드릴게요!</h2>
+                    </div>
+                  </div>
+                )}
                 {showOverlay && (
                   <div className="video-overlay">
                     <div className="overlay-buttons">

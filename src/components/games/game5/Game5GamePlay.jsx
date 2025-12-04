@@ -276,182 +276,182 @@ function Game5GamePlay() {
 
   return (
     <LandscapeOnly>
-    <div className="game5-gameplay-container">
-      <header className="game-title-header">
-        <button onClick={handleBackToBuild} className="header-back-btn">
-          <div className="arrow-left"></div>
-        </button>
-        <h1>초성 게임</h1>
-        <div className="header-right-buttons">
-          <button onClick={handleOpenPreviewModal} className="header-menu-btn">
-            <span></span>
-            <span></span>
-            <span></span>
+      <div className="game5-gameplay-container">
+        <header className="game-title-header">
+          <button onClick={handleBackToBuild} className="header-back-btn">
+            <div className="arrow-left"></div>
           </button>
-          <button onClick={handleBackToHome} className="header-close-btn">
-            X
-          </button>
-        </div>
-      </header>
-
-      <div className="gameplay-container">
-        {!gameStarted ? (
-          <div className="game-start-section">
-            <h2>게임을 시작하시겠습니까?</h2>
-            <p>총 {questions.length}개의 문제가 준비되었습니다.</p>
-            <button className="start-game-btn" onClick={handleStartGame}>
-              게임 시작
+          <h1>초성 게임</h1>
+          <div className="header-right-buttons">
+            <button onClick={handleOpenPreviewModal} className="header-menu-btn">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <button onClick={handleBackToHome} className="header-close-btn">
+              X
             </button>
           </div>
-        ) : (
-          <div className="game-play-section">
-            <div className="game-screen-container">
-              <div className="question-display-container">
-                {showHint && (
-                  <div className="hint-container" style={{ opacity: hintOpacity }}>
-                    <p>클릭하면 한 글자씩 정답을 볼 수 있어요!</p>
+        </header>
+
+        <div className="gameplay-container">
+          {!gameStarted ? (
+            <div className="game-start-section">
+              <h2>게임을 시작하시겠습니까?</h2>
+              <p>총 {questions.length}개의 문제가 준비되었습니다.</p>
+              <button className="start-game-btn" onClick={handleStartGame}>
+                게임 시작
+              </button>
+            </div>
+          ) : (
+            <div className="game-play-section">
+              <div className="game-screen-container">
+                {showAnswer && (
+                  <div className="navigation-buttons">
+                    {currentQuestionIndex > 0 && (
+                      <div className="nav-button-container">
+                        <div className="nav-tooltip">이전 문제</div>
+                        <button className="prev-arrow-btn" onClick={handlePreviousQuestion}>
+                          <span className="arrow-icon">←</span>
+                        </button>
+                      </div>
+                    )}
+                    {currentQuestionIndex < questions.length - 1 ? (
+                      <div className="nav-button-container">
+                        <div className="nav-tooltip">다음 문제</div>
+                        <button className="next-arrow-btn" onClick={handleNextQuestion}>
+                          <span className="arrow-icon">→</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="nav-button-container">
+                        <div className="nav-tooltip">엔딩보기</div>
+                        <button className="next-arrow-btn" onClick={handleGameEnd}>
+                          <span className="arrow-icon">→</span>
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
-                {(() => {
-                  const chars = questions[currentQuestionIndex] ? questions[currentQuestionIndex].split('') : []
 
-                  return (
-                    <div className={`question-ice-blocks count-${chars.length}`}>
-                      {chars.map((char, index) => (
-                        <div
-                          key={index}
-                          className={`question-ice-item ${isRearranging ? 'rearranging' : ''} ${showAnswer ? 'answer-revealed' : ''} clickable`}
-                          onClick={() => handleCharClick(index)}
-                        >
-                          <span className="question-char-overlay">
-                            {showAnswer || clickedCharIndices.includes(index) ? char : getInitialConsonant(char)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )
-                })()}
-                <img src="/images/king-se-jong.png" alt="King Sejong" className="king-sejong-image" />
-              </div>
-
-              {showAnswer && (
-                <div className="navigation-buttons">
-                  {currentQuestionIndex > 0 && (
-                    <div className="nav-button-container">
-                      <div className="nav-tooltip">이전 문제</div>
-                      <button className="prev-arrow-btn" onClick={handlePreviousQuestion}>
-                        <span className="arrow-icon">←</span>
-                      </button>
+                <div className="question-display-container">
+                  {showHint && (
+                    <div className="hint-container" style={{ opacity: hintOpacity }}>
+                      <p>클릭하면 한 글자씩 정답을 볼 수 있어요!</p>
                     </div>
                   )}
-                  {currentQuestionIndex < questions.length - 1 ? (
-                    <div className="nav-button-container">
-                      <div className="nav-tooltip">다음 문제</div>
-                      <button className="next-arrow-btn" onClick={handleNextQuestion}>
-                        <span className="arrow-icon">→</span>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="nav-button-container">
-                      <div className="nav-tooltip">엔딩보기</div>
-                      <button className="next-arrow-btn" onClick={handleGameEnd}>
-                        <span className="arrow-icon">→</span>
-                      </button>
-                    </div>
-                  )}
+                  {(() => {
+                    const chars = questions[currentQuestionIndex] ? questions[currentQuestionIndex].split('') : []
+
+                    return (
+                      <div className={`question-ice-blocks count-${chars.length}`}>
+                        {chars.map((char, index) => (
+                          <div
+                            key={index}
+                            className={`question-ice-item ${isRearranging ? 'rearranging' : ''} ${showAnswer ? 'answer-revealed' : ''} clickable`}
+                            onClick={() => handleCharClick(index)}
+                          >
+                            <span className="question-char-overlay">
+                              {showAnswer || clickedCharIndices.includes(index) ? char : getInitialConsonant(char)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  })()}
+                  <img src="/images/king-se-jong.png" alt="King Sejong" className="king-sejong-image" />
                 </div>
-              )}
-            </div>
-            <div className="game-utilities">
-              <div className="round-counter">
-                <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
               </div>
+              <div className="game-utilities">
+                <div className="round-counter">
+                  <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
+                </div>
 
-              <div className="utility-right-section">
-                <div className="round-buttons">
-                  <button className="replay-btn" onClick={handleReplay}>
-                    다시하기
-                  </button>
-                  <button className="answer-btn" onClick={handleShowAnswer}>
-                    정답확인
+                <div className="utility-right-section">
+                  <div className="round-buttons">
+                    <button className="replay-btn" onClick={handleReplay}>
+                      다시하기
+                    </button>
+                    <button className="answer-btn" onClick={handleShowAnswer}>
+                      정답확인
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {showPreviewModal && (
+          <div className="preview-modal-overlay" onClick={handleClosePreviewModal}>
+            <div className="preview-modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="preview-modal-header">
+                <h2>정답 미리보기</h2>
+                <button className="modal-close-btn" onClick={handleClosePreviewModal}>
+                  X
+                </button>
+              </div>
+              <div className="preview-modal-body">
+                <div className="preview-questions-list">
+                  {questions.map((question, index) => (
+                    <div key={index} className={`preview-question-item ${index === currentQuestionIndex ? 'current' : ''}`}>
+                      <div className="preview-question-header">
+                        <div className="preview-question-number-box">{index + 1}</div>
+                        <div className="preview-question-content">
+                          <span className="preview-question-text">{question}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="preview-modal-footer">
+                  <button className="pdf-export-btn" onClick={handleExportToPDF}>
+                    📄 PDF로 출력
                   </button>
                 </div>
               </div>
             </div>
           </div>
         )}
-      </div>
 
-      {showPreviewModal && (
-        <div className="preview-modal-overlay" onClick={handleClosePreviewModal}>
-          <div className="preview-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="preview-modal-header">
-              <h2>정답 미리보기</h2>
-              <button className="modal-close-btn" onClick={handleClosePreviewModal}>
-                X
-              </button>
-            </div>
-            <div className="preview-modal-body">
-              <div className="preview-questions-list">
-                {questions.map((question, index) => (
-                  <div key={index} className={`preview-question-item ${index === currentQuestionIndex ? 'current' : ''}`}>
-                    <div className="preview-question-header">
-                      <div className="preview-question-number-box">{index + 1}</div>
-                      <div className="preview-question-content">
-                        <span className="preview-question-text">{question}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+        {showConfirmModal && (
+          <div className="confirm-modal-overlay" onClick={handleCancelExit}>
+            <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="confirm-modal-body">
+                <h3>홈으로 돌아가시겠습니까?</h3>
+                <p>게임이 종료됩니다.</p>
               </div>
-              <div className="preview-modal-footer">
-                <button className="pdf-export-btn" onClick={handleExportToPDF}>
-                  📄 PDF로 출력
+              <div className="confirm-modal-buttons">
+                <button className="confirm-btn" onClick={handleConfirmExit}>
+                  확인
+                </button>
+                <button className="cancel-btn" onClick={handleCancelExit}>
+                  취소
                 </button>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {showConfirmModal && (
-        <div className="confirm-modal-overlay" onClick={handleCancelExit}>
-          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="confirm-modal-body">
-              <h3>홈으로 돌아가시겠습니까?</h3>
-              <p>게임이 종료됩니다.</p>
-            </div>
-            <div className="confirm-modal-buttons">
-              <button className="confirm-btn" onClick={handleConfirmExit}>
-                확인
-              </button>
-              <button className="cancel-btn" onClick={handleCancelExit}>
-                취소
-              </button>
+        {showBackConfirmModal && (
+          <div className="confirm-modal-overlay" onClick={handleCancelBackToBuild}>
+            <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="confirm-modal-body">
+                <h3>게임 만들기로 돌아가시겠습니까?</h3>
+                <p>진행중인 게임은 저장되지 않습니다.</p>
+              </div>
+              <div className="confirm-modal-buttons">
+                <button className="confirm-btn" onClick={handleConfirmBackToBuild}>
+                  확인
+                </button>
+                <button className="cancel-btn" onClick={handleCancelBackToBuild}>
+                  취소
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-
-      {showBackConfirmModal && (
-        <div className="confirm-modal-overlay" onClick={handleCancelBackToBuild}>
-          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="confirm-modal-body">
-              <h3>게임 만들기로 돌아가시겠습니까?</h3>
-              <p>진행중인 게임은 저장되지 않습니다.</p>
-            </div>
-            <div className="confirm-modal-buttons">
-              <button className="confirm-btn" onClick={handleConfirmBackToBuild}>
-                확인
-              </button>
-              <button className="cancel-btn" onClick={handleCancelBackToBuild}>
-                취소
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
     </LandscapeOnly>
   )
 }
