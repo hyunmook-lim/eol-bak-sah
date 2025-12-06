@@ -57,18 +57,23 @@
   justify-content: center;
   padding: 50px;
   text-align: center;
+  gap: 50px;
 }
 
 .game-finish-container .finish-image {
-  margin-bottom: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
 }
 
 .game-finish-container .finish-image img {
-  max-width: 100%;
-  max-height: 400px;
+  max-width: 90%;
+  max-height: 50vh;
+  width: auto;
+  height: auto;
   object-fit: contain;
 }
 
@@ -115,24 +120,98 @@
   transform: translateY(-2px);
 }
 
-@media (max-width: 768px) {
-  .game-finish-container .finish-content {
-    padding: 30px 20px;
-  }
-  
+@media (max-width: 1024px) {
   .game-finish-container .finish-image img {
-    max-height: 300px;
+    max-height: 40vh;
   }
-  
+
+  .game-finish-container .finish-buttons {
+    gap: 20px;
+  }
+
+  .game-finish-container .replay-game-btn,
+  .game-finish-container .back-home-btn {
+    padding: 12px 35px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .game-finish-container .finish-header {
+    padding: 15px;
+  }
+
+  .game-finish-container .finish-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .game-finish-container .header-close-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+
+  .game-finish-container .finish-content {
+    padding: 20px 15px;
+    top: 70px;
+    gap: 30px;
+  }
+
+  .game-finish-container .finish-image img {
+    max-height: 35vh;
+    max-width: 85%;
+  }
+
   .game-finish-container .finish-buttons {
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
+    width: 100%;
   }
-  
+
   .game-finish-container .replay-game-btn,
   .game-finish-container .back-home-btn {
     width: 100%;
-    max-width: 250px;
+    max-width: 280px;
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-finish-container .finish-header {
+    padding: 12px;
+  }
+
+  .game-finish-container .finish-header h1 {
+    font-size: 1rem;
+  }
+
+  .game-finish-container .header-close-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  .game-finish-container .finish-content {
+    padding: 15px 10px;
+    top: 60px;
+    gap: 25px;
+  }
+
+  .game-finish-container .finish-image img {
+    max-height: 30vh;
+    max-width: 90%;
+  }
+
+  .game-finish-container .finish-buttons {
+    gap: 10px;
+  }
+
+  .game-finish-container .replay-game-btn,
+  .game-finish-container .back-home-btn {
+    max-width: 240px;
+    padding: 10px 25px;
+    font-size: 0.95rem;
   }
 }
 

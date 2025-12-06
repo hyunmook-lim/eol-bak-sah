@@ -3,6 +3,8 @@
   background: url('/images/background_cleaning_window.png') no-repeat center center;
   background-size: cover;
   overflow: hidden;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .game2-gameplay-container .game-title-header {
@@ -116,6 +118,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px 15%;
+  overflow-x: hidden;
 }
 
 .game2-gameplay-container .game-start-section {
@@ -814,28 +817,342 @@
   text-align: center;
 }
 
+@media (max-width: 1024px) {
+  .game2-gameplay-container .gameplay-container {
+    padding: 20px 10%;
+  }
+
+  .game2-gameplay-container .spray-decoration,
+  .game2-gameplay-container .bubble-decoration {
+    width: 120px;
+  }
+
+  .game2-gameplay-container .game-utilities {
+    padding: 18px;
+  }
+
+  .game2-gameplay-container .brush-slider {
+    width: 150px;
+  }
+}
+
 @media (max-width: 768px) {
+  .game2-gameplay-container .game-title-header {
+    padding: 15px;
+  }
+
+  .game2-gameplay-container .game-title-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .game2-gameplay-container .header-menu-btn,
+  .game2-gameplay-container .header-close-btn {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    min-height: 35px;
+  }
+
+  .game2-gameplay-container .header-menu-btn span {
+    width: 16px;
+  }
+
+  .game2-gameplay-container .gameplay-container {
+    padding: 15px 5%;
+    top: 70px;
+  }
+
+  .game2-gameplay-container .game-play-section {
+    gap: 12px;
+  }
+
+  .game2-gameplay-container .spray-decoration {
+    left: -5%;
+    width: 100px;
+  }
+
+  .game2-gameplay-container .bubble-decoration {
+    right: -10%;
+    width: 100px;
+  }
+
   .game2-gameplay-container .game-utilities {
     flex-direction: column;
-    gap: 15px;
+    gap: 4px;
+    padding: 4px 8px;
     align-items: stretch;
+    min-height: auto;
   }
-  
-  .game2-gameplay-container .speed-selector {
+
+  .game2-gameplay-container .round-counter {
     justify-content: center;
+    font-size: 0.7rem;
+    padding: 3px 8px;
   }
-  
+
+  .game2-gameplay-container .brush-size-control {
+    justify-content: center;
+    padding: 3px 8px;
+    gap: 6px;
+  }
+
+  .game2-gameplay-container .brush-icon {
+    width: 14px;
+  }
+
+  .game2-gameplay-container .brush-slider {
+    width: 100px;
+    height: 3px;
+  }
+
+  .game2-gameplay-container .brush-slider::-webkit-slider-thumb {
+    width: 10px;
+    height: 10px;
+  }
+
+  .game2-gameplay-container .brush-slider::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+  }
+
   .game2-gameplay-container .round-buttons {
-    justify-content: center;
+    flex-direction: row;
+    gap: 4px;
+    width: 100%;
   }
-  
+
+  .game2-gameplay-container .reset-btn {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    height: auto;
+    flex: 1;
+  }
+
+  .game2-gameplay-container .answer-label {
+    font-size: 0.65rem;
+  }
+
+  .game2-gameplay-container .reveal-answer-btn {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    width: auto;
+    height: auto;
+    flex: 1;
+  }
+
+  .game2-gameplay-container .answer-display-section {
+    flex-direction: row;
+    gap: 4px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .game2-gameplay-container .answer-display-text {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    width: auto;
+    height: auto;
+    flex: 1;
+  }
+
+  .game2-gameplay-container .answer-display {
+    bottom: 20px;
+    padding: 12px 24px;
+    font-size: 1.3rem;
+  }
+
+  .game2-gameplay-container .start-round-btn {
+    padding: 4px 12px;
+    font-size: 0.7rem;
+  }
+
+  .game2-gameplay-container .next-arrow-btn,
+  .game2-gameplay-container .prev-arrow-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+  }
+
+  .game2-gameplay-container .nav-tooltip {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
   .game2-gameplay-container .preview-modal-content {
     width: 95%;
     margin: 20px;
   }
-  
+
   .game2-gameplay-container .preview-modal-body {
     padding: 20px;
+  }
+
+  .game2-gameplay-container .game-start-section {
+    padding: 30px 20px;
+  }
+
+  .game2-gameplay-container .game-start-section h2 {
+    font-size: 1.7rem;
+  }
+
+  .game2-gameplay-container .game-start-section p {
+    font-size: 1.1rem;
+  }
+
+  .game2-gameplay-container .start-game-btn {
+    padding: 20px 50px;
+    font-size: 1.8rem;
+  }
+
+  .game2-gameplay-container .overlay-start-btn {
+    padding: 25px 65px;
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game2-gameplay-container .game-title-header {
+    padding: 12px;
+  }
+
+  .game2-gameplay-container .game-title-header h1 {
+    font-size: 1rem;
+  }
+
+  .game2-gameplay-container .header-menu-btn,
+  .game2-gameplay-container .header-close-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+
+  .game2-gameplay-container .gameplay-container {
+    padding: 10px 3%;
+    top: 60px;
+  }
+
+  .game2-gameplay-container .game-play-section {
+    gap: 10px;
+  }
+
+  .game2-gameplay-container .spray-decoration {
+    left: -3%;
+    width: 80px;
+    bottom: 10px;
+  }
+
+  .game2-gameplay-container .bubble-decoration {
+    right: -5%;
+    width: 80px;
+    top: 5%;
+  }
+
+  .game2-gameplay-container .game-utilities {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .game2-gameplay-container .round-counter {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+  }
+
+  .game2-gameplay-container .brush-size-control {
+    padding: 4px 10px;
+    gap: 8px;
+  }
+
+  .game2-gameplay-container .brush-icon {
+    width: 18px;
+  }
+
+  .game2-gameplay-container .brush-slider {
+    width: 100px;
+    height: 4px;
+  }
+
+  .game2-gameplay-container .brush-slider::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+  }
+
+  .game2-gameplay-container .brush-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+  }
+
+  .game2-gameplay-container .reset-btn {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    height: 45px;
+  }
+
+  .game2-gameplay-container .answer-label {
+    font-size: 1rem;
+  }
+
+  .game2-gameplay-container .reveal-answer-btn {
+    padding: 8px 15px;
+    font-size: 1rem;
+    height: 45px;
+  }
+
+  .game2-gameplay-container .answer-display-text {
+    padding: 8px 15px;
+    font-size: 1rem;
+    height: 45px;
+  }
+
+  .game2-gameplay-container .answer-display {
+    bottom: 15px;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+  }
+
+  .game2-gameplay-container .next-arrow-btn,
+  .game2-gameplay-container .prev-arrow-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+
+  .game2-gameplay-container .nav-tooltip {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+  }
+
+  .game2-gameplay-container .game-start-section {
+    padding: 25px 15px;
+  }
+
+  .game2-gameplay-container .game-start-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .game2-gameplay-container .game-start-section p {
+    font-size: 1rem;
+  }
+
+  .game2-gameplay-container .start-game-btn {
+    padding: 18px 40px;
+    font-size: 1.5rem;
+  }
+
+  .game2-gameplay-container .overlay-start-btn {
+    padding: 20px 50px;
+    font-size: 1.7rem;
+  }
+
+  .game2-gameplay-container .preview-modal-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .game2-gameplay-container .modal-close-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
   }
 }
 

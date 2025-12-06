@@ -6,6 +6,14 @@ function NoticeModal({ isOpen, onClose }) {
 
   const notices = [
     {
+      date: '2025.12.06',
+      title: '업데이트 안내',
+      items: [
+        { text: '', highlight: '슝 글자게임', suffix: ', 창문 닦기 게임을 모바일 화면에 최적화 시켰습니다.' },
+        { text: '로딩 화면에 ', highlight: 'PC 최적화 안내멘트', suffix: '를 추가했습니다.' }
+      ]
+    },
+    {
       date: '2025.12.04',
       title: '업데이트 안내',
       items: [

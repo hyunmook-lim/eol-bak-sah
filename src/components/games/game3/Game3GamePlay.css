@@ -158,9 +158,12 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
@@ -282,6 +285,7 @@
   0% {
     transform: translateX(-150vw);
   }
+
   100% {
     transform: translateX(150vw);
   }
@@ -357,9 +361,20 @@
 }
 
 @keyframes charPulse {
-  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
-  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 /* 정답 표시 컨테이너 */
@@ -414,7 +429,7 @@
   font-size: 5rem;
   font-weight: 800;
   color: #01275b;
-  text-shadow: 
+  text-shadow:
     -1px -1px 0 rgba(255, 255, 255, 0.9),
     1px -1px 0 rgba(255, 255, 255, 0.9),
     -1px 1px 0 rgba(255, 255, 255, 0.9),
@@ -532,9 +547,12 @@
 }
 
 @keyframes tooltipFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-8px);
   }
@@ -570,55 +588,343 @@
   font-weight: bold;
 }
 
-@media (max-width: 768px) {
-  .game3-gameplay-container .gameplay-container {
-    padding: 20px;
+@media (max-width: 1024px) {
+  .game3-gameplay-container .question-ice-container {
+    max-width: 20vh;
+    max-height: 20vh;
+    width: 20vh;
+    height: 20vh;
   }
-  
+
+  .game3-gameplay-container .question-ice {
+    width: 100%;
+    height: 100%;
+  }
+
+  .game3-gameplay-container .question-mark-overlay {
+    max-width: 13vh;
+    max-height: 13vh;
+    width: auto;
+    height: auto;
+  }
+
+  .game3-gameplay-container .question-text-overlay {
+    font-size: 6.5rem;
+  }
+
+  .game3-gameplay-container .penguin-character img {
+    max-width: 18vh;
+    max-height: 18vh;
+    width: auto;
+    height: auto;
+  }
+
+  .game3-gameplay-container .answer-ice {
+    max-width: 18vh;
+    max-height: 18vh;
+    width: auto;
+    height: auto;
+  }
+
+  .game3-gameplay-container .answer-char-overlay {
+    font-size: 5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .game3-gameplay-container .game-title-header {
+    padding: 15px;
+  }
+
+  .game3-gameplay-container .game-title-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .game3-gameplay-container .header-menu-btn,
+  .game3-gameplay-container .header-close-btn {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    min-height: 35px;
+  }
+
+  .game3-gameplay-container .header-menu-btn span {
+    width: 18px;
+  }
+
+  .game3-gameplay-container .gameplay-container {
+    padding: 15px;
+    top: 70px;
+  }
+
+  .game3-gameplay-container .game-play-section {
+    gap: 12px;
+  }
+
+  .game3-gameplay-container .game-screen-container {
+    flex: 1;
+    min-height: 0;
+  }
+
   .game3-gameplay-container .game-utilities {
     flex-direction: column;
-    gap: 12px;
-    padding: 12px 16px;
-  }
-  
-  .game3-gameplay-container .speed-buttons {
     gap: 4px;
+    padding: 4px 8px;
+    align-items: stretch;
   }
-  
+
+  .game3-gameplay-container .round-counter {
+    justify-content: center;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+  }
+
+  .game3-gameplay-container .speed-selector {
+    justify-content: center;
+  }
+
+  .game3-gameplay-container .speed-label {
+    font-size: 0.7rem;
+  }
+
+  .game3-gameplay-container .speed-buttons {
+    gap: 2px;
+    justify-content: center;
+  }
+
   .game3-gameplay-container .speed-btn {
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    min-width: 35px;
+    padding: 3px 5px;
+    font-size: 0.65rem;
+    min-width: 24px;
   }
-  
-  .game3-gameplay-container .question-box {
-    font-size: 3.6rem;
-    padding: 20px 25px;
-    min-width: 500px;
-    border-radius: 12px;
-    box-shadow: 
-      0 6px 24px rgba(1, 39, 91, 0.15),
-      0 3px 12px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9),
-      inset 0 -1px 0 rgba(1, 39, 91, 0.1),
-      inset 1px 0 0 rgba(255, 255, 255, 0.6),
-      inset -1px 0 0 rgba(1, 39, 91, 0.1);
+
+  .game3-gameplay-container .question-ice-container {
+    max-width: 16vh;
+    max-height: 16vh;
+    width: 16vh;
+    height: 16vh;
   }
-  
+
+  .game3-gameplay-container .question-ice {
+    width: 100%;
+    height: 100%;
+  }
+
+  .game3-gameplay-container .question-mark-overlay {
+    max-width: 10vh;
+    max-height: 10vh;
+    width: auto;
+    height: auto;
+  }
+
+  .game3-gameplay-container .question-text-overlay {
+    font-size: 5rem;
+  }
+
   .game3-gameplay-container .penguin-character img {
-    width: 200px;
-    height: 200px;
+    max-width: 15vh;
+    max-height: 15vh;
+    width: auto;
+    height: auto;
   }
-  
+
+  .game3-gameplay-container .answer-ice {
+    max-width: 14vh;
+    max-height: 14vh;
+    width: auto;
+    height: auto;
+  }
+
+  .game3-gameplay-container .answer-char-overlay {
+    font-size: 4rem;
+  }
+
+  .game3-gameplay-container .answer-ice-blocks {
+    gap: 8px;
+  }
+
+  .game3-gameplay-container .answer-ice-rows {
+    gap: 12px;
+  }
+
   .game3-gameplay-container .round-buttons {
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
+    gap: 6px;
+    justify-content: center;
+    width: 100%;
   }
-  
+
   .game3-gameplay-container .replay-btn,
   .game3-gameplay-container .answer-btn {
-    padding: 10px 20px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    flex: 1;
+  }
+
+  .game3-gameplay-container .next-question-btn {
+    width: 100%;
+    padding: 6px 16px;
     font-size: 0.9rem;
+  }
+
+  .game3-gameplay-container .next-arrow-btn,
+  .game3-gameplay-container .prev-arrow-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .game3-gameplay-container .nav-tooltip {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game3-gameplay-container .game-title-header h1 {
+    font-size: 1rem;
+  }
+
+  .game3-gameplay-container .header-menu-btn,
+  .game3-gameplay-container .header-close-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+
+  .game3-gameplay-container .gameplay-container {
+    padding: 10px;
+    top: 60px;
+  }
+
+  .game3-gameplay-container .game-play-section {
+    gap: 10px;
+  }
+
+  .game3-gameplay-container .game-screen-container {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .game3-gameplay-container .game-utilities {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .game3-gameplay-container .round-counter {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+
+  .game3-gameplay-container .speed-label {
+    font-size: 0.9rem;
+  }
+
+  .game3-gameplay-container .speed-selector {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .game3-gameplay-container .speed-buttons {
+    width: 100%;
+  }
+
+  .game3-gameplay-container .speed-btn {
+    padding: 6px 8px;
+    font-size: 0.8rem;
+    min-width: 35px;
+    flex: 1;
+  }
+
+  .game3-gameplay-container .question-ice-container {
+    max-width: 13vh;
+    max-height: 13vh;
+    width: 13vh;
+    height: 13vh;
+  }
+
+  .game3-gameplay-container .question-ice {
+    width: 100%;
+    height: 100%;
+  }
+
+  .game3-gameplay-container .question-mark-overlay {
+    max-width: 8vh;
+    max-height: 8vh;
+    width: auto;
+    height: auto;
+  }
+
+  .game3-gameplay-container .question-text-overlay {
+    font-size: 3.5rem;
+  }
+
+  .game3-gameplay-container .penguin-character img {
+    max-width: 12vh;
+    max-height: 12vh;
+    width: auto;
+    height: auto;
+  }
+
+  .game3-gameplay-container .answer-ice {
+    max-width: 11vh;
+    max-height: 11vh;
+    width: auto;
+    height: auto;
+  }
+
+  .game3-gameplay-container .answer-char-overlay {
+    font-size: 3rem;
+  }
+
+  .game3-gameplay-container .answer-ice-blocks {
+    gap: 6px;
+  }
+
+  .game3-gameplay-container .answer-ice-rows {
+    gap: 10px;
+  }
+
+  .game3-gameplay-container .round-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .game3-gameplay-container .replay-btn,
+  .game3-gameplay-container .answer-btn {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  .game3-gameplay-container .next-question-btn {
+    padding: 10px 25px;
+    font-size: 1rem;
+  }
+
+  .game3-gameplay-container .next-arrow-btn,
+  .game3-gameplay-container .prev-arrow-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+
+  .game3-gameplay-container .nav-tooltip {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+  }
+
+  .game3-gameplay-container .game-start-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .game3-gameplay-container .game-start-section p {
+    font-size: 1rem;
+  }
+
+  .game3-gameplay-container .start-game-btn {
+    padding: 18px 40px;
+    font-size: 1.5rem;
   }
 }
 
@@ -813,6 +1119,7 @@
     transform: translateY(-20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -886,23 +1193,23 @@
     width: 95%;
     max-height: 90vh;
   }
-  
+
   .game3-gameplay-container .preview-modal-header {
     padding: 15px 20px;
   }
-  
+
   .game3-gameplay-container .preview-modal-header h2 {
     font-size: 1.3rem;
   }
-  
+
   .game3-gameplay-container .preview-modal-body {
     padding: 15px 20px;
   }
-  
+
   .game3-gameplay-container .preview-questions-list {
     gap: 12px;
   }
-  
+
   .game3-gameplay-container .preview-question-text {
     font-size: 0.9rem;
   }
@@ -911,15 +1218,15 @@
     width: 95%;
     max-width: 320px;
   }
-  
+
   .game3-gameplay-container .confirm-modal-body {
     padding: 30px 20px 20px;
   }
-  
+
   .game3-gameplay-container .confirm-modal-body h3 {
     font-size: 1.2rem;
   }
-  
+
   .game3-gameplay-container .confirm-modal-buttons {
     padding: 0 20px 20px;
     flex-direction: column;
