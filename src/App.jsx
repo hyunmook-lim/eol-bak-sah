@@ -22,12 +22,12 @@ import Game8Build2 from './components/games/game8/Game8Build2'
 import Game8GamePlay from './components/games/game8/Game8GamePlay'
 import Game9Build from './components/games/game9/Game9Build'
 import Game9GamePlay from './components/games/game9/Game9GamePlay'
-import Loading from './components/Loading'
+
 import GlobalUtilityBar from './components/common/GlobalUtilityBar'
 import './App.css'
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true)
+
   const [isSoundEnabled, setIsSoundEnabled] = useState(true)
   const [isMusicEnabled, setIsMusicEnabled] = useState(true)
   const isSoundEnabledRef = useRef(isSoundEnabled)
@@ -66,7 +66,7 @@ function App() {
     // 사용자 인터랙션 핸들러
     const handleFirstInteraction = () => {
       if (audioRef.current && audioRef.current.paused) {
-        audioRef.current.play().catch(() => {})
+        audioRef.current.play().catch(() => { })
         // 한 번만 실행되도록 이벤트 제거
         document.removeEventListener('click', handleFirstInteraction)
         document.removeEventListener('keydown', handleFirstInteraction)
@@ -107,17 +107,6 @@ function App() {
   }, [isMusicEnabled])
 
   useEffect(() => {
-    // 페이지가 완전히 로드되면 로딩 상태를 false로 변경
-    const handleLoad = () => {
-      setIsLoading(false)
-    }
-
-    // 이미 로드가 완료되었으면 즉시 실행
-    if (document.readyState === 'complete') {
-      handleLoad()
-    } else {
-      window.addEventListener('load', handleLoad)
-    }
 
     // 전역 클릭 사운드 설정
     const clickSound = new Audio('/sounds/click.wav')
@@ -139,7 +128,6 @@ function App() {
     window.addEventListener('click', handleGlobalClick)
 
     return () => {
-      window.removeEventListener('load', handleLoad)
       window.removeEventListener('click', handleGlobalClick)
     }
   }, [])
@@ -159,7 +147,7 @@ function App() {
 
   return (
     <>
-      {isLoading && <Loading />}
+
       <GlobalUtilityBar
         isSoundEnabled={isSoundEnabled}
         toggleSound={toggleSound}

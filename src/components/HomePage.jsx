@@ -216,6 +216,7 @@ function HomePage() {
             ></div>
           </div>
           <p className="loading-percentage">{loadingProgress}%</p>
+          <p className="loading-notice">💻 PC에 최적화 되어있습니다</p>
         </div>
       </div>
     )
