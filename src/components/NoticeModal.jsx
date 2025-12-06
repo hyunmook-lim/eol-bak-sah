@@ -25,7 +25,7 @@ function NoticeModal({ isOpen, onClose }) {
       date: '2025.12.01',
       title: '새로운 게임 출시',
       items: [
-        { text: '9번째 게임 ', highlight: '투표 만들기', suffix: ' 게임이 출시됐습니다.' }
+        { segments: [{ text: '9번째 게임 ' }, { highlight: '투표 만들기' }, { text: ' 게임이 출시됐습니다.' }] }
       ]
     }
   ]
