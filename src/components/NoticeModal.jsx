@@ -9,16 +9,16 @@ function NoticeModal({ isOpen, onClose }) {
       date: '2025.12.06',
       title: '업데이트 안내',
       items: [
-        { text: '', highlight: '슝 글자게임', suffix: ', 창문 닦기 게임을 모바일 화면에 최적화 시켰습니다.' },
-        { text: '로딩 화면에 ', highlight: 'PC 최적화 안내멘트', suffix: '를 추가했습니다.' }
+        { segments: [{ highlight: '슝 글자게임' }, { text: ', ' }, { highlight: '창문 닦기 게임' }, { text: '을 모바일 화면에 최적화 시켰습니다.' }] },
+        { segments: [{ text: '로딩 화면에 ' }, { highlight: 'PC 최적화 안내멘트' }, { text: '를 추가했습니다.' }] }
       ]
     },
     {
       date: '2025.12.04',
       title: '업데이트 안내',
       items: [
-        { text: '', highlight: '초성게임', suffix: '에서 이미지에 가리던 버튼을 수정했습니다.' },
-        { text: '', highlight: '모바일', suffix: '에서 접근이 불가능 하던 이슈를 해결했습니다.' }
+        { segments: [{ highlight: '초성게임' }, { text: '에서 이미지에 가리던 버튼을 수정했습니다.' }] },
+        { segments: [{ highlight: '모바일' }, { text: '에서 접근이 불가능 하던 이슈를 해결했습니다.' }] }
       ]
     },
     {
@@ -67,9 +67,13 @@ function NoticeModal({ isOpen, onClose }) {
                   <ul>
                     {notice.items.map((item, itemIndex) => (
                       <li key={itemIndex}>
-                        {item.text}
-                        <span className="highlight">{item.highlight}</span>
-                        {item.suffix}
+                        {item.segments.map((segment, segIndex) => (
+                          segment.highlight ? (
+                            <span key={segIndex} className="highlight">{segment.highlight}</span>
+                          ) : (
+                            <span key={segIndex}>{segment.text}</span>
+                          )
+                        ))}
                       </li>
                     ))}
                   </ul>
