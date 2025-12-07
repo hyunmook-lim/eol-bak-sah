@@ -8,6 +8,7 @@ function Game2Build() {
   const location = useLocation()
   const [questions, setQuestions] = useState(location.state?.questions || [])
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [lowQualityWarning, setLowQualityWarning] = useState(null)
 
   const handleBackToVideo = () => {
     navigate('/game/2/video')
@@ -29,46 +30,96 @@ function Game2Build() {
     setShowConfirmModal(false)
   }
 
+  const checkImageQuality = (file) => {
+    return new Promise((resolve) => {
+      const img = new Image()
+      img.onload = () => {
+        const width = img.width
+        const height = img.height
+        const minDimension = 400 // 최소 권장 해상도
 
-  const handleFileUpload = (event) => {
+        if (width < minDimension || height < minDimension) {
+          resolve({
+            isLowQuality: true,
+            width,
+            height,
+            fileName: file.name
+          })
+        } else {
+          resolve({ isLowQuality: false })
+        }
+      }
+      img.src = URL.createObjectURL(file)
+    })
+  }
+
+  const handleFileUpload = async (event) => {
     const files = Array.from(event.target.files)
     const imageFiles = files.filter(file => file.type.startsWith('image/'))
-    
+
     if (imageFiles.length === 0) return
-    
+
     const availableSlots = 20 - questions.length
     const filesToAdd = imageFiles.slice(0, availableSlots)
-    
+
+    // 화질 체크
+    const qualityChecks = await Promise.all(
+      filesToAdd.map(file => checkImageQuality(file))
+    )
+
+    const lowQualityFiles = qualityChecks
+      .filter(check => check.isLowQuality)
+      .map(check => check.fileName)
+
+    if (lowQualityFiles.length > 0) {
+      setLowQualityWarning(`화질이 낮은 사진이 ${lowQualityFiles.length}개 있습니다. 더 선명한 사진을 사용하는 것을 권장합니다.`)
+      setTimeout(() => setLowQualityWarning(null), 5000)
+    }
+
     const newQuestions = filesToAdd.map(file => ({
       id: Date.now() + Math.random(),
       image: file,
       imageUrl: URL.createObjectURL(file),
       answer: ''
     }))
-    
+
     setQuestions([...questions, ...newQuestions])
-    
+
     // 파일 input 초기화
     event.target.value = ''
   }
 
-  const handleDrop = (event) => {
+  const handleDrop = async (event) => {
     event.preventDefault()
     const files = Array.from(event.dataTransfer.files)
     const imageFiles = files.filter(file => file.type.startsWith('image/'))
-    
+
     if (imageFiles.length === 0) return
-    
+
     const availableSlots = 20 - questions.length
     const filesToAdd = imageFiles.slice(0, availableSlots)
-    
+
+    // 화질 체크
+    const qualityChecks = await Promise.all(
+      filesToAdd.map(file => checkImageQuality(file))
+    )
+
+    const lowQualityFiles = qualityChecks
+      .filter(check => check.isLowQuality)
+      .map(check => check.fileName)
+
+    if (lowQualityFiles.length > 0) {
+      setLowQualityWarning(`화질이 낮은 사진이 ${lowQualityFiles.length}개 있습니다. 더 선명한 사진을 사용하는 것을 권장합니다.`)
+      setTimeout(() => setLowQualityWarning(null), 5000)
+    }
+
     const newQuestions = filesToAdd.map(file => ({
       id: Date.now() + Math.random(),
       image: file,
       imageUrl: URL.createObjectURL(file),
       answer: ''
     }))
-    
+
     setQuestions([...questions, ...newQuestions])
   }
 
@@ -108,7 +159,13 @@ function Game2Build() {
           X
         </button>
       </header>
-      
+
+      {lowQualityWarning && (
+        <div className="low-quality-warning">
+          ⚠️ {lowQualityWarning}
+        </div>
+      )}
+
       <div className="game-play-container">
         <div className="question-input-section">
           <div className="section-header">

@@ -307,6 +307,11 @@ function Game2GamePlay() {
                     }}
                   />
                 )}
+                {showAnswer && (
+                  <div className="answer-display">
+                    <p className="answer-text">{currentQuestion?.answer}</p>
+                  </div>
+                )}
                 {isTransitioning && (
                   <div className="transition-overlay"></div>
                 )}
@@ -365,17 +370,10 @@ function Game2GamePlay() {
                   <button className="reset-btn" onClick={handleReset}>
                     초기화
                   </button>
-                  {!showAnswer ? (
+                  {!showAnswer && (
                     <button className="reveal-answer-btn" onClick={handleShowAnswer}>
                       정답 확인하기
                     </button>
-                  ) : (
-                    <div className="answer-display-section">
-                      <span className="answer-label">정답:</span>
-                      <div className="answer-display-text">
-                        {currentQuestion?.answer}
-                      </div>
-                    </div>
                   )}
                 </div>
               )}
