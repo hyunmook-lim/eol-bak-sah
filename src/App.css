@@ -106,6 +106,10 @@
   font-weight: 700;
 }
 
+.mobile-only-br {
+  display: none;
+}
+
 .animated-text.main-title {
   font-size: 10rem;
   font-weight: 800;
@@ -214,8 +218,26 @@
     margin-bottom: 20px;
   }
 
+  .mobile-only-br {
+    display: inline;
+  }
+
   .animated-text.main-title {
     font-size: 5rem;
+    text-shadow:
+      -3px -3px 0 #ffffff,
+      3px -3px 0 #ffffff,
+      -3px 3px 0 #ffffff,
+      3px 3px 0 #ffffff,
+      -2px -2px 0 #ffffff,
+      2px -2px 0 #ffffff,
+      -2px 2px 0 #ffffff,
+      2px 2px 0 #ffffff,
+      -1px -1px 0 #ffffff,
+      1px -1px 0 #ffffff,
+      -1px 1px 0 #ffffff,
+      1px 1px 0 #ffffff,
+      0 0 10px rgba(0, 0, 0, 0.3);
   }
 
   .main-penguin {
@@ -269,6 +291,16 @@
 
   .animated-text.main-title {
     font-size: 3.5rem;
+    text-shadow:
+      -2px -2px 0 #ffffff,
+      2px -2px 0 #ffffff,
+      -2px 2px 0 #ffffff,
+      2px 2px 0 #ffffff,
+      -1px -1px 0 #ffffff,
+      1px -1px 0 #ffffff,
+      -1px 1px 0 #ffffff,
+      1px 1px 0 #ffffff,
+      0 0 8px rgba(0, 0, 0, 0.3);
   }
 
   .main-penguin {

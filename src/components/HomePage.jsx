@@ -243,7 +243,7 @@ function HomePage() {
           <div
             className={`animated-text subtitle ${scrollY > 50 ? 'visible' : ''}`}
           >
-            <span className="highlight-text">어린이 박사</span>의 <span className="highlight-text">얼음 박살</span> 아이스 브레이킹 게임모음
+            <span className="highlight-text">어린이 박사</span>의 <span className="highlight-text">얼음 박살</span> <br className="mobile-only-br" />아이스 브레이킹 게임모음
           </div>
 
           <div
