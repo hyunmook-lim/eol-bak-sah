@@ -1,7 +1,7 @@
 .game7-gameplay-container {
   height: 100vh;
-  background: url('/images/background.png') no-repeat center center;
-  background-size: cover;
+  background: url('/images/background-flipped-card.png') no-repeat center center;
+  background-size: 100% 100%;
   overflow: hidden;
   cursor: none;
 }
@@ -238,7 +238,6 @@
 }
 
 .game7-gameplay-container .card-back {
-  padding: 10px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -261,13 +260,24 @@
 
 /* 흔들기 애니메이션 (틀렸을 때) */
 @keyframes shake {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: rotateY(180deg) translateX(0);
   }
-  10%, 30%, 50%, 70%, 90% {
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
     transform: rotateY(180deg) translateX(-5px);
   }
-  20%, 40%, 60%, 80% {
+
+  20%,
+  40%,
+  60%,
+  80% {
     transform: rotateY(180deg) translateX(5px);
   }
 }
@@ -281,15 +291,19 @@
   0% {
     transform: rotateY(180deg) scale(1);
   }
+
   25% {
     transform: rotateY(180deg) scale(1.1);
   }
+
   50% {
     transform: rotateY(180deg) scale(0.95);
   }
+
   75% {
     transform: rotateY(180deg) scale(1.05);
   }
+
   100% {
     transform: rotateY(180deg) scale(1);
   }
@@ -420,9 +434,12 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
@@ -434,15 +451,15 @@
     padding: 40px 50px;
     margin: 20px;
   }
-  
+
   .game7-gameplay-container .game-start-content h2 {
     font-size: 2rem;
   }
-  
+
   .game7-gameplay-container .game-start-content p {
     font-size: 1rem;
   }
-  
+
   .game7-gameplay-container .start-game-btn {
     padding: 15px 40px;
     font-size: 1.3rem;
@@ -454,11 +471,11 @@
     padding: 30px 30px;
     margin: 15px;
   }
-  
+
   .game7-gameplay-container .game-start-content h2 {
     font-size: 1.8rem;
   }
-  
+
   .game7-gameplay-container .start-game-btn {
     padding: 12px 30px;
     font-size: 1.1rem;
@@ -497,9 +514,11 @@
     transform: scale(0.8);
     opacity: 0;
   }
+
   50% {
     transform: scale(1.05);
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -566,20 +585,20 @@
     padding: 40px 50px;
     margin: 20px;
   }
-  
+
   .game7-gameplay-container .game-complete-content h2 {
     font-size: 2rem;
   }
-  
+
   .game7-gameplay-container .game-complete-content p {
     font-size: 1rem;
   }
-  
+
   .game7-gameplay-container .complete-buttons {
     flex-direction: column;
     gap: 15px;
   }
-  
+
   .game7-gameplay-container .complete-btn {
     padding: 12px 25px;
     font-size: 1.1rem;
@@ -591,11 +610,11 @@
     padding: 30px 30px;
     margin: 15px;
   }
-  
+
   .game7-gameplay-container .game-complete-content h2 {
     font-size: 1.8rem;
   }
-  
+
   .game7-gameplay-container .complete-btn {
     padding: 10px 20px;
     font-size: 1rem;
@@ -633,6 +652,7 @@
     transform: translateY(-20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;

@@ -5,7 +5,7 @@ import { HiLightBulb } from 'react-icons/hi'
 import useSound from 'use-sound'
 import './Game7Gameplay.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
-const penguinImage = '/images/curious-penguin.png'
+const cardBackImage = '/images/question-mark-3d.png'
 const penguinFootCursor = '/images/penguin-foot.png'
 const correctSound = '/sounds/correct.wav'
 const wrongSound = '/sounds/wrong.wav'
@@ -297,7 +297,7 @@ function Game7Gameplay() {
                       <img src={card.image} alt="카드" />
                     </div>
                     <div className="card-back">
-                      <img src={penguinImage} alt="카드 뒷면" />
+                      <img src={cardBackImage} alt="카드 뒷면" />
                     </div>
                   </div>
                 </div>

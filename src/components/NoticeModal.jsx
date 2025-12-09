@@ -6,6 +6,13 @@ function NoticeModal({ isOpen, onClose }) {
 
   const notices = [
     {
+      date: '2025.12.09',
+      title: '업데이트 안내',
+      items: [
+        { segments: [{ highlight: '메모리 카드 게임' }, { text: '의 배경화면과 카드 이미지를 변경하였습니다.' }] }
+      ]
+    },
+    {
       date: '2025.12.06',
       title: '업데이트 안내',
       items: [
