@@ -244,6 +244,11 @@ function Game8GamePlay() {
                     </div>
                   </div>
                 )}
+                {showResult && (
+                  <div className="answer-display">
+                    <p className="answer-text">{currentQuestion?.answer}</p>
+                  </div>
+                )}
               </>
             )}
           </div>
@@ -290,21 +295,13 @@ function Game8GamePlay() {
                   ></div>
                 </div>
 
-                {!showResult ? (
-                  <div className="answer-reveal-section">
-                    <span className="answer-label">정답:</span>
-                    <button className="reveal-answer-btn" onClick={handleSubmitAnswer}>
-                      정답 확인하기
-                    </button>
-                  </div>
-                ) : (
-                  <div className="answer-display-section">
-                    <span className="answer-label">정답:</span>
-                    <div className="answer-display">
-                      {currentQuestion.answer}
-                    </div>
-                  </div>
-                )}
+                <button
+                  className="reveal-answer-btn"
+                  onClick={handleSubmitAnswer}
+                  style={{ visibility: showResult ? 'hidden' : 'visible' }}
+                >
+                  정답 확인하기
+                </button>
               </>
             )}
           </div>

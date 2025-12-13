@@ -120,6 +120,28 @@ function HomePage() {
     preloadResources()
   }, [])
 
+  const handleCardMouseMove = (e, gameId) => {
+    if (games.find(g => g.id === gameId)?.isComingSoon) return
+    
+    const card = e.currentTarget
+    const rect = card.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+    
+    const rotateX = ((y - centerY) / centerY) * -5 // -5 to 5 degrees
+    const rotateY = ((x - centerX) / centerX) * 5  // -5 to 5 degrees
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+  }
+
+  const handleCardMouseLeave = (e) => {
+    const card = e.currentTarget
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)'
+  }
+
   const games = [
     {
       id: 1,
@@ -251,6 +273,10 @@ function HomePage() {
           >
             <img src={mainPenguinImg} alt="펭귄" className="main-penguin" />
             얼박사
+            <div className="edu-container">
+              <span className="edu-char edu-top">에</span>
+              <span className="edu-char edu-bottom">듀</span>
+            </div>
           </div>
 
           <div
@@ -275,7 +301,13 @@ function HomePage() {
                 key={game.id}
                 className={`home-game-card ${game.isComingSoon ? 'coming-soon-card' : ''}`}
                 onMouseEnter={() => !game.isComingSoon && setHoveredGame(game.id)}
-                onMouseLeave={() => !game.isComingSoon && setHoveredGame(null)}
+                onMouseLeave={(e) => {
+                  if (!game.isComingSoon) {
+                    setHoveredGame(null)
+                    handleCardMouseLeave(e)
+                  }
+                }}
+                onMouseMove={(e) => handleCardMouseMove(e, game.id)}
               >
                 {game.isComingSoon ? (
                   <>
@@ -358,11 +390,10 @@ function HomePage() {
           onClose={() => setIsNoticeModalOpen(false)}
         />
 
-        <div className="ice-animation-container container-1">
+        <div className="ice-animation-container">
           <img src={twoIcesImg} alt="" className="floating-ice ice-1" />
-        </div>
-        <div className="ice-animation-container container-2">
           <img src={oneIceImg} alt="" className="floating-ice ice-2" />
+          <img src={oneIceImg} alt="" className="floating-ice ice-3" />
         </div>
       </main>
     </div>
