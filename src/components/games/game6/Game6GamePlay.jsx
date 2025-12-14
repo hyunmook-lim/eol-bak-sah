@@ -301,13 +301,7 @@ function Game6GamePlay() {
                         </div>
                       )}
                       <div className="question-text">
-                        <div className="question-text-decoration">
-                          <img src="/images/question-mark.png" alt="물음표 왼쪽" className="question-mark-decoration-left" />
-                          <div className="bottom-right-decorations">
-                            <img src="/images/question-mark.png" alt="물음표 오른쪽" className="question-mark-decoration-right" />
-                            <img src="/images/exclamation-mark.png" alt="느낌표" className="exclamation-mark-decoration" />
-                          </div>
-                        </div>
+
                         <div className="question-text-content">
                           {questions[currentQuestionIndex].question}
                         </div>

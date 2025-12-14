@@ -46,6 +46,14 @@ function Game3GamePlay() {
     setShowConfirmModal(false)
   }
 
+  // 게임 시작 시 및 문제 변경 시 자동으로 라운드 시작
+  useEffect(() => {
+    if (gameStarted) {
+      handleStartRound()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameStarted, currentQuestionIndex])
+
   const handleStartGame = () => {
     setGameStarted(true)
   }
@@ -451,20 +459,14 @@ function Game3GamePlay() {
                 </div>
               </div>
 
-              {!roundStarted ? (
-                <button className="next-question-btn" onClick={handleStartRound}>
-                  라운드 시작
+              <div className="round-buttons">
+                <button className="replay-btn" onClick={handleReplay} disabled={isAnimating || isCharacterAnimating}>
+                  다시보기
                 </button>
-              ) : (
-                <div className="round-buttons">
-                  <button className="replay-btn" onClick={handleReplay} disabled={isAnimating || isCharacterAnimating}>
-                    다시보기
-                  </button>
-                  <button className="answer-btn" onClick={handleShowAnswer}>
-                    정답확인
-                  </button>
-                </div>
-              )}
+                <button className="answer-btn" onClick={handleShowAnswer}>
+                  정답확인
+                </button>
+              </div>
             </div>
           </div>
         )}

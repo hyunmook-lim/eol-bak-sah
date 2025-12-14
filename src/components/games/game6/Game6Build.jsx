@@ -77,7 +77,7 @@ function Game6Build() {
     }
 
     // 빈 문제가 있는지 체크
-    const emptyQuestions = questions.filter(q => !q.question.trim())
+    const emptyQuestions = questions.filter(q => !(q.question || '').trim())
     if (emptyQuestions.length > 0) {
       alert('모든 문제를 입력해주세요.')
       return
@@ -88,9 +88,9 @@ function Game6Build() {
       questions: questions.map((q, index) => ({
         id: q.id,
         number: index + 1,
-        question: q.question.trim(),
+        question: (q.question || '').trim(),
         answer: q.answer,
-        explanation: q.explanation.trim() || null,
+        explanation: (q.explanation || '').trim() || null,
         image: q.image || null
       }))
     }
@@ -139,15 +139,19 @@ function Game6Build() {
                   </div>
                   
                   <div className="form-row-container">
-                    <div className="form-field">
-                      <label>문제 <span className="required">(필수)</span></label>
-                      <textarea
-                        value={question.question}
-                        onChange={(e) => handleUpdateQuestion(question.id, 'question', e.target.value)}
-                        placeholder="문제를 입력하세요"
-                        rows="3"
-                      />
-                    </div>
+                      <div className="form-field">
+                        <div className="label-with-counter">
+                          <label>문제 <span className="required">(필수)</span></label>
+                          <span className="char-counter">{(question.question || '').length}/50</span>
+                        </div>
+                        <textarea
+                          value={question.question || ''}
+                          onChange={(e) => handleUpdateQuestion(question.id, 'question', e.target.value)}
+                          placeholder="문제를 입력하세요"
+                          rows="3"
+                          maxLength={50}
+                        />
+                      </div>
                     
                     <div className="form-field">
                       <label>정답 <span className="required">(필수)</span></label>
@@ -174,12 +178,16 @@ function Game6Build() {
                     </div>
                     
                     <div className="form-field">
-                      <label>해설 <span className="optional">(선택)</span></label>
+                      <div className="label-with-counter">
+                        <label>해설 <span className="optional">(선택)</span></label>
+                        <span className="char-counter">{(question.explanation || '').length}/100</span>
+                      </div>
                       <textarea
-                        value={question.explanation}
+                        value={question.explanation || ''}
                         onChange={(e) => handleUpdateQuestion(question.id, 'explanation', e.target.value)}
                         placeholder="해설을 입력하세요 (선택사항)"
                         rows="2"
+                        maxLength={100}
                       />
                     </div>
                     

@@ -6,6 +6,15 @@ function NoticeModal({ isOpen, onClose }) {
 
   const notices = [
     {
+      date: '2025.12.14',
+      title: '업데이트 안내',
+      items: [
+        { segments: [{ highlight: '슝글자게임' }, { text: '을 라운드 시작 없이 바로 시작하도록 수정했습니다.' }] },
+        { segments: [{ highlight: 'OX게임' }, { text: '의 UI를 변경하였습니다.' }] },
+        { segments: [{ highlight: '게임 종료' }, { text: ' 화면을 동영상이 재생되도록 수정하였습니다.' }] }
+      ]
+    },
+    {
       date: '2025.12.13',
       title: '업데이트 안내',
       items: [

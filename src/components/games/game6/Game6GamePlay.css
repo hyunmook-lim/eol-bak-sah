@@ -1,8 +1,14 @@
 .game6-gameplay-container {
+  width: 100vw;
   height: 100vh;
-  background: url('/images/background.png') no-repeat center center;
+  background: url('/images/background-ox-quiz.png') no-repeat center center;
   background-size: cover;
   overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .game6-gameplay-container .game-title-header {
@@ -200,28 +206,38 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow:
-    0 8px 25px rgba(245, 174, 67, 0.4),
-    0 4px 15px rgba(0, 0, 0, 0.1);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
   animation: pulse 2s infinite;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game6-gameplay-container .start-game-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 100%);
+  border-radius: 50px;
+  z-index: -1;
 }
 
 .game6-gameplay-container .start-game-btn:hover {
   background: linear-gradient(135deg, #e49a2e 0%, #d7881f 100%);
-  transform: translateY(-2px) scale(1.05);
+  transform: translateY(-3px);
   box-shadow:
-    0 12px 30px rgba(245, 174, 67, 0.5),
-    0 6px 20px rgba(0, 0, 0, 0.15);
+    0 12px 24px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .game6-gameplay-container .start-game-btn:active {
-  transform: translateY(0);
-  box-shadow: 
-    0 4px 15px rgba(245, 174, 67, 0.3),
-    0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
 }
 
 .game6-gameplay-container .game-play-section {
@@ -241,7 +257,6 @@
   margin-bottom: 20px;
   position: relative;
   flex-direction: column;
-  overflow: hidden;
   min-height: 0;
 }
 
@@ -253,7 +268,6 @@
   align-items: center;
   padding: 40px;
   gap: 30px;
-  overflow: hidden;
   min-height: 0;
 }
 
@@ -262,10 +276,28 @@
   font-size: 1.5rem;
   font-weight: 500;
   padding: 20px 40px;
-  background: #f4c84c;
+  background: linear-gradient(135deg, #f4c84c 0%, #dca318 100%);
   border-radius: 50px;
   border: none;
   flex-shrink: 0;
+  position: relative;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game6-gameplay-container .question-number::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 100%);
+  border-radius: 50px;
+  z-index: -1;
 }
 
 .game6-gameplay-container .question-stack-wrapper {
@@ -308,7 +340,9 @@
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   border-radius: 20px;
   border: 6px solid #f5ae43;
-  box-shadow: 0 8px 25px rgba(1, 39, 91, 0.1);
+  box-shadow: 
+    0 15px 30px rgba(1, 39, 91, 0.15),
+    0 5px 15px rgba(1, 39, 91, 0.1);
   max-width: 50%;
   overflow: hidden;
 }
@@ -328,20 +362,16 @@
   padding: 40px 50px;
   border-radius: 20px;
   border: 6px solid #f5ae43;
-  box-shadow: 0 8px 25px rgba(1, 39, 91, 0.1);
+  box-shadow: 
+    0 15px 30px rgba(1, 39, 91, 0.15),
+    0 5px 15px rgba(1, 39, 91, 0.1);
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   position: relative;
 }
 
-.game6-gameplay-container .question-text-decoration {
-  grid-column: 1;
-  grid-row: 1;
-  position: relative;
-  pointer-events: none;
-  z-index: 1;
-}
+
 
 .game6-gameplay-container .question-text-content {
   grid-column: 1;
@@ -351,45 +381,19 @@
   font-weight: 700;
   line-height: 1.4;
   text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
   z-index: 2;
+  align-self: center;
+  justify-self: center;
+  max-width: 100%;
 }
 
-.game6-gameplay-container .question-mark-decoration-left {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 80px;
-  height: 80px;
-  opacity: 1;
-  transform: rotate(-15deg);
-}
 
-.game6-gameplay-container .bottom-right-decorations {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  gap: 0;
-  align-items: flex-end;
-}
-
-.game6-gameplay-container .question-mark-decoration-right {
-  width: 80px;
-  height: 80px;
-  opacity: 1;
-  margin-right: -20px;
-  transform: rotate(-10deg);
-}
-
-.game6-gameplay-container .exclamation-mark-decoration {
-  width: 80px;
-  height: 80px;
-  opacity: 1;
-  transform: rotate(10deg);
-}
 
 .game6-gameplay-container .penguin-decoration {
   width: 250px;
@@ -599,13 +603,38 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(245, 174, 67, 0.3);
+  position: relative;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game6-gameplay-container .round-start-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 100%);
+  border-radius: 25px;
+  z-index: -1;
 }
 
 .game6-gameplay-container .round-start-btn:hover {
   background: linear-gradient(135deg, #e49a2e 0%, #d7881f 100%);
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game6-gameplay-container .round-start-btn:active {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(245, 174, 67, 0.4);
 }
 
 .game6-gameplay-container .round-buttons {
@@ -623,11 +652,34 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game6-gameplay-container .replay-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 100%);
+  border-radius: 20px;
+  z-index: -1;
 }
 
 .game6-gameplay-container .replay-btn:hover {
   background: #5a6268;
-  transform: translateY(-1px);
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .game6-gameplay-container .prev-question-btn,
@@ -641,15 +693,37 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(255, 184, 77, 0.3);
   min-width: 120px;
+  position: relative;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game6-gameplay-container .prev-question-btn::before,
+.game6-gameplay-container .next-question-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 100%);
+  border-radius: 25px;
+  z-index: -1;
 }
 
 .game6-gameplay-container .prev-question-btn:hover,
 .game6-gameplay-container .next-question-btn:hover {
   background: linear-gradient(135deg, #ffb84d 0%, #f5ae43 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(255, 184, 77, 0.4);
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .game6-gameplay-container .game-complete-btn {
@@ -662,14 +736,35 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(255, 184, 77, 0.3);
   min-width: 120px;
+  position: relative;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game6-gameplay-container .game-complete-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 100%);
+  border-radius: 25px;
+  z-index: -1;
 }
 
 .game6-gameplay-container .game-complete-btn:hover {
   background: linear-gradient(135deg, #ffb84d 0%, #f5ae43 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(255, 184, 77, 0.4);
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .game6-gameplay-container .check-answer-btn {
@@ -682,15 +777,35 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(245, 174, 67, 0.4);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   min-width: 140px;
+  position: relative;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game6-gameplay-container .check-answer-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 100%);
+  border-radius: 30px;
+  z-index: -1;
 }
 
 .game6-gameplay-container .check-answer-btn:hover {
   background: linear-gradient(135deg, #e49a2e 0%, #d7881f 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(245, 174, 67, 0.5);
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .game6-gameplay-container .answer-image-container {
@@ -699,7 +814,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: transparent;
   overflow: hidden;
 }
 
@@ -725,15 +840,35 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(1, 39, 91, 0.4);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   min-width: 140px;
+  position: relative;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game6-gameplay-container .retry-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 100%);
+  border-radius: 30px;
+  z-index: -1;
 }
 
 .game6-gameplay-container .retry-btn:hover {
   background: linear-gradient(135deg, #011a3d 0%, #010f24 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(1, 39, 91, 0.5);
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .game6-gameplay-container .explanation-btn {
@@ -746,15 +881,35 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(245, 174, 67, 0.4);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   min-width: 140px;
+  position: relative;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game6-gameplay-container .explanation-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 100%);
+  border-radius: 30px;
+  z-index: -1;
 }
 
 .game6-gameplay-container .explanation-btn:hover {
   background: linear-gradient(135deg, #e49a2e 0%, #d7881f 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(245, 174, 67, 0.5);
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Modal Styles */

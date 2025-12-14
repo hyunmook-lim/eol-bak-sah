@@ -398,6 +398,18 @@
   letter-spacing: 0.5px;
 }
 
+.game6-build-container .label-with-counter {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.game6-build-container .char-counter {
+  font-size: 0.85rem;
+  color: #999;
+  font-weight: 500;
+}
+
 .game6-build-container .required {
   color: #d7560e;
   font-weight: 500;

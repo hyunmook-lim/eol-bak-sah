@@ -559,7 +559,6 @@
   left: 55%;
   top: 5%;
   animation: floatVertical1 7s ease-in-out infinite;
-  animation-delay: 1s;
   opacity: 0.9;
 }
 

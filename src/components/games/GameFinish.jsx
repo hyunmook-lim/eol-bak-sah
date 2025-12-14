@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import './GameFinish.css'
-const gameFinished = '/images/game-finished.png'
+
 
 function GameFinish() {
   const navigate = useNavigate()
@@ -40,7 +40,13 @@ function GameFinish() {
       
       <div className="finish-content">
         <div className="finish-image">
-          <img src={gameFinished} alt="게임 완료" />
+          <video 
+            src="/videos/game-finished.mp4" 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+          />
         </div>
         
         <div className="finish-buttons">

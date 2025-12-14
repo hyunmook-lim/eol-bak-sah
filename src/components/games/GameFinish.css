@@ -47,41 +47,40 @@
 
 .game-finish-container .finish-content {
   position: absolute;
-  top: 80px;
+  top: 80px; /* Keep header visible */
   left: 0;
   right: 0;
   bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 50px;
-  text-align: center;
-  gap: 50px;
+  padding: 0;
+  overflow: hidden;
 }
 
 .game-finish-container .finish-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  min-height: 0;
+  height: 100%;
+  z-index: 1;
 }
 
-.game-finish-container .finish-image img {
-  max-width: 90%;
-  max-height: 50vh;
-  width: auto;
-  height: auto;
-  object-fit: contain;
+.game-finish-container .finish-image video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .game-finish-container .finish-buttons {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
   display: flex;
   gap: 30px;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 }
 
 .game-finish-container .replay-game-btn {
@@ -121,12 +120,10 @@
 }
 
 @media (max-width: 1024px) {
-  .game-finish-container .finish-image img {
-    max-height: 40vh;
-  }
-
+  /* No specific overrides needed for video size as it's 100% cover now */
   .game-finish-container .finish-buttons {
     gap: 20px;
+    bottom: 40px;
   }
 
   .game-finish-container .replay-game-btn,
@@ -152,20 +149,14 @@
   }
 
   .game-finish-container .finish-content {
-    padding: 20px 15px;
     top: 70px;
-    gap: 30px;
-  }
-
-  .game-finish-container .finish-image img {
-    max-height: 35vh;
-    max-width: 85%;
   }
 
   .game-finish-container .finish-buttons {
     flex-direction: column;
     gap: 12px;
-    width: 100%;
+    padding: 0 20px;
+    bottom: 30px;
   }
 
   .game-finish-container .replay-game-btn,
@@ -193,18 +184,12 @@
   }
 
   .game-finish-container .finish-content {
-    padding: 15px 10px;
     top: 60px;
-    gap: 25px;
-  }
-
-  .game-finish-container .finish-image img {
-    max-height: 30vh;
-    max-width: 90%;
   }
 
   .game-finish-container .finish-buttons {
     gap: 10px;
+    bottom: 25px;
   }
 
   .game-finish-container .replay-game-btn,
