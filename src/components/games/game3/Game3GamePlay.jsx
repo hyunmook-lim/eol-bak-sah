@@ -87,7 +87,7 @@ function Game3GamePlay() {
         setIsAnimating(true)
 
         // 속도에 따른 애니메이션 시간 계산
-        const animationDuration = (6 - speed) * 1000
+        const animationDuration = (6 - speed) * 600
         console.log('Animation duration:', animationDuration)
 
         const timer1 = setTimeout(() => {
@@ -350,7 +350,7 @@ function Game3GamePlay() {
         ) : (
           <div className="game-play-section">
             <div className="game-screen-container">
-              <div className={`character-container ${isAnimating ? 'animating' : ''} ${showAnswer ? 'show-answer' : ''} ${!roundStarted ? 'pre-round' : ''}`} style={{ '--animation-duration': `${(6 - speed)}s` }}>
+              <div className={`character-container ${isAnimating ? 'animating' : ''} ${showAnswer ? 'show-answer' : ''} ${!roundStarted ? 'pre-round' : ''}`} style={{ '--animation-duration': `${(6 - speed) * 0.6}s` }}>
                 <div className="question-box">
                   <div className="question-ice-container">
                     <img src={questionIce} alt="Question Ice" className="question-ice" />

@@ -252,9 +252,19 @@ function Game6Build() {
           <div className="divider"></div>
           
           <div className="completion-section">
+            {questions.length === 0 ? (
+              <span className="completion-warning">
+                * 문제를 1문제 이상 추가해주세요
+              </span>
+            ) : questions.some(q => !q.question || !q.question.trim()) ? (
+              <span className="completion-warning">
+                * 모든 문제의 필수 항목을 입력해주세요
+              </span>
+            ) : null}
             <button 
               className="complete-btn"
               onClick={handleComplete}
+              disabled={questions.length === 0 || questions.some(q => !q.question || !q.question.trim())}
             >
               완료
             </button>

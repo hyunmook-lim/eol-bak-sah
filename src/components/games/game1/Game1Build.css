@@ -128,6 +128,7 @@
   font-size: 1rem;
   margin: 0;
   line-height: 1.4;
+  font-weight: normal;
 }
 
 .game1-build-container .divider {
@@ -206,6 +207,7 @@
   font-size: 0.9rem;
   margin: 0;
   line-height: 1.4;
+  font-weight: normal;
 }
 
 .game1-build-container .questions-list {
@@ -306,6 +308,20 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
+  align-items: center;
+  gap: 15px;
+}
+
+.game1-build-container .completion-warning {
+  color: #ff4d4f;
+  font-size: 0.9rem;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .game1-build-container .complete-btn {

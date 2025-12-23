@@ -285,6 +285,19 @@ function Game9Build() {
           <div className="divider"></div>
 
           <div className="completion-section">
+            {!title.trim() ? (
+              <span className="completion-warning">
+                * 투표 제목을 입력해주세요
+              </span>
+            ) : candidates.length < 2 ? (
+              <span className="completion-warning">
+                * 후보를 최소 2개 이상 추가해주세요
+              </span>
+            ) : candidates.some(c => !c.name.trim()) ? (
+              <span className="completion-warning">
+                * 모든 후보의 이름을 입력해주세요
+              </span>
+            ) : null}
             <button
               className="complete-btn"
               onClick={handleComplete}

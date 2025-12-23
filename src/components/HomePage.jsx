@@ -91,9 +91,9 @@ function HomePage() {
           }
           
           // 남은 거리에 비례해서 증가 (부드러운 감속 효과)
-          // 최소 1씩은 증가하도록 설정
+          // 최소 1씩은 증가하되, 최대 0.5씩만 증가하도록 제한하여 천천히 차오르게 함
           const diff = target - prev
-          const step = Math.ceil(diff * 0.1) 
+          const step = Math.min(Math.ceil(diff * 0.1), 0.5)
           return Math.min(prev + step, 100)
         })
         
@@ -287,7 +287,7 @@ function HomePage() {
               style={{ width: `${loadingProgress}%` }}
             ></div>
           </div>
-          <p className="loading-percentage">{loadingProgress}%</p>
+          <p className="loading-percentage">{Math.floor(loadingProgress)}%</p>
           <p className="loading-notice">💻 PC에 최적화 되어있습니다</p>
         </div>
       </div>

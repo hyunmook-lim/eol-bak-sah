@@ -148,9 +148,19 @@ function Game7Build() {
           <div className="divider"></div>
 
           <div className="completion-section">
+            {cardPairs.length < 3 ? (
+              <span className="completion-warning">
+                * 카드 쌍을 최소 3개 이상 추가해주세요
+              </span>
+            ) : cardPairs.some(c => !c.image) ? (
+              <span className="completion-warning">
+                * 모든 카드에 이미지를 추가해주세요
+              </span>
+            ) : null}
             <button
               className="complete-btn"
               onClick={handleComplete}
+              disabled={cardPairs.length < 3 || cardPairs.some(c => !c.image)}
             >
               완료
             </button>

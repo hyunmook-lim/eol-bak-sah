@@ -6,6 +6,14 @@ function NoticeModal({ isOpen, onClose }) {
 
   const notices = [
     {
+      date: '2025.12.24',
+      title: '업데이트 안내',
+      items: [
+        { segments: [{ highlight: '게임 만들기' }, { text: ' 화면에 안내문구를 추가했습니다.' }] },
+        { segments: [{ highlight: '슝 글자게임 (단어)' }, { text: '의 속도를 더 빠르게 수정했습니다.' }] }
+      ]
+    },
+    {
       date: '2025.12.14',
       title: '업데이트 안내',
       items: [

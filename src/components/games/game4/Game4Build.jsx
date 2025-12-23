@@ -167,6 +167,11 @@ function Game4Build() {
           <div className="divider"></div>
           
           <div className="completion-section">
+            {questions.length === 0 && (
+              <span className="completion-warning">
+                * 문제를 1문제 이상 추가해주세요
+              </span>
+            )}
             <button 
               className="complete-btn"
               onClick={handleComplete}

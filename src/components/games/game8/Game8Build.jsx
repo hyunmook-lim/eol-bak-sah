@@ -172,6 +172,15 @@ function Game8Build() {
           </div>
 
           <div className="completion-section">
+            {questions.length === 0 ? (
+              <span className="completion-warning">
+                * 문제를 1문제 이상 추가해주세요
+              </span>
+            ) : questions.some(q => !q.answer.trim()) ? (
+              <span className="completion-warning">
+                * 모든 문제의 정답을 입력해주세요
+              </span>
+            ) : null}
             <button
               className="complete-btn"
               onClick={handleComplete}
