@@ -26,6 +26,11 @@ function HomePage() {
 
   // 리소스 프리로딩
   useEffect(() => {
+    // 실제 로딩 진행률을 추적하는 ref
+    const targetProgressRef = { current: 0 }
+    // 애니메이션 인터벌 id
+    let animationFrameId
+
     const preloadResources = async () => {
       // 모바일 기기 감지
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768
@@ -72,20 +77,46 @@ function HomePage() {
       let loaded = 0
       const total = resources.length
 
+      // 부드러운 진행률 업데이트를 위한 애니메이션 루프
+      const updateProgress = () => {
+        setLoadingProgress(prev => {
+          const target = targetProgressRef.current
+          if (prev >= target) {
+            // 목표에 도달했고, 100%라면 로딩 종료 (약간의 지연 추가)
+            if (prev >= 100) {
+              // 100% 도달 후 잠시 대기했다가 로딩 화면 제거
+              return 100
+            }
+            return prev
+          }
+          
+          // 남은 거리에 비례해서 증가 (부드러운 감속 효과)
+          // 최소 1씩은 증가하도록 설정
+          const diff = target - prev
+          const step = Math.ceil(diff * 0.1) 
+          return Math.min(prev + step, 100)
+        })
+        
+        animationFrameId = requestAnimationFrame(updateProgress)
+      }
+      
+      // 애니메이션 시작
+      updateProgress()
+
       const loadPromises = resources.map((src) => {
         return new Promise((resolve) => {
           // 5초 타임아웃 설정
           const timeout = setTimeout(() => {
             console.warn(`Timeout loading: ${src}`)
             loaded++
-            setLoadingProgress(Math.round((loaded / total) * 100))
+            targetProgressRef.current = Math.round((loaded / total) * 100)
             resolve()
           }, 5000)
 
           const clearTimeoutAndResolve = () => {
             clearTimeout(timeout)
             loaded++
-            setLoadingProgress(Math.round((loaded / total) * 100))
+            targetProgressRef.current = Math.round((loaded / total) * 100)
             resolve()
           }
 
@@ -114,10 +145,29 @@ function HomePage() {
       })
 
       await Promise.all(loadPromises)
-      setIsLoading(false)
+      
+      // 모든 로딩이 끝나면 확실하게 100%로 설정
+      targetProgressRef.current = 100
+      
+      // 시각적으로 100%가 될 때까지 기다렸다가 로딩 해제 확인을 위한 체크
+      const checkCompletion = setInterval(() => {
+        setLoadingProgress(current => {
+          if (current >= 100) {
+            clearInterval(checkCompletion)
+            cancelAnimationFrame(animationFrameId)
+            setTimeout(() => setIsLoading(false), 500) // 0.5초 후 로딩 화면 제거
+            return 100
+          }
+          return current
+        })
+      }, 100)
     }
 
     preloadResources()
+    
+    return () => {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId)
+    }
   }, [])
 
   const handleCardMouseMove = (e, gameId) => {
