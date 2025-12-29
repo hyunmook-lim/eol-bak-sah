@@ -6,6 +6,14 @@ function NoticeModal({ isOpen, onClose }) {
 
   const notices = [
     {
+      date: '2025.12.30',
+      title: '업데이트 안내',
+      items: [
+        { segments: [{ highlight: '게임 만들기' }, { text: ' 의 삭제 버튼의 아이콘을 수정했습니다.' }] },
+        { segments: [{ highlight: '투표' }, { text: ' 의 작은 버그들을 수정했습니다.' }] }
+      ]
+    },
+    {
       date: '2025.12.24',
       title: '업데이트 안내',
       items: [

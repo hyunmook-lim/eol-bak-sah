@@ -9,6 +9,7 @@ const fightPenguinRed = '/images/fight-penguin-red.png'
 const voteBlackIcon = '/images/vote-black.png'
 const voteRedIcon = '/images/vote-red.png'
 const crownIcon = '/images/crown.png'
+const stageImage = '/images/stage.png'
 const winnerSound = '/sounds/vote-winner.wav'
 
 function Game9GamePlay() {
@@ -17,7 +18,11 @@ function Game9GamePlay() {
   const title = useMemo(() => location.state?.title || '', [location.state?.title])
 
   // candidates를 state로 관리하여 득표수 업데이트 가능하도록 변경
-  const [candidates, setCandidates] = useState(location.state?.candidates || [])
+  const [candidates, setCandidates] = useState(location.state?.candidates || [
+    { id: 1, number: 1, name: '후보 1 (이름+설명)', description: '이미지 없는 후보 테스트입니다.\n가운데 정렬이 잘 되는지 확인해주세요.', image: null, votes: 3 },
+    { id: 2, number: 2, name: '후보 2 (이름만)', description: '설명이 아주 긴 경우에도 어떻게 보이는지 확인해봅시다. 줄바꿈이 되면 자동으로 늘어납니다.', image: null, votes: 5 },
+    { id: 3, number: 3, name: '후보 3', description: '간단한 설명', image: null, votes: 2 }
+  ])
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [showBackConfirmModal, setShowBackConfirmModal] = useState(false)
   const [isSoundOn, setIsSoundOn] = useState(true)
@@ -107,6 +112,8 @@ function Game9GamePlay() {
     setShowResults(false)
   }
 
+  const [showTieWarningModal, setShowTieWarningModal] = useState(false)
+
   // 결과 확인 함수
   const handleShowResults = () => {
     // 최고 득표수 찾기
@@ -114,7 +121,13 @@ function Game9GamePlay() {
     // 최고 득표수를 가진 후보들 찾기
     const winners = candidates.filter(c => c.votes === maxVotes)
 
-    // 동점자가 있는지 확인
+    // 동점자가 3명 이상인지 확인
+    if (winners.length >= 3) {
+      setShowTieWarningModal(true)
+      return
+    }
+
+    // 동점자가 있는지 확인 (2명인 경우)
     if (winners.length > 1) {
       setShowTieModal(true)
     } else {
@@ -131,6 +144,10 @@ function Game9GamePlay() {
   // 동점 모달에서 취소 클릭
   const handleCancelTie = () => {
     setShowTieModal(false)
+  }
+
+  const handleCloseTieWarning = () => {
+    setShowTieWarningModal(false)
   }
 
   // 가장 많은 투표를 받은 후보들 찾기 (동점자 포함)
@@ -234,22 +251,34 @@ function Game9GamePlay() {
                             <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
                             <h3 className="candidate-name">{candidate.name}</h3>
                           </>
+                        ) : candidate.image ? (
+                          // 이미지가 있을 때: 좌측 텍스트(번호+이름+설명), 우측 이미지
+                          <div className="candidate-layout-horizontal">
+                            <div className="candidate-text-section">
+                              <div className="candidate-header">
+                                <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
+                                <h3 className="candidate-name-with-content">{candidate.name}</h3>
+                              </div>
+                              {candidate.description && (
+                                <p className="candidate-description">{candidate.description}</p>
+                              )}
+                            </div>
+
+                            <div className="candidate-image-section">
+                              <img src={candidate.image} alt={candidate.name} className="candidate-image" />
+                            </div>
+                          </div>
                         ) : (
-                          // 설명이나 이미지가 있을 때: 번호+이름 상단, 컨텐츠 중앙
+                          // 이미지가 없을 때 (이름+설명만): 기존 버티컬 레이아웃
                           <>
                             <div className="candidate-header">
                               <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
                               <h3 className="candidate-name-with-content">{candidate.name}</h3>
                             </div>
 
-                            <div className="candidate-content">
-                              {candidate.image && (
-                                <div className="candidate-image-container">
-                                  <img src={candidate.image} alt={candidate.name} className="candidate-image" />
-                                </div>
-                              )}
+                            <div className="candidate-content-vertical">
                               {candidate.description && (
-                                <p className="candidate-description">{candidate.description}</p>
+                                <p className="candidate-description-centered">{candidate.description}</p>
                               )}
                             </div>
                           </>
@@ -338,22 +367,34 @@ function Game9GamePlay() {
                                   <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{winner.number}</div>
                                   <h3 className="candidate-name">{winner.name}</h3>
                                 </>
+                              ) : winner.image ? (
+                                // 이미지가 있을 때: 좌측 텍스트(번호+이름+설명), 우측 이미지
+                                <div className="candidate-layout-horizontal">
+                                  <div className="candidate-text-section">
+                                    <div className="candidate-header">
+                                      <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{winner.number}</div>
+                                      <h3 className="candidate-name-with-content">{winner.name}</h3>
+                                    </div>
+                                    {winner.description && (
+                                      <p className="candidate-description">{winner.description}</p>
+                                    )}
+                                  </div>
+
+                                  <div className="candidate-image-section">
+                                    <img src={winner.image} alt={winner.name} className="candidate-image" />
+                                  </div>
+                                </div>
                               ) : (
-                                // 설명이나 이미지가 있을 때: 번호+이름 상단, 컨텐츠 중앙
+                                // 이미지가 없을 때 (이름+설명만): 기존 버티컬 레이아웃
                                 <>
                                   <div className="candidate-header">
                                     <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{winner.number}</div>
                                     <h3 className="candidate-name-with-content">{winner.name}</h3>
                                   </div>
 
-                                  <div className="candidate-content">
-                                    {winner.image && (
-                                      <div className="candidate-image-container">
-                                        <img src={winner.image} alt={winner.name} className="candidate-image" />
-                                      </div>
-                                    )}
+                                  <div className="candidate-content-vertical">
                                     {winner.description && (
-                                      <p className="candidate-description">{winner.description}</p>
+                                      <p className="candidate-description-centered">{winner.description}</p>
                                     )}
                                   </div>
                                 </>
@@ -379,6 +420,9 @@ function Game9GamePlay() {
                         )
                       })}
                     </div>
+                    
+                    {/* 스테이지 이미지 (배경) */}
+                    <img src={stageImage} alt="Stage" className="result-stage-image" />
 
                     {/* 결과 화면 액션 버튼들 */}
                     <div className="result-action-buttons">
@@ -448,6 +492,22 @@ function Game9GamePlay() {
               </button>
               <button className="cancel-btn" onClick={handleCancelTie}>
                 아니오
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showTieWarningModal && (
+        <div className="confirm-modal-overlay" onClick={handleCloseTieWarning}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>동점자가 너무 많습니다.</h3>
+              <p>동점자가 3명 이상일 경우 결과를<br/>확인할 수 없습니다. 재투표를 진행해주세요.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleCloseTieWarning}>
+                확인
               </button>
             </div>
           </div>

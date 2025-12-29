@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import LandscapeOnly from '../common/LandscapeOnly'
 import './GameVideo.css'
 
-function GameVideo({ gameVideos }) {
+function GameVideoContent({ gameVideos }) {
   const navigate = useNavigate()
   const { gameNumber } = useParams()
   const videoRef = useRef(null)
@@ -54,8 +54,7 @@ function GameVideo({ gameVideos }) {
   }
 
   return (
-    <LandscapeOnly>
-      <div className="game-video-container">
+    <div className="game-video-container">
       <header className="game-title-header">
         <button onClick={handleBackToHome} className="header-back-btn">
           <div className="arrow-left"></div>
@@ -111,6 +110,13 @@ function GameVideo({ gameVideos }) {
         </div>
       </div>
     </div>
+  )
+}
+
+function GameVideo({ gameVideos }) {
+  return (
+    <LandscapeOnly mountOnlyInLandscape={true}>
+      <GameVideoContent gameVideos={gameVideos} />
     </LandscapeOnly>
   )
 }

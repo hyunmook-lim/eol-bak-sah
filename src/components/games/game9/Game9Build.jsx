@@ -120,7 +120,7 @@ function Game9Build() {
         id: c.id,
         number: index + 1,
         name: c.name.trim(),
-        description: c.description.trim() || null,
+        description: (c.description || '').trim() || null,
         image: c.image || null,
         votes: 0
       }))
@@ -141,7 +141,9 @@ function Game9Build() {
         </button>
         <h1>투표 만들기</h1>
         <button onClick={handleBackToHome} className="header-close-btn">
-          X
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
       </header>
 
@@ -267,7 +269,9 @@ function Game9Build() {
                     className="delete-candidate-btn"
                     onClick={() => handleDeleteCandidate(candidate.id)}
                   >
-                    X
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                   </button>
                 </div>
               </div>
@@ -281,6 +285,7 @@ function Game9Build() {
           >
             + 후보 추가
           </button>
+
 
           <div className="divider"></div>
 
