@@ -55,7 +55,7 @@ function FeedbackModal({ isOpen, onClose }) {
 
         <h2 className="modal-title">의견 보내기</h2>
         <p className="modal-description">
-          얼박사에 대한 의견이나 제안사항을 보내주세요!
+          의견이나 새로운 게임에 대한 아이디어를 보내주세요!
         </p>
 
         <form onSubmit={handleSubmit} className="feedback-form">
@@ -77,7 +77,7 @@ function FeedbackModal({ isOpen, onClose }) {
               id="message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="의견이나 제안사항을 자유롭게 작성해주세요"
+              placeholder="의견이나 새로운 게임에 대한 아이디어를 자유롭게 작성해주세요"
               className="form-textarea"
               rows="6"
               maxLength={200}
