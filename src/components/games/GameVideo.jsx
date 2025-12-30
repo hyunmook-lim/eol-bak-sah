@@ -3,6 +3,19 @@ import { useState, useRef, useEffect } from 'react'
 import LandscapeOnly from '../common/LandscapeOnly'
 import './GameVideo.css'
 
+const gameImages = {
+  1: ['/images/running-penguin.png', '/images/question-mark.png', '/images/background.png'],
+  2: ['/images/dirty-window.png', '/images/cleaning-hand.png', '/images/spray.png', '/images/bubble.png', '/images/background_cleaning_window.png'],
+  3: ['/images/running-penguin.png', '/images/question-mark.png', '/images/question-ice.png', '/images/background.png'],
+  4: ['/images/question-mark.png', '/images/question-ice.png', '/images/background.png'],
+  5: ['/images/king-se-jong.png', '/images/background-first-char.png', '/images/first-char-plate.png'],
+  6: ['/images/answer-is-o.png', '/images/answer-is-x.png', '/images/ox-penguin.png', '/images/background-ox-quiz.png'],
+  7: ['/images/question-mark-3d.png', '/images/penguin-foot.png', '/images/background-flipped-card.png'],
+  8: ['/images/background.png', '/images/finding-penguin.png'],
+  9: ['/images/fight-penguin-blue.png', '/images/fight-penguin-red.png', '/images/vote-black.png', '/images/vote-red.png', '/images/crown.png', '/images/stage.png', '/images/background-vote.png', '/images/background-vote-result.png']
+}
+
+
 function GameVideoContent({ gameVideos }) {
   const navigate = useNavigate()
   const { gameNumber } = useParams()
@@ -13,6 +26,16 @@ function GameVideoContent({ gameVideos }) {
 
   // 게임 번호에 해당하는 비디오 URL 가져오기
   const videoUrl = gameVideos?.[gameNumber]
+
+  // 이미지 프리로딩
+  useEffect(() => {
+    const imagesToPreload = gameImages[gameNumber] || []
+    imagesToPreload.forEach(src => {
+      const img = new Image()
+      img.src = src
+    })
+  }, [gameNumber])
+
 
   // 2초 후 페이드아웃 시작, 페이드아웃 완료 후 메시지 제거 및 비디오 자동재생
   useEffect(() => {

@@ -10,7 +10,8 @@ function NoticeModal({ isOpen, onClose }) {
       title: '업데이트 안내',
       items: [
         { segments: [{ highlight: '게임 만들기' }, { text: ' 의 삭제 버튼의 아이콘을 수정했습니다.' }] },
-        { segments: [{ highlight: '투표' }, { text: ' 의 작은 버그들을 수정했습니다.' }] }
+        { segments: [{ highlight: '투표' }, { text: ' 의 작은 버그들을 수정했습니다.' }] },
+        { segments: [{ text: '이미지가 변경된 게임의 ' }, { highlight: '섬네일과 영상' }, { text: '을 수정했습니다.' }] }
       ]
     },
     {
