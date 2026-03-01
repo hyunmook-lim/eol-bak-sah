@@ -6,6 +6,13 @@ function NoticeModal({ isOpen, onClose }) {
 
   const notices = [
     {
+      date: '2026.03.01',
+      title: '업데이트 안내',
+      items: [
+        { segments: [{ highlight: '투표' }, { text: ' 게임의 버그를 수정했습니다.' }] }
+      ]
+    },
+    {
       date: '2025.12.30',
       title: '업데이트 안내',
       items: [

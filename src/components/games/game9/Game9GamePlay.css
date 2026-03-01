@@ -456,9 +456,16 @@
   white-space: pre-wrap;
   text-align: center;
   width: 100%;
-  padding: 10px 0;
+  padding: 10px 20px;
   word-break: keep-all;
   flex-shrink: 0;
+}
+
+.game9-gameplay-container .candidate-card.simple .candidate-description-bottom {
+  position: absolute;
+  bottom: 2vh;
+  left: 0;
+  padding-bottom: 0;
 }
 
 
@@ -551,35 +558,42 @@
 }
 
 /* 결과 화면 */
+.game9-gameplay-container .results-container,
+.game9-gameplay-container .results-container * {
+  box-sizing: border-box;
+}
+
 .game9-gameplay-container .results-container {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 100%;
-  max-width: 1200px;
+  width: 70%;
   margin: 0 auto;
-  padding-top: 40px;
-  position: relative; /* Context for absolute positioning of stage */
+  padding: 40px 20px 20vh;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
 }
 
 .game9-gameplay-container .result-stage-image {
   position: absolute;
-  bottom: 5%; /* Adjusted to 5% to balance overlap and visibility */
+  bottom: 2vh; /* Shifted up to close the gap */
   left: 50%;
   transform: translateX(-50%);
-  width: 60%; /* Reduced from 90% to ~2/3 size */
-  max-width: 700px; /* Reduced from 1000px */
-  z-index: 1; /* Behind winners (winners need higher z-index) */
+  width: 100%;
+  max-width: 1100px;
+  z-index: 1;
   pointer-events: none;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .game9-gameplay-container .winner-crown {
-  height: 150px;
+  height: clamp(80px, 12vh, 120px); /* More responsive height */
   object-fit: contain;
-  transform: translateY(40px);
+  transform: translateY(30px);
   position: relative;
   z-index: 10;
 }
@@ -590,20 +604,22 @@
   gap: 40px;
   width: 100%;
   max-width: 1200px;
-  margin-top: -50px; /* Lift up to reduce overlap with stage */
+  margin-top: auto; /* Push to bottom safely */
   position: relative;
-  z-index: 5; /* Ensure above stage image */
+  z-index: 5;
 }
 
 .game9-gameplay-container .winners-grid.single-winner {
   grid-template-columns: 1fr;
-  max-width: 600px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .game9-gameplay-container .winner-card-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px; /* Tightened gap */
   align-items: center;
   width: 100%;
   position: relative;
@@ -612,8 +628,9 @@
 
 .game9-gameplay-container .winner-card {
   width: 100%;
-  max-height: 50vh;
-  min-height: 25vh; /* Reduced min-height */
+  min-width: min(400px, 90vw); /* Ensure minimum horizontal presence */
+  max-height: 40vh;
+  min-height: 25vh; /* Increased for better visibility */
 }
 
 .game9-gameplay-container .winner-votes-display {

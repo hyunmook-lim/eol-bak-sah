@@ -29,7 +29,7 @@ function Game9GamePlay() {
   const [showVotes, setShowVotes] = useState(false)
   const [clickedCard, setClickedCard] = useState(null)
   const [showResults, setShowResults] = useState(false)
-  const [showTieModal, setShowTieModal] = useState(false)
+  const [showTieWarningModal, setShowTieWarningModal] = useState(false)
 
   useEffect(() => {
     // 게임 진입 시 스크롤 방지
@@ -112,8 +112,6 @@ function Game9GamePlay() {
     setShowResults(false)
   }
 
-  const [showTieWarningModal, setShowTieWarningModal] = useState(false)
-
   // 결과 확인 함수
   const handleShowResults = () => {
     // 최고 득표수 찾기
@@ -121,29 +119,14 @@ function Game9GamePlay() {
     // 최고 득표수를 가진 후보들 찾기
     const winners = candidates.filter(c => c.votes === maxVotes)
 
-    // 동점자가 3명 이상인지 확인
-    if (winners.length >= 3) {
+    // 동점자가 있는지 확인 (2명 이상)
+    if (winners.length > 1) {
       setShowTieWarningModal(true)
       return
     }
 
-    // 동점자가 있는지 확인 (2명인 경우)
-    if (winners.length > 1) {
-      setShowTieModal(true)
-    } else {
-      setShowResults(true)
-    }
-  }
-
-  // 동점 모달에서 예 클릭
-  const handleConfirmTie = () => {
-    setShowTieModal(false)
+    // 단독 우승자가 있는 경우에만 결과 표시
     setShowResults(true)
-  }
-
-  // 동점 모달에서 취소 클릭
-  const handleCancelTie = () => {
-    setShowTieModal(false)
   }
 
   const handleCloseTieWarning = () => {
@@ -236,19 +219,21 @@ function Game9GamePlay() {
 
                   const backgroundColor = pastelColors[index % pastelColors.length]
                   const badgeColor = darkPastelColors[index % darkPastelColors.length]
-                  const hasContent = candidate.description || candidate.image
 
                   return (
                     <div key={candidate.id} className="candidate-wrapper">
                       <div
-                        className={`candidate-card ${!hasContent ? 'simple' : ''}`}
+                        className={`candidate-card ${!candidate.image ? 'simple' : ''}`}
                         style={{ '--card-bg-color': backgroundColor }}
                         onClick={() => handleVote(candidate.id)}
                       >
-                        {!hasContent ? (
+                        {!candidate.image ? (
                           <>
                             <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
                             <h3 className="candidate-name">{candidate.name}</h3>
+                            {candidate.description && (
+                              <p className="candidate-description-bottom">{candidate.description}</p>
+                            )}
                           </>
                         ) : (
                           <>
@@ -257,11 +242,9 @@ function Game9GamePlay() {
                                 <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
                                 <h3 className="candidate-name-with-content">{candidate.name}</h3>
                               </div>
-                              {candidate.image && (
-                                <div className="candidate-image-section">
-                                  <img src={candidate.image} alt={candidate.name} className="candidate-image" />
-                                </div>
-                              )}
+                              <div className="candidate-image-section">
+                                <img src={candidate.image} alt={candidate.name} className="candidate-image" />
+                              </div>
                             </div>
                             {candidate.description && (
                               <p className="candidate-description-bottom">{candidate.description}</p>
@@ -449,31 +432,12 @@ function Game9GamePlay() {
         </div>
       )}
 
-      {showTieModal && (
-        <div className="confirm-modal-overlay" onClick={handleCancelTie}>
-          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="confirm-modal-body">
-              <h3>동률이 있습니다.</h3>
-              <p>그래도 결과를 발표하겠습니까?</p>
-            </div>
-            <div className="confirm-modal-buttons">
-              <button className="confirm-btn" onClick={handleConfirmTie}>
-                예
-              </button>
-              <button className="cancel-btn" onClick={handleCancelTie}>
-                아니오
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {showTieWarningModal && (
         <div className="confirm-modal-overlay" onClick={handleCloseTieWarning}>
           <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="confirm-modal-body">
-              <h3>동점자가 너무 많습니다.</h3>
-              <p>동점자가 3명 이상일 경우 결과를<br/>확인할 수 없습니다. 재투표를 진행해주세요.</p>
+              <h3>동점자가 발생했습니다.</h3>
+              <p>동점자가 있을 경우 결과를 확인할 수 없습니다.<br/>단일 우승자가 나올 때까지 재투표를 진행해주세요.</p>
             </div>
             <div className="confirm-modal-buttons">
               <button className="confirm-btn" onClick={handleCloseTieWarning}>
