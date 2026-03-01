@@ -121,62 +121,52 @@
 .game9-gameplay-container .vote-title-section {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 30px;
   padding-top: 30px;
   position: relative;
   min-height: 80px;
+  background: transparent;
 }
 
 .game9-gameplay-container .vote-title-box {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 40px;
+  padding: 15px 60px;
   background: linear-gradient(180deg, #f5ae43 0%, #e49a2e 100%);
   border-radius: 20px;
-  box-shadow:
-    0 8px 16px rgba(0, 0, 0, 0.2),
-    0 4px 8px rgba(0, 0, 0, 0.1),
-    inset 0 2px 4px rgba(255, 255, 255, 0.3),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 300px;
-  max-width: 600px;
+  min-width: 500px;
+  max-width: 1000px;
+  box-sizing: border-box;
 }
 
-.game9-gameplay-container .vote-title-box::before {
-  content: '';
-  position: absolute;
-  top: -3px;
-  left: -3px;
-  right: -3px;
-  bottom: -3px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 100%);
-  border-radius: 20px;
-  z-index: -1;
-}
+/* ::before removed to eliminate semi-transparent artifacts */
 
 .game9-gameplay-container .vote-title {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 3.5rem;
+  font-weight: 800;
   color: white;
   margin: 0;
   text-shadow:
-    2px 2px 4px rgba(0, 0, 0, 0.3),
-    0 0 10px rgba(255, 255, 255, 0.2);
-  letter-spacing: 1px;
+    3px 3px 6px rgba(0, 0, 0, 0.4),
+    0 0 15px rgba(255, 255, 255, 0.3);
+  letter-spacing: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
 }
 
 .game9-gameplay-container .control-buttons {
+  position: absolute;
+  right: 0;
   display: flex;
   gap: 15px;
   align-items: center;
-  margin-left: auto;
-  padding-right: 200px;
+  padding-right: 30px;
 }
 
 .game9-gameplay-container .toggle-item {
@@ -370,12 +360,17 @@
 }
 
 .game9-gameplay-container .candidate-card.simple .candidate-name {
-  font-size: min(3.5rem, 6vh);
-  font-weight: 700;
+  font-size: min(9rem, 15vh);
+  font-weight: 800;
   color: #01275b;
   margin: 0;
   text-align: center;
-  padding: 0 60px;
+  padding: 0 30px;
+  width: 100%;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-height: 1.15;
 }
 
 /* 컨텐츠가 있는 카드 - 헤더 (번호 + 이름) */
@@ -395,101 +390,77 @@
   flex-shrink: 0;
 }
 
-.game9-gameplay-container .candidate-name-with-content {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #01275b;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
-/* Horizontal Layout for Content */
-.game9-gameplay-container .candidate-layout-horizontal {
+/* Side-by-Side Layout for Content */
+.game9-gameplay-container .candidate-top-content {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100%;
-  gap: 15px;
+  gap: 20px;
   align-items: stretch;
-}
-
-/* Left Column: Text Section */
-.game9-gameplay-container .candidate-text-section {
-  display: flex;
-  flex-direction: column;
-  flex: 4; /* Takes 40% if image exists, 100% if not */
-  min-width: 0;
-  padding-right: 15px; /* Add spacing between text and image */
-}
-
-.game9-gameplay-container .candidate-text-section .candidate-header {
-  margin-bottom: 10px;
-  justify-content: flex-start;
-}
-
-.game9-gameplay-container .candidate-text-section .candidate-name-with-content {
-  text-align: left;
-  white-space: normal; /* Allow wrapping if needed in column */
-  word-break: keep-all;
-  line-height: 1.2;
-}
-
-.game9-gameplay-container .candidate-text-section .candidate-description {
-  font-size: 1rem;
-  color: #333;
-  margin: 0;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  text-align: left;
-  flex: 1;
-  overflow-y: auto; /* Scroll if too long */
-  display: block; /* Ensure text block behavior */
-}
-
-/* Vertical Layout (Text Only) */
-.game9-gameplay-container .candidate-content-vertical {
-  width: 100%;
   flex: 1;
   min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  margin-bottom: 1vh;
 }
 
-.game9-gameplay-container .candidate-description-centered {
-  font-size: 1rem;
-  color: #333;
-  margin: 0;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  text-align: center;
+.game9-gameplay-container .candidate-info-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  min-width: 0;
+  padding: 5px 0;
 }
 
-/* Right Column: Image Section */
+.game9-gameplay-container .candidate-info-left .candidate-number {
+  margin-bottom: 0;
+}
+
+.game9-gameplay-container .candidate-name-with-content {
+  font-size: min(5.5rem, 8vw);
+  font-weight: 800;
+  color: #01275b;
+  margin: auto 0;
+  width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  line-height: 1.15;
+  text-align: center;
+}
+
 .game9-gameplay-container .candidate-image-section {
-  flex: 6; /* Takes 60% relative to text */
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.5);
-  height: auto; /* Allow height to fit parent */
+  min-height: 0;
 }
 
 .game9-gameplay-container .candidate-image-section .candidate-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Fill the area */
+  object-fit: cover;
 }
+
+.game9-gameplay-container .candidate-description-bottom {
+  font-size: 2.5rem;
+  color: #333;
+  margin: 0;
+  margin-top: auto;
+  line-height: 1.25;
+  white-space: pre-wrap;
+  text-align: center;
+  width: 100%;
+  padding: 10px 0;
+  word-break: keep-all;
+  flex-shrink: 0;
+}
+
 
 /* 투표 수 표시 */
 .game9-gameplay-container .votes-display {

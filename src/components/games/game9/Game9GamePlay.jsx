@@ -246,41 +246,26 @@ function Game9GamePlay() {
                         onClick={() => handleVote(candidate.id)}
                       >
                         {!hasContent ? (
-                          // 설명과 이미지가 없을 때: 번호와 이름만
                           <>
                             <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
                             <h3 className="candidate-name">{candidate.name}</h3>
                           </>
-                        ) : candidate.image ? (
-                          // 이미지가 있을 때: 좌측 텍스트(번호+이름+설명), 우측 이미지
-                          <div className="candidate-layout-horizontal">
-                            <div className="candidate-text-section">
-                              <div className="candidate-header">
+                        ) : (
+                          <>
+                            <div className="candidate-top-content">
+                              <div className="candidate-info-left">
                                 <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
                                 <h3 className="candidate-name-with-content">{candidate.name}</h3>
                               </div>
-                              {candidate.description && (
-                                <p className="candidate-description">{candidate.description}</p>
+                              {candidate.image && (
+                                <div className="candidate-image-section">
+                                  <img src={candidate.image} alt={candidate.name} className="candidate-image" />
+                                </div>
                               )}
                             </div>
-
-                            <div className="candidate-image-section">
-                              <img src={candidate.image} alt={candidate.name} className="candidate-image" />
-                            </div>
-                          </div>
-                        ) : (
-                          // 이미지가 없을 때 (이름+설명만): 기존 버티컬 레이아웃
-                          <>
-                            <div className="candidate-header">
-                              <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{candidate.number}</div>
-                              <h3 className="candidate-name-with-content">{candidate.name}</h3>
-                            </div>
-
-                            <div className="candidate-content-vertical">
-                              {candidate.description && (
-                                <p className="candidate-description-centered">{candidate.description}</p>
-                              )}
-                            </div>
+                            {candidate.description && (
+                              <p className="candidate-description-bottom">{candidate.description}</p>
+                            )}
                           </>
                         )}
 
@@ -362,41 +347,26 @@ function Game9GamePlay() {
                               style={{ '--card-bg-color': backgroundColor }}
                             >
                               {!hasContent ? (
-                                // 설명과 이미지가 없을 때: 번호와 이름만
                                 <>
                                   <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{winner.number}</div>
                                   <h3 className="candidate-name">{winner.name}</h3>
                                 </>
-                              ) : winner.image ? (
-                                // 이미지가 있을 때: 좌측 텍스트(번호+이름+설명), 우측 이미지
-                                <div className="candidate-layout-horizontal">
-                                  <div className="candidate-text-section">
-                                    <div className="candidate-header">
+                              ) : (
+                                <>
+                                  <div className="candidate-top-content">
+                                    <div className="candidate-info-left">
                                       <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{winner.number}</div>
                                       <h3 className="candidate-name-with-content">{winner.name}</h3>
                                     </div>
-                                    {winner.description && (
-                                      <p className="candidate-description">{winner.description}</p>
+                                    {winner.image && (
+                                      <div className="candidate-image-section">
+                                        <img src={winner.image} alt={winner.name} className="candidate-image" />
+                                      </div>
                                     )}
                                   </div>
-
-                                  <div className="candidate-image-section">
-                                    <img src={winner.image} alt={winner.name} className="candidate-image" />
-                                  </div>
-                                </div>
-                              ) : (
-                                // 이미지가 없을 때 (이름+설명만): 기존 버티컬 레이아웃
-                                <>
-                                  <div className="candidate-header">
-                                    <div className="candidate-number" style={{ backgroundColor: badgeColor }}>{winner.number}</div>
-                                    <h3 className="candidate-name-with-content">{winner.name}</h3>
-                                  </div>
-
-                                  <div className="candidate-content-vertical">
-                                    {winner.description && (
-                                      <p className="candidate-description-centered">{winner.description}</p>
-                                    )}
-                                  </div>
+                                  {winner.description && (
+                                    <p className="candidate-description-bottom">{winner.description}</p>
+                                  )}
                                 </>
                               )}
                             </div>

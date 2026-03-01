@@ -24,8 +24,8 @@ function Game9Build() {
 
   // 후보 추가 함수
   const handleAddCandidate = () => {
-    if (candidates.length >= 6) {
-      alert('최대 6개까지만 후보를 추가할 수 있습니다.')
+    if (candidates.length >= 4) {
+      alert('최대 4개까지만 후보를 추가할 수 있습니다.')
       return
     }
 
@@ -181,11 +181,11 @@ function Game9Build() {
               <div className="candidate-counter">
                 <span className="current-count">{candidates.length}</span>
                 <span className="separator">/</span>
-                <span className="total-count">6</span>
+                <span className="total-count">4</span>
               </div>
             </div>
             <div className="section-description-multi">
-              <p className="section-description">최대 6개 입력 가능합니다.</p>
+              <p className="section-description">최대 4개 입력 가능합니다.</p>
               <p className="section-description">드래그하여 후보의 순서를 변경할 수 있습니다.</p>
             </div>
           </div>
@@ -212,8 +212,9 @@ function Game9Build() {
                       <textarea
                         value={candidate.name}
                         onChange={(e) => handleUpdateCandidate(candidate.id, 'name', e.target.value)}
-                        placeholder="후보 이름"
+                        placeholder="후보 이름 (최대 8자)"
                         rows="3"
+                        maxLength={8}
                       />
                     </div>
 
@@ -222,8 +223,9 @@ function Game9Build() {
                       <textarea
                         value={candidate.description}
                         onChange={(e) => handleUpdateCandidate(candidate.id, 'description', e.target.value)}
-                        placeholder="후보 설명"
+                        placeholder="후보 설명 (최대 30자)"
                         rows="3"
+                        maxLength={30}
                       />
                     </div>
 
@@ -281,7 +283,7 @@ function Game9Build() {
           <button
             className="add-candidate-btn"
             onClick={handleAddCandidate}
-            disabled={candidates.length >= 6}
+            disabled={candidates.length >= 4}
           >
             + 후보 추가
           </button>
