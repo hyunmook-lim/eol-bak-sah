@@ -34,6 +34,14 @@ function HomePage() {
     const preloadResources = async () => {
       // 모바일 기기 감지
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768
+      
+      // 크롤러 감지 (AdSense 등)
+      const isCrawler = /bot|googlebot|crawler|spider|robot|crawling|mediapartners-google/i.test(navigator.userAgent)
+      
+      if (isCrawler) {
+        setIsLoading(false)
+        return
+      }
 
       const videoResources = [
         '/videos/game1video.mp4',
@@ -427,6 +435,30 @@ function HomePage() {
             >
               의견 보내기
             </button>
+          </div>
+        </section>
+
+        <section className="about-section">
+          <div className="about-content">
+            <h2>얼박사 에듀(Eol-Bak-Sah Edu) 소개</h2>
+            <p>
+              얼박사 에듀는 '어린이 박사'들의 서먹한 분위기를 깨트리는 '얼음 박살' 아이스 브레이킹 게임 플랫폼입니다. 
+              다양한 미니게임을 통해 집중력, 기억력, 추론 능력, 그리고 사회성을 기를 수 있도록 설계되었습니다.
+            </p>
+            <div className="about-features">
+              <div className="feature-item">
+                <h3>🎮 다양한 게임 라인업</h3>
+                <p>단어 맞추기, 기억력 게임, 퀴즈 등 교육적 가치가 담긴 10여 종의 게임을 제공합니다.</p>
+              </div>
+              <div className="feature-item">
+                <h3>🏫 교육 현장 최적화</h3>
+                <p>교실이나 단체 활동에서 아이스 브레이킹 용도로 사용하기 적합하도록 구성되어 있습니다.</p>
+              </div>
+              <div className="feature-item">
+                <h3>💻 편리한 접근성</h3>
+                <p>별도의 설치 없이 웹 브루아저에서 바로 실행 가능하며, 직관적인 UI로 누구나 쉽게 즐길 수 있습니다.</p>
+              </div>
+            </div>
           </div>
         </section>
 
