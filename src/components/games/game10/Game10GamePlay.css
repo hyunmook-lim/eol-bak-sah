@@ -1,0 +1,578 @@
+.game10-gameplay-container {
+  width: 100vw;
+  height: 100vh;
+  background: url('/images/background-ttf.png') no-repeat center center;
+  background-size: cover;
+  overflow: hidden; /* Prevent global global scroll */
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.game10-gameplay-container .game-title-header {
+  background-color: #01275b;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.game10-gameplay-container .game-title-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.game10-gameplay-container .header-back-btn,
+.game10-gameplay-container .header-close-btn {
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.game10-gameplay-container .header-close-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+.game10-gameplay-container .header-back-btn:hover,
+.game10-gameplay-container .header-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.game10-gameplay-container .arrow-left {
+  width: 12px;
+  height: 12px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(45deg);
+}
+
+/* Gameplay Container */
+.game10-gameplay-container .gameplay-container {
+  height: calc(100vh - 80px); /* Strictly log height minus header */
+  margin-top: 80px;
+  display: flex;
+  padding: 20px 30px; /* Removed 40px bottom padding to save space */
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box; /* Crucial to prevent padding from expanding the height */
+}
+
+.game10-gameplay-container .flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+/* Start Section */
+.game10-gameplay-container .game-start-section {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 50px 80px;
+  border-radius: 30px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  animation: slideUp 0.6s ease-out;
+  max-width: 600px;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.game10-gameplay-container .game-start-section h2 {
+  color: #01275b;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.game10-gameplay-container .game-start-section p {
+  color: #666;
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+}
+
+.game10-gameplay-container .start-game-btn {
+  background-color: #f5ae43;
+  color: white;
+  border: none;
+  padding: 25px 60px;
+  border-radius: 50px;
+  font-size: 2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(245, 174, 67, 0.4);
+  animation: pulse 2s infinite;
+}
+
+.game10-gameplay-container .start-game-btn:hover {
+  background-color: #e49a2e;
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(245, 174, 67, 0.5);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+/* Active Game Section */
+.game10-gameplay-container .game-play-section {
+  width: 100%;
+  height: 100%; /* Take full space inside gameplay-container */
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Decrease gap slightly to save space */
+}
+
+.game10-gameplay-container .game-screen-container {
+  flex: 1; /* Stretch to fill remaining height */
+  min-height: 0; /* Let it shrink if needed */
+  background: transparent; /* Removed white box */
+  padding: 0; /* Removed vertical padding causing overflow */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Stretch horizontally */
+  overflow: hidden; /* Prevent internal scrolling if possible */
+}
+
+.game10-gameplay-container .game-content-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Reduced gap */
+  flex: 1; /* Stretch vertically */
+  min-height: 0;
+}
+
+/* Top Section */
+.game10-gameplay-container .game-top-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 15px;
+  animation: fadeInDown 0.5s ease-out;
+}
+
+.game10-gameplay-container .player-name-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.game10-gameplay-container .player-index-badge {
+  background: #01275b;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(1, 39, 91, 0.2);
+}
+
+.game10-gameplay-container .player-name-title {
+  color: #01275b;
+  font-size: 4.0rem; /* Increased size significantly */
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -1px; /* Tighter letter spacing for large text */
+}
+
+.game10-gameplay-container .game-instruction {
+  font-size: 1.4rem;
+  color: #444;
+  padding: 15px 30px;
+  background: rgba(245, 174, 67, 1);
+  border-radius: 15px;
+  width: fit-content;
+  margin: 10px auto 0;
+  font-weight: 500;
+}
+
+/* Middle Section - Candidates */
+.game10-gameplay-container .game-middle-section {
+  width: 100%;
+  flex: 1; /* Fill all remaining vertical space */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  animation: slideUp 0.6s ease-out;
+}
+
+.game10-gameplay-container .statements-column-list {
+  flex: 1; /* Stretch list to fill middle section */
+  display: flex;
+  flex-direction: row; /* Row layout */
+  justify-content: space-between; /* Spread cards evenly */
+  align-items: stretch; /* Make cards stretch to match container height */
+  gap: 20px; /* Smaller gap */
+  min-height: 0;
+  width: 100%;
+}
+
+.game10-gameplay-container .statement-row-card {
+  background: white;
+  border: 4px solid #e9ecef;
+  border-radius: 25px;
+  padding: 30px; /* Increased padding slightly for Top layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  flex: 1;
+  width: 100%;
+  justify-content: flex-start; /* Pin items to top initially */
+}
+
+.game10-gameplay-container .statement-row-card:not(.disabled):hover {
+  border-color: #f5ae43;
+  transform: translateY(-8px);
+  background: #fffcf8;
+  box-shadow: 0 15px 35px rgba(245, 174, 67, 0.2);
+}
+
+.game10-gameplay-container .statement-row-card.selected {
+  border-color: #f5ae43;
+  background: #fef9f0;
+  box-shadow: 0 12px 25px rgba(245, 174, 67, 0.25);
+  transform: translateY(-5px);
+}
+
+.game10-gameplay-container .card-number {
+  width: 50px;
+  height: 50px;
+  background: #01275b;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(1, 39, 91, 0.2);
+}
+
+.game10-gameplay-container .card-content-with-image {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Stack image and text vertically inside the card body */
+  align-items: center;
+  justify-content: center; /* Center them together */
+  gap: 15px;
+  min-height: 0;
+}
+
+.game10-gameplay-container .card-image-wrapper {
+  flex: 1; /* Allow image wrapper to take up remaining height nicely */
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game10-gameplay-container .statement-image {
+  max-width: 100%;
+  max-height: 100%; /* Important constraints so it doesn't break the flexbox layout */
+  object-fit: contain;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Soft shadow for image */
+}
+
+.game10-gameplay-container .card-text {
+  flex: 1; /* Allow it to fill all vertical space below the absolute/pin-positioned badge */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Ensure it spans the card width to center horizontally */
+  font-size: 2.6rem; /* Noticeably larger for text-only cards */
+  font-weight: 700;
+  color: #222;
+  word-break: break-word; /* Allows long words to break if necessary */
+  overflow-wrap: break-word; /* Modern equivalent for breaking words */
+  white-space: pre-wrap; /* Preserves newlines and wraps naturally */
+  line-height: 1.5;
+}
+
+.game10-gameplay-container .card-content-with-image .card-text {
+  flex: 0 1 auto; /* Don't expand vertically when sharing space with image */
+  font-size: 1.8rem; /* Kept slightly smaller if there's an image competing for space */
+}
+
+/* Feedback States inside Card */
+.game10-gameplay-container .statement-row-card.is-lie {
+  border-color: #ff4d4f;
+  background: #fff1f0;
+}
+
+.game10-gameplay-container .statement-row-card.is-lie .card-number {
+  background: #ff4d4f;
+}
+
+.game10-gameplay-container .statement-row-card.wrong-guess {
+  border-color: #8bc34a;
+  background: #f6ffed;
+}
+
+.game10-gameplay-container .statement-row-card.disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.game10-gameplay-container .card-result-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  color: white;
+  font-weight: 800;
+  font-size: 1rem;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.game10-gameplay-container .card-result-badge.lie {
+  background: #ff4d4f;
+}
+
+.game10-gameplay-container .card-result-badge.truth {
+  background: #8bc34a;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Result Feedback Banner */
+.game10-gameplay-container .result-feedback-banner {
+  padding: 25px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  animation: fadeInDown 0.5s ease-out;
+}
+
+.game10-gameplay-container .result-feedback-banner.correct {
+  background: #f6ffed;
+  border: 3px solid #b7eb8f;
+  color: #389e0d;
+}
+
+.game10-gameplay-container .result-feedback-banner.incorrect {
+  background: #fff1f0;
+  border: 3px solid #ffa39e;
+  color: #cf1322;
+}
+
+.game10-gameplay-container .feedback-icon {
+  font-size: 2.2rem;
+}
+
+.game10-gameplay-container .feedback-message {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+
+/* Utilities Bar (Bottom) */
+.game10-gameplay-container .game-utilities {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+}
+
+.game10-gameplay-container .round-counter {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #01275b;
+}
+
+.game10-gameplay-container .current-round {
+  color: #f5ae43;
+  font-size: 1.8rem;
+}
+
+.game10-gameplay-container .utility-center-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.game10-gameplay-container .check-answer-btn,
+.game10-gameplay-container .retry-btn,
+.game10-gameplay-container .next-question-btn,
+.game10-gameplay-container .prev-question-btn,
+.game10-gameplay-container .game-complete-btn {
+  padding: 12px 35px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.game10-gameplay-container .check-answer-btn {
+  background: #f5ae43;
+  color: white;
+  box-shadow: 0 4px 15px rgba(245, 174, 67, 0.3);
+}
+
+.game10-gameplay-container .retry-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.game10-gameplay-container .next-question-btn,
+.game10-gameplay-container .game-complete-btn {
+  background: #01275b;
+  color: white;
+  box-shadow: 0 4px 15px rgba(1, 39, 91, 0.2);
+}
+
+.game10-gameplay-container .prev-question-btn {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.game10-gameplay-container button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.game10-gameplay-container button:active {
+  transform: translateY(0);
+}
+
+/* Modals */
+.game10-gameplay-container .confirm-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.game10-gameplay-container .confirm-modal-content {
+  background: white;
+  padding: 40px 50px;
+  border-radius: 25px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: modalPopIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalPopIn {
+  from { opacity: 0; transform: scale(0.8) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.game10-gameplay-container .confirm-modal-body h3 {
+  color: #01275b;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+}
+
+.game10-gameplay-container .confirm-modal-body p {
+  color: #666;
+  font-size: 1.2rem;
+  margin-bottom: 35px;
+  line-height: 1.5;
+}
+
+.game10-gameplay-container .confirm-modal-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.game10-gameplay-container .confirm-btn,
+.game10-gameplay-container .cancel-btn {
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  min-width: 140px;
+}
+
+.game10-gameplay-container .confirm-btn {
+  background-color: #f5ae43;
+  color: white;
+  box-shadow: 0 8px 15px rgba(245, 174, 67, 0.3);
+}
+
+.game10-gameplay-container .confirm-btn:hover {
+  background-color: #e49a2e;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 20px rgba(245, 174, 67, 0.4);
+}
+
+.game10-gameplay-container .cancel-btn {
+  background-color: #e9ecef;
+  color: #444;
+}
+
+.game10-gameplay-container .cancel-btn:hover {
+  background-color: #dee2e6;
+  transform: translateY(-3px);
+  color: #222;
+}

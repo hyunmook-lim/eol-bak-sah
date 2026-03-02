@@ -16,7 +16,7 @@ function GamePage() {
     '9': null,
   }
 
-  if (!gameVideos.hasOwnProperty(gameId)) {
+  if (!Object.hasOwn(gameVideos, gameId)) {
     return (
       <div className="game-page">
         <div className="game-container">

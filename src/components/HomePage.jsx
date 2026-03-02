@@ -17,6 +17,14 @@ function HomePage() {
   const [isNoticeModalOpen, setIsNoticeModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [loadingProgress, setLoadingProgress] = useState(0)
+  const [hasUnreadNotice, setHasUnreadNotice] = useState(false)
+
+  useEffect(() => {
+    const hasRead = localStorage.getItem('hasReadNotice_20260302') === 'true'
+    if (!hasRead) {
+      setHasUnreadNotice(true)
+    }
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -53,6 +61,7 @@ function HomePage() {
         '/videos/game7video.mp4',
         '/videos/game8video.mp4',
         '/videos/game9video.mp4',
+        '/videos/game10video.mp4',
       ]
 
       const audioResources = [
@@ -73,6 +82,7 @@ function HomePage() {
         '/thumbnail/game7thumbnail.png',
         '/thumbnail/game8thumbnail.png',
         '/thumbnail/game9thumbnail.png',
+        '/thumbnail/game10thumbnail.png',
         // 기타 이미지들
         '/images/two-ices.png',
         '/images/one-ice.png',
@@ -272,6 +282,30 @@ function HomePage() {
       videoUrl: "/videos/game9video.mp4",
       thumbnailUrl: "/thumbnail/game9thumbnail.png",
       route: "/game/9/video"
+    },
+    {
+      id: 10,
+      title: "진진가 게임",
+      description: (
+        <>
+          <span className="text-truth">진짜</span> <span className="text-truth">진짜</span> <span className="text-lie">가짜</span>! 진짜 속에 숨겨진 가짜를 찾아내는 고도의 심리 게임! 친구들의 이야기를 듣고 무엇이 진실인지 맞춰보세요.
+        </>
+      ),
+      videoUrl: "/videos/game10video.mp4",
+      thumbnailUrl: "/thumbnail/game10thumbnail.png",
+      route: "/game/10/video"
+    },
+    {
+      id: 11,
+      title: "게임 개발중",
+      description: "새롭고 재미있는 게임을 열심히 개발하고 있습니다. 조금만 더 기다려주세요!",
+      isComingSoon: true
+    },
+    {
+      id: 12,
+      title: "게임 개발중",
+      description: "새롭고 재미있는 게임을 열심히 개발하고 있습니다. 조금만 더 기다려주세요!",
+      isComingSoon: true
     }
   ]
 
@@ -309,10 +343,16 @@ function HomePage() {
         <h1>얼박사</h1>
         <button
           className="notice-btn"
-          onClick={() => setIsNoticeModalOpen(true)}
+          onClick={() => {
+            setIsNoticeModalOpen(true)
+            setHasUnreadNotice(false)
+            localStorage.setItem('hasReadNotice_20260302', 'true')
+          }}
           aria-label="공지사항"
         >
-          📢
+          <span className={hasUnreadNotice ? "unread-animation" : ""}>
+            📢
+          </span>
         </button>
       </header>
 
@@ -447,6 +487,36 @@ function HomePage() {
           isOpen={isNoticeModalOpen}
           onClose={() => setIsNoticeModalOpen(false)}
         />
+
+        <section className="about-section">
+          <div className="about-container">
+            <div className="about-header">
+              <span className="about-icon">🐧</span>
+              <h2>얼박사 에듀란?</h2>
+            </div>
+            <p className="about-text">
+              <strong>얼박사(어린이 박사)</strong>는 누구나 쉽고 재미있게 즐길 수 있는 <strong>아이스 브레이킹 게임 모음</strong> 서비스입니다.<br />
+              지루할 수 있는 수업 시간이나 모임의 시작을 시원한 얼음을 깨듯 활기차게 열어드리고 싶어 탄생했습니다!
+            </p>
+            <div className="about-features">
+              <div className="feature-item">
+                <span className="feature-icon">✨</span>
+                <p>간단하고 명확한 게임 규칙</p>
+              </div>
+              <div className="feature-item">
+                <span className="feature-icon">🏫</span>
+                <p>선생님과 학생이 함께하는 교육용 모드</p>
+              </div>
+              <div className="feature-item">
+                <span className="feature-icon">🎮</span>
+                <p>모두가 주인공이 되는 아이스브레이킹</p>
+              </div>
+            </div>
+            <p className="about-footer">
+              매일 똑같은 일상에 작은 즐거움이 필요할 때, 얼박사가 함께할게요! ❄️
+            </p>
+          </div>
+        </section>
 
         <div className="ice-animation-container">
           <img src={twoIcesImg} alt="" className="floating-ice ice-1" />
