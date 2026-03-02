@@ -105,13 +105,7 @@ function Game6Build() {
   const handleSaveDraft = async () => {
     try {
       if (questions.length === 0) {
-        alert('저장할 문제가 없습니다. 최소 1문제 이상 입력해주세요.')
-        return
-      }
-
-      const emptyQuestions = questions.filter(q => !(q.question || '').trim())
-      if (emptyQuestions.length > 0) {
-        alert('모든 문제의 내용을 입력해주세요.')
+        alert('저장할 문제가 없습니다. 최소 1문제 이상 추가해주세요.')
         return
       }
 

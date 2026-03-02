@@ -31,7 +31,15 @@ function Game8Build() {
   }
 
 
-  const handleFileUpload = (event) => {
+  const readFileAsDataURL = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.onload = (e) => resolve(e.target.result)
+      reader.readAsDataURL(file)
+    })
+  }
+
+  const handleFileUpload = async (event) => {
     const files = Array.from(event.target.files)
     const imageFiles = files.filter(file => file.type.startsWith('image/'))
 
@@ -40,12 +48,14 @@ function Game8Build() {
     const availableSlots = 16 - questions.length
     const filesToAdd = imageFiles.slice(0, availableSlots)
 
-    const newQuestions = filesToAdd.map(file => ({
-      id: Date.now() + Math.random(),
-      image: file,
-      imageUrl: URL.createObjectURL(file),
-      answer: ''
-    }))
+    const newQuestions = await Promise.all(
+      filesToAdd.map(async file => ({
+        id: Date.now() + Math.random(),
+        image: file,
+        imageUrl: await readFileAsDataURL(file),
+        answer: ''
+      }))
+    )
 
     setQuestions([...questions, ...newQuestions])
 
@@ -53,7 +63,7 @@ function Game8Build() {
     event.target.value = ''
   }
 
-  const handleDrop = (event) => {
+  const handleDrop = async (event) => {
     event.preventDefault()
     const files = Array.from(event.dataTransfer.files)
     const imageFiles = files.filter(file => file.type.startsWith('image/'))
@@ -63,12 +73,14 @@ function Game8Build() {
     const availableSlots = 16 - questions.length
     const filesToAdd = imageFiles.slice(0, availableSlots)
 
-    const newQuestions = filesToAdd.map(file => ({
-      id: Date.now() + Math.random(),
-      image: file,
-      imageUrl: URL.createObjectURL(file),
-      answer: ''
-    }))
+    const newQuestions = await Promise.all(
+      filesToAdd.map(async file => ({
+        id: Date.now() + Math.random(),
+        image: file,
+        imageUrl: await readFileAsDataURL(file),
+        answer: ''
+      }))
+    )
 
     setQuestions([...questions, ...newQuestions])
   }

@@ -54,8 +54,10 @@ function SavedGamesModal({ isOpen, onClose }) {
       stateToPass = { players: gameData.players };
     } else if (gameData.gameId === 9) {
       stateToPass = { title: gameData.title, candidates: gameData.candidates };
+    } else if (gameData.gameId === 7) {
+      stateToPass = { pairs: gameData.pairs };
     } else {
-      // Games 1~8 typically use 'questions'
+      // Games 1~6, 8 typically use 'questions'
       stateToPass = { questions: gameData.questions };
     }
 
@@ -73,8 +75,8 @@ function SavedGamesModal({ isOpen, onClose }) {
         const updatedDrafts = drafts.filter(d => d.id !== idToDelete);
         await localforage.setItem(storageKey, updatedDrafts);
         
-        // Update local state
-        setSavedGames(prev => prev.filter(d => d.id !== idToDelete));
+        // Update local state - use both gameId and id to be perfectly safe
+        setSavedGames(prev => prev.filter(d => !(d.id === idToDelete && d.gameId === gameId)));
       } catch (err) {
         console.error('Failed to delete game:', err);
         alert('삭제 중 오류가 발생했습니다.');
@@ -85,6 +87,7 @@ function SavedGamesModal({ isOpen, onClose }) {
   const getSubItemCount = (game) => {
     if (game.gameId === 10) return `${game.players?.length || 0}명`;
     if (game.gameId === 9) return `${game.candidates?.length || 0}개 항목`;
+    if (game.gameId === 7) return `${game.pairs?.length || 0}쌍`;
     return `${game.questions?.length || 0}문제`;
   };
 
@@ -106,7 +109,7 @@ function SavedGamesModal({ isOpen, onClose }) {
             </div>
           ) : (
             savedGames.map((game) => (
-              <div key={game.id} className="saved-game-item">
+              <div key={`${game.gameId}-${game.id}`} className="saved-game-item">
                 <div className="saved-game-info">
                   <h3 className="saved-game-title">
                     {GAMES_INFO[game.gameId]?.title || `게임 ${game.gameId}`} ({getSubItemCount(game)})

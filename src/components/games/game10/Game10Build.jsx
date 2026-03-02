@@ -65,14 +65,16 @@ function Game10Build() {
     }
 
     try {
-      const drafts = await localforage.getItem('game10_drafts') || [];
+      const existingDrafts = await localforage.getItem('game10_drafts') || [];
       const newDraft = {
         id: Date.now().toString(),
         date: new Date().toISOString(),
         players: players
       };
       
-      await localforage.setItem('game10_drafts', [...drafts, newDraft]);
+      const updatedDrafts = [newDraft, ...existingDrafts].slice(0, 10);
+      
+      await localforage.setItem('game10_drafts', updatedDrafts);
       alert('현재 작성 내용이 브라우저에 임시저장되었습니다.\n홈 화면 우측 상단의 [💾] 버튼에서 불러올 수 있습니다.');
     } catch (err) {
       console.error('Failed to save draft:', err);

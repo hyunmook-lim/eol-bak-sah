@@ -54,6 +54,14 @@ function Game2Build() {
     })
   }
 
+  const readFileAsDataURL = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.onload = (e) => resolve(e.target.result)
+      reader.readAsDataURL(file)
+    })
+  }
+
   const handleFileUpload = async (event) => {
     const files = Array.from(event.target.files)
     const imageFiles = files.filter(file => file.type.startsWith('image/'))
@@ -77,12 +85,14 @@ function Game2Build() {
       setTimeout(() => setLowQualityWarning(null), 5000)
     }
 
-    const newQuestions = filesToAdd.map(file => ({
-      id: Date.now() + Math.random(),
-      image: file,
-      imageUrl: URL.createObjectURL(file),
-      answer: ''
-    }))
+    const newQuestions = await Promise.all(
+      filesToAdd.map(async file => ({
+        id: Date.now() + Math.random(),
+        image: file,
+        imageUrl: await readFileAsDataURL(file),
+        answer: ''
+      }))
+    )
 
     setQuestions([...questions, ...newQuestions])
 
@@ -114,12 +124,14 @@ function Game2Build() {
       setTimeout(() => setLowQualityWarning(null), 5000)
     }
 
-    const newQuestions = filesToAdd.map(file => ({
-      id: Date.now() + Math.random(),
-      image: file,
-      imageUrl: URL.createObjectURL(file),
-      answer: ''
-    }))
+    const newQuestions = await Promise.all(
+      filesToAdd.map(async file => ({
+        id: Date.now() + Math.random(),
+        image: file,
+        imageUrl: await readFileAsDataURL(file),
+        answer: ''
+      }))
+    )
 
     setQuestions([...questions, ...newQuestions])
   }
