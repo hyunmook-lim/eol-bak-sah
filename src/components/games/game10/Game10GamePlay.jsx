@@ -22,6 +22,7 @@ function Game10GamePlay() {
   
   const [userAnswer, setUserAnswer] = useState(null) // ID of the selected statement
   const [showResult, setShowResult] = useState(false) 
+  const [showResultModal, setShowResultModal] = useState(false)
   
   useEffect(() => {
     // Return to build if no players are provided
@@ -59,9 +60,17 @@ function Game10GamePlay() {
 
   // statement is an object like { id: '...', text: '...', isLie: boolean }
   const handleSelectCandidate = (statementId) => {
-    if (showResult) return // Prevent clicking after checking answer
+    if (showResultModal) return // Prevent clicking after modal is shown
+    
+    // Play sound based on the answer
+    const selected = currentPlayer.statements.find(c => c.id === statementId)
+    const soundPath = selected?.isLie ? '/sounds/answer-correct.wav' : '/sounds/wrong.wav'
+    const audio = new Audio(soundPath)
+    audio.play().catch(e => console.error('Failed to play audio:', e))
+
     setUserAnswer(statementId)
-    setShowResult(true) // Immediately show result on click
+    setShowResult(true)
+    setShowResultModal(true)
   }
 
 
@@ -140,14 +149,11 @@ function Game10GamePlay() {
                       {shuffledCandidates.map((statement, idx) => {
                         const isSelected = userAnswer === statement.id
                         const isLie = statement.isLie
-                        const showAsWrongSelection = showResult && isSelected && !isLie
 
                         let statusClass = ""
                         if (isSelected) statusClass = "selected"
                         if (showResult) {
-                          if (isLie) statusClass = "is-lie"
-                          else if (showAsWrongSelection) statusClass = "wrong-guess"
-                          else statusClass = "disabled"
+                          statusClass = "disabled"
                         }
 
                         return (
@@ -169,7 +175,7 @@ function Game10GamePlay() {
                               <div className="card-text">{statement.text}</div>
                             )}
                             
-                            {showResult && (
+                            {showResult && !showResultModal && (
                               <div className={`card-result-badge ${isLie ? 'lie' : 'truth'}`}>
                                 {isLie ? '가짜!' : '진실'}
                               </div>
@@ -180,15 +186,6 @@ function Game10GamePlay() {
                     </div>
                   </div>
 
-                  {/* Result Feedback Banner */}
-                  {showResult && (
-                    <div className={`result-feedback-banner ${isCorrectAnswer() ? 'correct' : 'incorrect'}`}>
-                      <div className="feedback-icon">{isCorrectAnswer() ? '🎉' : '💦'}</div>
-                      <div className="feedback-message">
-                        {isCorrectAnswer() ? '정답입니다! 가짜를 완벽하게 찾아내셨네요!' : '아쉽게도 오답입니다!'}
-                      </div>
-                    </div>
-                  )}
 
                 </div>
               </div>
@@ -197,7 +194,7 @@ function Game10GamePlay() {
                 <div className="utility-left-section">
                   {currentPlayerIndex > 0 && (
                     <button className="prev-question-btn" onClick={handlePreviousPlayer}>
-                      ← 이전 인원
+                      ← 이전 문제
                     </button>
                   )}
                 </div>
@@ -207,17 +204,12 @@ function Game10GamePlay() {
                     <span className="current-round">{currentPlayerIndex + 1}</span> / {players.length} 명
                   </div>
                   
-                  {showResult && (
-                    <button className="retry-btn" onClick={() => { setShowResult(false); setUserAnswer(null); }}>
-                      다시 고르기
-                    </button>
-                  )}
                 </div>
 
                 <div className="utility-right-section">
                   {currentPlayerIndex < players.length - 1 ? (
                     <button className="next-question-btn" onClick={handleNextPlayer}>
-                      다음 인원 →
+                      다음 문제 →
                     </button>
                   ) : (
                     <button className="game-complete-btn" onClick={() => navigate('/game/10/finish', { state: { gamePath: '/game/10' } })}>
@@ -256,6 +248,61 @@ function Game10GamePlay() {
               <div className="confirm-modal-buttons">
                 <button className="confirm-btn" onClick={handleConfirmBackToBuild}>확인</button>
                 <button className="cancel-btn" onClick={handleCancelBackToBuild}>취소</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showResultModal && (
+          <div className="result-modal-overlay">
+            <div className="result-modal-content">
+              <div className="result-modal-header">
+                <h2 className={`result-title ${isCorrectAnswer() ? 'correct' : 'incorrect'}`}>
+                  {isCorrectAnswer() ? '정답입니다!' : '오답입니다.'}
+                </h2>
+              </div>
+              <div className="result-modal-body">
+                <p className="result-description">
+                  <strong>{currentPlayer.name}</strong>의 거짓은 <br />
+                  <span>{currentPlayer.statements.find(s => s.isLie)?.text}</span> 였습니다.
+                </p>
+                
+                <div className="result-card-display">
+                  {(() => {
+                    const lieStatement = currentPlayer.statements.find(s => s.isLie);
+                    const originalIndex = shuffledCandidates.findIndex(s => s.id === lieStatement.id) + 1;
+                    return (
+                      <div className="statement-row-card is-lie reveal">
+                        <div className="card-number">{originalIndex}</div>
+                        {lieStatement.image ? (
+                          <div className="card-content-with-image">
+                            <div className="card-text">{lieStatement.text}</div>
+                            <div className="card-image-wrapper">
+                              <img src={lieStatement.image} alt="거짓 이미지" className="statement-image" />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="card-text">{lieStatement.text}</div>
+                        )}
+                        <div className="card-result-badge lie">가짜!</div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              </div>
+              <div className="result-modal-footer">
+                <button className="retry-btn-modal" onClick={() => { setShowResultModal(false); setShowResult(false); setUserAnswer(null); }}>
+                  다시 고르기
+                </button>
+                {currentPlayerIndex < players.length - 1 ? (
+                  <button className="confirm-btn-modal" onClick={() => { setShowResultModal(false); handleNextPlayer(); }}>
+                    다음 문제
+                  </button>
+                ) : (
+                  <button className="confirm-btn-modal" onClick={() => navigate('/game/10/finish', { state: { gamePath: '/game/10' } })}>
+                    게임 종료
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -381,38 +381,6 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Result Feedback Banner */
-.game10-gameplay-container .result-feedback-banner {
-  padding: 25px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  animation: fadeInDown 0.5s ease-out;
-}
-
-.game10-gameplay-container .result-feedback-banner.correct {
-  background: #f6ffed;
-  border: 3px solid #b7eb8f;
-  color: #389e0d;
-}
-
-.game10-gameplay-container .result-feedback-banner.incorrect {
-  background: #fff1f0;
-  border: 3px solid #ffa39e;
-  color: #cf1322;
-}
-
-.game10-gameplay-container .feedback-icon {
-  font-size: 2.2rem;
-}
-
-.game10-gameplay-container .feedback-message {
-  font-size: 1.5rem;
-  font-weight: 800;
-}
-
 
 /* Utilities Bar (Bottom) */
 .game10-gameplay-container .game-utilities {
@@ -575,4 +543,124 @@
   background-color: #dee2e6;
   transform: translateY(-3px);
   color: #222;
+}
+
+/* Result Modal */
+.game10-gameplay-container .result-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.game10-gameplay-container .result-modal-content {
+  background: white;
+  padding: 40px;
+  border-radius: 40px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  animation: modalPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.game10-gameplay-container .result-title {
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.game10-gameplay-container .result-title.correct {
+  color: #389e0d;
+}
+
+.game10-gameplay-container .result-title.incorrect {
+  color: #ff4d4f;
+}
+
+.game10-gameplay-container .result-description {
+  font-size: 1.4rem;
+  color: #444;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.game10-gameplay-container .result-description strong {
+  color: #01275b;
+  font-size: 1.8rem;
+}
+
+.game10-gameplay-container .result-description span {
+  background: #fff1f0;
+  color: #ff4d4f;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.game10-gameplay-container .result-card-display {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.game10-gameplay-container .result-card-display .statement-row-card {
+  max-width: 320px;
+  cursor: default;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border-width: 4px;
+  pointer-events: none; /* Disable all hover effects and interactions */
+}
+
+.game10-gameplay-container .result-card-display .statement-row-card.reveal {
+  animation: cardReveal 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes cardReveal {
+  from { transform: scale(0.8) translateY(20px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.game10-gameplay-container .result-modal-footer {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.game10-gameplay-container .retry-btn-modal,
+.game10-gameplay-container .confirm-btn-modal {
+  padding: 18px 40px;
+  border-radius: 50px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  min-width: 160px;
+}
+
+.game10-gameplay-container .retry-btn-modal {
+  background: #6c757d;
+  color: white;
+}
+
+.game10-gameplay-container .confirm-btn-modal {
+  background: #01275b;
+  color: white;
+  box-shadow: 0 8px 20px rgba(1, 39, 91, 0.3);
+}
+
+.game10-gameplay-container .retry-btn-modal:hover,
+.game10-gameplay-container .confirm-btn-modal:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.1);
 }
