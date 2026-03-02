@@ -44,9 +44,15 @@
   font-weight: 700;
 }
 
-.notice-btn {
+.header-buttons {
   position: absolute;
   right: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.header-action-btn {
   background: rgba(255, 255, 255, 0.15);
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
@@ -78,13 +84,13 @@
   100% { transform: rotate(0) scale(1); }
 }
 
-.notice-btn:hover {
+.header-action-btn:hover {
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.6);
   transform: scale(1.1);
 }
 
-.notice-btn:active {
+.header-action-btn:active {
   transform: scale(0.95);
 }
 

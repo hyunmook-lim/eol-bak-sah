@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import localforage from 'localforage'
 import './Game9Build.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
 
@@ -130,6 +131,32 @@ function Game9Build() {
 
     // 게임플레이 페이지로 이동하며 데이터 전달
     navigate('/game/9/gameplay', { state: gameData })
+  }
+
+  const handleSaveDraft = async () => {
+    try {
+      if (!title.trim() && candidates.length === 0) {
+        alert('저장할 데이터가 없습니다.')
+        return
+      }
+
+      const existingDrafts = await localforage.getItem('game9_drafts') || []
+      
+      const newDraft = {
+        id: Date.now().toString(),
+        date: new Date().toISOString(),
+        title: title,
+        candidates: candidates
+      }
+
+      const updatedDrafts = [newDraft, ...existingDrafts].slice(0, 10)
+      
+      await localforage.setItem('game9_drafts', updatedDrafts)
+      alert('임시저장이 완료되었습니다.')
+    } catch (error) {
+      console.error('Save draft failed:', error)
+      alert('임시저장 중 오류가 발생했습니다.')
+    }
   }
 
   return (
@@ -305,13 +332,21 @@ function Game9Build() {
                 * 모든 후보의 이름을 입력해주세요
               </span>
             ) : null}
-            <button
-              className="complete-btn"
-              onClick={handleComplete}
-              disabled={!title.trim() || candidates.length < 2 || candidates.some(c => !c.name.trim())}
-            >
-              완료
-            </button>
+            <div className="action-buttons-group">
+              <button
+                className="save-draft-btn"
+                onClick={handleSaveDraft}
+              >
+                임시저장
+              </button>
+              <button
+                className="complete-btn"
+                onClick={handleComplete}
+                disabled={!title.trim() || candidates.length < 2 || candidates.some(c => !c.name.trim())}
+              >
+                완료
+              </button>
+            </div>
           </div>
         </div>
       </div>

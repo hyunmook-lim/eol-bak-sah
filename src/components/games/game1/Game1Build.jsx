@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import localforage from 'localforage'
 import './Game1Build.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
 
@@ -45,6 +46,32 @@ function Game1Build() {
   const handleComplete = () => {
     if (questions.length > 0) {
       navigate('/game/1/gameplay', { state: { questions } })
+    }
+  }
+
+  const handleSaveDraft = async () => {
+    try {
+      if (questions.length === 0) {
+        alert('저장할 문제가 없습니다. 최소 1문제 이상 입력해주세요.')
+        return
+      }
+
+      const existingDrafts = await localforage.getItem('game1_drafts') || []
+      
+      const newDraft = {
+        id: Date.now().toString(),
+        date: new Date().toISOString(),
+        questions: questions
+      }
+
+      // 10개까지만 저장 (FIFO)
+      const updatedDrafts = [newDraft, ...existingDrafts].slice(0, 10)
+      
+      await localforage.setItem('game1_drafts', updatedDrafts)
+      alert('임시저장이 완료되었습니다.')
+    } catch (error) {
+      console.error('Save draft failed:', error)
+      alert('임시저장 중 오류가 발생했습니다.')
     }
   }
 
@@ -175,13 +202,22 @@ function Game1Build() {
                 * 문제를 1문제 이상 추가해주세요
               </span>
             )}
-            <button 
-              className="complete-btn"
-              onClick={handleComplete}
-              disabled={questions.length === 0}
-            >
-              완료
-            </button>
+            <div className="action-buttons-group">
+              <button 
+                className="save-draft-btn"
+                onClick={handleSaveDraft}
+                disabled={questions.length === 0}
+              >
+                임시저장
+              </button>
+              <button 
+                className="complete-btn"
+                onClick={handleComplete}
+                disabled={questions.length === 0}
+              >
+                완료
+              </button>
+            </div>
           </div>
         </div>
       </div>

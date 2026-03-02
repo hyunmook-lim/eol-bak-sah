@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import localforage from 'localforage'
 import './Game6Build.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
 
@@ -99,6 +100,37 @@ function Game6Build() {
     
     // 게임플레이 페이지로 이동하며 데이터 전달
     navigate('/game/6/gameplay', { state: gameData })
+  }
+
+  const handleSaveDraft = async () => {
+    try {
+      if (questions.length === 0) {
+        alert('저장할 문제가 없습니다. 최소 1문제 이상 입력해주세요.')
+        return
+      }
+
+      const emptyQuestions = questions.filter(q => !(q.question || '').trim())
+      if (emptyQuestions.length > 0) {
+        alert('모든 문제의 내용을 입력해주세요.')
+        return
+      }
+
+      const existingDrafts = await localforage.getItem('game6_drafts') || []
+      
+      const newDraft = {
+        id: Date.now().toString(),
+        date: new Date().toISOString(),
+        questions: questions
+      }
+
+      const updatedDrafts = [newDraft, ...existingDrafts].slice(0, 10)
+      
+      await localforage.setItem('game6_drafts', updatedDrafts)
+      alert('임시저장이 완료되었습니다.')
+    } catch (error) {
+      console.error('Save draft failed:', error)
+      alert('임시저장 중 오류가 발생했습니다.')
+    }
   }
 
 
@@ -265,13 +297,22 @@ function Game6Build() {
                 * 모든 문제의 필수 항목을 입력해주세요
               </span>
             ) : null}
-            <button 
-              className="complete-btn"
-              onClick={handleComplete}
-              disabled={questions.length === 0 || questions.some(q => !q.question || !q.question.trim())}
-            >
-              완료
-            </button>
+            <div className="action-buttons-group">
+              <button 
+                className="save-draft-btn"
+                onClick={handleSaveDraft}
+                disabled={questions.length === 0 || questions.some(q => !q.question || !q.question.trim())}
+              >
+                임시저장
+              </button>
+              <button 
+                className="complete-btn"
+                onClick={handleComplete}
+                disabled={questions.length === 0 || questions.some(q => !q.question || !q.question.trim())}
+              >
+                완료
+              </button>
+            </div>
           </div>
         </div>
       </div>

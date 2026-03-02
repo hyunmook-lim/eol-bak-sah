@@ -322,6 +322,35 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+.game5-build-container .action-buttons-group {
+  display: flex;
+  gap: 12px;
+}
+
+.game5-build-container .save-draft-btn {
+  background-color: #f1f3f5;
+  color: #495057;
+  border: 2px solid #ced4da;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.game5-build-container .save-draft-btn:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.game5-build-container .save-draft-btn:disabled {
+  background-color: #f8f9fa;
+  color: #ced4da;
+  border-color: #e9ecef;
+  cursor: not-allowed;
+}
+
 .game5-build-container .complete-btn {
   background-color: #f5ae43;
   color: white;

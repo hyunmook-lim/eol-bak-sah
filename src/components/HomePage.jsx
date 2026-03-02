@@ -7,6 +7,7 @@ const mainPenguinImg = '/images/main-penguin.png'
 const penguinFoot = '/images/penguin-foot.png'
 import FeedbackModal from './FeedbackModal'
 import NoticeModal from './NoticeModal'
+import SavedGamesModal from './SavedGamesModal'
 
 function HomePage() {
   const [scrollY, setScrollY] = useState(0)
@@ -15,6 +16,7 @@ function HomePage() {
   const [hoveredGame, setHoveredGame] = useState(null)
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false)
   const [isNoticeModalOpen, setIsNoticeModalOpen] = useState(false)
+  const [isSavedGamesModalOpen, setIsSavedGamesModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [loadingProgress, setLoadingProgress] = useState(0)
   const [hasUnreadNotice, setHasUnreadNotice] = useState(false)
@@ -341,19 +343,28 @@ function HomePage() {
       <header className="title-header">
         <img src={oneIceImg} alt="" className="header-ice" />
         <h1>얼박사</h1>
-        <button
-          className="notice-btn"
-          onClick={() => {
-            setIsNoticeModalOpen(true)
-            setHasUnreadNotice(false)
-            localStorage.setItem('hasReadNotice_20260302', 'true')
-          }}
-          aria-label="공지사항"
-        >
-          <span className={hasUnreadNotice ? "unread-animation" : ""}>
-            📢
-          </span>
-        </button>
+        <div className="header-buttons">
+          <button
+            className="saved-btn header-action-btn"
+            onClick={() => setIsSavedGamesModalOpen(true)}
+            title="임시저장 불러오기"
+          >
+            💾
+          </button>
+          <button
+            className="notice-btn header-action-btn"
+            onClick={() => {
+              setIsNoticeModalOpen(true)
+              setHasUnreadNotice(false)
+              localStorage.setItem('hasReadNotice_20260302', 'true')
+            }}
+            aria-label="공지사항"
+          >
+            <span className={hasUnreadNotice ? "unread-animation" : ""}>
+              📢
+            </span>
+          </button>
+        </div>
       </header>
 
       <main className="main-content">
@@ -486,6 +497,11 @@ function HomePage() {
         <NoticeModal
           isOpen={isNoticeModalOpen}
           onClose={() => setIsNoticeModalOpen(false)}
+        />
+
+        <SavedGamesModal
+          isOpen={isSavedGamesModalOpen}
+          onClose={() => setIsSavedGamesModalOpen(false)}
         />
 
         <section className="about-section">

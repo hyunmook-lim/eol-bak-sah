@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import localforage from 'localforage'
 import './Game2Build.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
 
@@ -147,6 +148,33 @@ function Game2Build() {
     }
   }
 
+  const handleSaveDraft = async () => {
+    try {
+      if (questions.length === 0) {
+        alert('저장할 데이터가 없습니다.')
+        return
+      }
+
+      // Convert File objects to base64 strings or URLs for saving if needed, but given the user request to just use the basic logic, we need to be careful with File objects in IndexedDB. localforage can store Blobs/Files in most modern browsers.
+      
+      const existingDrafts = await localforage.getItem('game2_drafts') || []
+      
+      const newDraft = {
+        id: Date.now().toString(),
+        date: new Date().toISOString(),
+        questions: questions
+      }
+
+      const updatedDrafts = [newDraft, ...existingDrafts].slice(0, 10)
+      
+      await localforage.setItem('game2_drafts', updatedDrafts)
+      alert('임시저장이 완료되었습니다.')
+    } catch (error) {
+      console.error('Save draft failed:', error)
+      alert('임시저장 중 오류가 발생했습니다.')
+    }
+  }
+
   return (
     <LandscapeOnly>
     <div className="game2-build-container">
@@ -242,13 +270,22 @@ function Game2Build() {
                 * 모든 문제의 정답을 입력해주세요
               </span>
             ) : null}
-            <button 
-              className="complete-btn"
-              onClick={handleComplete}
-              disabled={questions.length === 0 || questions.some(q => !q.answer.trim())}
-            >
-              완료
-            </button>
+            <div className="action-buttons-group">
+              <button 
+                className="save-draft-btn"
+                onClick={handleSaveDraft}
+                disabled={questions.length === 0}
+              >
+                임시저장
+              </button>
+              <button 
+                className="complete-btn"
+                onClick={handleComplete}
+                disabled={questions.length === 0 || questions.some(q => !q.answer.trim())}
+              >
+                완료
+              </button>
+            </div>
           </div>
         </div>
       </div>

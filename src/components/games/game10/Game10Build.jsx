@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import localforage from 'localforage'
 import './Game10Build.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
 
@@ -56,6 +57,28 @@ function Game10Build() {
     setDraggedIndex(null)
   }
   const handleDragEnd = () => setDraggedIndex(null)
+
+  const handleSaveDraft = async () => {
+    if (players.length === 0) {
+      alert('최소 1명 이상의 인원을 추가해야 임시저장할 수 있습니다.');
+      return;
+    }
+
+    try {
+      const drafts = await localforage.getItem('game10_drafts') || [];
+      const newDraft = {
+        id: Date.now().toString(),
+        date: new Date().toISOString(),
+        players: players
+      };
+      
+      await localforage.setItem('game10_drafts', [...drafts, newDraft]);
+      alert('현재 작성 내용이 브라우저에 임시저장되었습니다.\n홈 화면 우측 상단의 [💾] 버튼에서 불러올 수 있습니다.');
+    } catch (err) {
+      console.error('Failed to save draft:', err);
+      alert('임시저장 중 오류가 발생했습니다.');
+    }
+  };
 
   const handleComplete = () => {
     // Validation
@@ -185,7 +208,7 @@ function Game10Build() {
                                     }
                                   }}
                                 />
-                                <div className="file-drop-text">사진 추가</div>
+                                <div className="file-drop-text">사진 추가(선택)</div>
                               </div>
                             ) : (
                               <div className="image-display mini" onClick={() => handleUpdatePlayer(player.id, 'truth1_image', null)}>
@@ -227,7 +250,7 @@ function Game10Build() {
                                     }
                                   }}
                                 />
-                                <div className="file-drop-text">사진 추가</div>
+                                <div className="file-drop-text">사진 추가(선택)</div>
                               </div>
                             ) : (
                               <div className="image-display mini" onClick={() => handleUpdatePlayer(player.id, 'truth2_image', null)}>
@@ -269,7 +292,7 @@ function Game10Build() {
                                     }
                                   }}
                                 />
-                                <div className="file-drop-text">사진 추가</div>
+                                <div className="file-drop-text">사진 추가(선택)</div>
                               </div>
                             ) : (
                               <div className="image-display mini" onClick={() => handleUpdatePlayer(player.id, 'lie_image', null)}>
@@ -318,13 +341,22 @@ function Game10Build() {
                 </span>
               )}
               
-              <button
-                className="complete-btn"
-                onClick={handleComplete}
-                disabled={!isFormValid}
-              >
-                완료
-              </button>
+              <div className="action-buttons-group">
+                <button
+                  className="save-draft-btn"
+                  onClick={handleSaveDraft}
+                  disabled={players.length === 0}
+                >
+                  임시저장
+                </button>
+                <button
+                  className="complete-btn"
+                  onClick={handleComplete}
+                  disabled={!isFormValid}
+                >
+                  완료
+                </button>
+              </div>
             </div>
           </div>
         </div>
