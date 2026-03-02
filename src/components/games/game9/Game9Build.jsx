@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import localforage from 'localforage'
 import './Game9Build.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
+import SaveCompleteModal from '../../common/SaveCompleteModal'
 
 function Game9Build() {
   const navigate = useNavigate()
@@ -10,6 +11,7 @@ function Game9Build() {
   const [title, setTitle] = useState(location.state?.title || '')
   const [candidates, setCandidates] = useState(location.state?.candidates || [])
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showSaveModal, setShowSaveModal] = useState(false)
   const [draggedIndex, setDraggedIndex] = useState(null)
 
   // 후보 객체 생성 함수
@@ -152,7 +154,7 @@ function Game9Build() {
       const updatedDrafts = [newDraft, ...existingDrafts].slice(0, 10)
       
       await localforage.setItem('game9_drafts', updatedDrafts)
-      alert('임시저장이 완료되었습니다.')
+      setShowSaveModal(true)
     } catch (error) {
       console.error('Save draft failed:', error)
       alert('임시저장 중 오류가 발생했습니다.')
@@ -370,6 +372,10 @@ function Game9Build() {
         </div>
       )}
 
+      <SaveCompleteModal 
+        isOpen={showSaveModal} 
+        onClose={() => setShowSaveModal(false)} 
+      />
     </div>
     </LandscapeOnly>
   )

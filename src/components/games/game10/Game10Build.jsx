@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import localforage from 'localforage'
 import './Game10Build.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
+import SaveCompleteModal from '../../common/SaveCompleteModal'
 
 function Game10Build() {
   const navigate = useNavigate()
@@ -11,6 +12,7 @@ function Game10Build() {
   // Players array, where each player has a name, truth1, truth2, and lie
   const [players, setPlayers] = useState(location.state?.players || [])
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showSaveModal, setShowSaveModal] = useState(false)
   const [draggedIndex, setDraggedIndex] = useState(null)
 
   const handleBackToVideo = () => navigate('/game/10/video')
@@ -75,7 +77,7 @@ function Game10Build() {
       const updatedDrafts = [newDraft, ...existingDrafts].slice(0, 10);
       
       await localforage.setItem('game10_drafts', updatedDrafts);
-      alert('현재 작성 내용이 브라우저에 임시저장되었습니다.\n홈 화면 우측 상단의 [💾] 버튼에서 불러올 수 있습니다.');
+      setShowSaveModal(true);
     } catch (err) {
       console.error('Failed to save draft:', err);
       alert('임시저장 중 오류가 발생했습니다.');
@@ -378,6 +380,10 @@ function Game10Build() {
           </div>
         )}
 
+        <SaveCompleteModal 
+          isOpen={showSaveModal} 
+          onClose={() => setShowSaveModal(false)} 
+        />
       </div>
     </LandscapeOnly>
   )

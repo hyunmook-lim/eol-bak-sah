@@ -84,6 +84,20 @@ function SavedGamesModal({ isOpen, onClose }) {
     }
   };
 
+  const handleClearAll = async () => {
+    if (window.confirm('모든 임시저장 데이터를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+      try {
+        for (let i = 1; i <= 10; i++) {
+          await localforage.removeItem(`game${i}_drafts`);
+        }
+        setSavedGames([]);
+      } catch (err) {
+        console.error('Failed to clear all games:', err);
+        alert('전체 삭제 중 오류가 발생했습니다.');
+      }
+    }
+  };
+
   const getSubItemCount = (game) => {
     if (game.gameId === 10) return `${game.players?.length || 0}명`;
     if (game.gameId === 9) return `${game.candidates?.length || 0}개 항목`;
@@ -130,7 +144,15 @@ function SavedGamesModal({ isOpen, onClose }) {
         </div>
         
         <div className="saved-games-modal-footer">
-          <button className="close-modal-btn" onClick={onClose}>닫기</button>
+          <div className="footer-actions">
+            {savedGames.length > 0 && (
+              <button className="clear-all-btn" onClick={handleClearAll}>전체 삭제</button>
+            )}
+            <button className="close-modal-btn" onClick={onClose}>닫기</button>
+          </div>
+          <p className="save-guidance-msg">
+            임시저장은 최대 10개까지 저장되며, 초과 시 가장 오래된 순으로 삭제됩니다.
+          </p>
         </div>
       </div>
     </div>

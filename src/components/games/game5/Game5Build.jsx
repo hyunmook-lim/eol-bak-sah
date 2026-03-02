@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import localforage from 'localforage'
 import './Game5Build.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
+import SaveCompleteModal from '../../common/SaveCompleteModal'
 
 function Game5Build() {
   const navigate = useNavigate()
@@ -11,6 +12,7 @@ function Game5Build() {
   const [inputValue, setInputValue] = useState('')
   const [draggedIndex, setDraggedIndex] = useState(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showSaveModal, setShowSaveModal] = useState(false)
 
   const handleBackToVideo = () => {
     navigate('/game/5/video')
@@ -67,7 +69,7 @@ function Game5Build() {
       const updatedDrafts = [newDraft, ...existingDrafts].slice(0, 10)
       
       await localforage.setItem('game5_drafts', updatedDrafts)
-      alert('임시저장이 완료되었습니다.')
+      setShowSaveModal(true)
     } catch (error) {
       console.error('Save draft failed:', error)
       alert('임시저장 중 오류가 발생했습니다.')
@@ -238,6 +240,11 @@ function Game5Build() {
           </div>
         </div>
       )}
+
+      <SaveCompleteModal 
+        isOpen={showSaveModal} 
+        onClose={() => setShowSaveModal(false)} 
+      />
     </div>
     </LandscapeOnly>
   )

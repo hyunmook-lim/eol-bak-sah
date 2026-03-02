@@ -3,12 +3,14 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import localforage from 'localforage'
 import './Game2Build.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
+import SaveCompleteModal from '../../common/SaveCompleteModal'
 
 function Game2Build() {
   const navigate = useNavigate()
   const location = useLocation()
   const [questions, setQuestions] = useState(location.state?.questions || [])
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showSaveModal, setShowSaveModal] = useState(false)
   const [lowQualityWarning, setLowQualityWarning] = useState(null)
 
   const handleBackToVideo = () => {
@@ -180,7 +182,7 @@ function Game2Build() {
       const updatedDrafts = [newDraft, ...existingDrafts].slice(0, 10)
       
       await localforage.setItem('game2_drafts', updatedDrafts)
-      alert('임시저장이 완료되었습니다.')
+      setShowSaveModal(true)
     } catch (error) {
       console.error('Save draft failed:', error)
       alert('임시저장 중 오류가 발생했습니다.')
@@ -320,6 +322,11 @@ function Game2Build() {
           </div>
         </div>
       )}
+
+      <SaveCompleteModal 
+        isOpen={showSaveModal} 
+        onClose={() => setShowSaveModal(false)} 
+      />
     </div>
     </LandscapeOnly>
   )

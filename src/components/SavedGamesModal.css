@@ -156,7 +156,32 @@
   background-color: white;
   border-top: 1px solid #eee;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.footer-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+}
+
+.clear-all-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #ff4757;
+  background: white;
+  color: #ff4757;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clear-all-btn:hover {
+  background: #fff5f5;
 }
 
 .close-modal-btn {
@@ -173,6 +198,14 @@
 
 .close-modal-btn:hover {
   background-color: #011d42;
+}
+
+.save-guidance-msg {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+  text-align: center;
+  line-height: 1.4;
 }
 
 @media (max-width: 480px) {
