@@ -46,7 +46,7 @@ function HomePage() {
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768
       
       // 크롤러 감지 (AdSense 등)
-      const isCrawler = /bot|googlebot|crawler|spider|robot|crawling|mediapartners-google/i.test(navigator.userAgent)
+      const isCrawler = /bot|googlebot|crawler|spider|robot|crawling|mediapartners-google|headless|chrome-lighthouse|pagespeed|lighthouse/i.test(navigator.userAgent)
       
       if (isCrawler) {
         setIsLoading(false)
