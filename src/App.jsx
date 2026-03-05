@@ -26,6 +26,7 @@ import Game10Build from './components/games/game10/Game10Build'
 import Game10GamePlay from './components/games/game10/Game10GamePlay'
 
 import GlobalUtilityBar from './components/common/GlobalUtilityBar'
+import MigrationModal from './components/common/MigrationModal'
 import './App.css'
 
 function App() {
@@ -150,7 +151,7 @@ function App() {
 
   return (
     <>
-
+      <MigrationModal />
       <GlobalUtilityBar
         isSoundEnabled={isSoundEnabled}
         toggleSound={toggleSound}
