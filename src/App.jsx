@@ -24,6 +24,10 @@ import Game9Build from './components/games/game9/Game9Build'
 import Game9GamePlay from './components/games/game9/Game9GamePlay'
 import Game10Build from './components/games/game10/Game10Build'
 import Game10GamePlay from './components/games/game10/Game10GamePlay'
+import Game11Build from './components/games/game11/Game11Build'
+import Game11GamePlay from './components/games/game11/Game11GamePlay'
+import Game12Build from './components/games/game12/Game12Build'
+import Game12GamePlay from './components/games/game12/Game12GamePlay'
 
 import GlobalUtilityBar from './components/common/GlobalUtilityBar'
 import './App.css'
@@ -145,7 +149,8 @@ function App() {
     7: '/videos/game7video.mp4',
     8: '/videos/game8video.mp4',
     9: '/videos/game9video.mp4',
-    10: '/videos/game10video.mp4'
+    10: '/videos/game10video.mp4',
+    11: '/videos/game11video.mp4'
   }
 
   return (
@@ -185,6 +190,10 @@ function App() {
         <Route path="/game/9/gameplay" element={<Game9GamePlay />} />
         <Route path="/game/10/build" element={<Game10Build />} />
         <Route path="/game/10/gameplay" element={<Game10GamePlay />} />
+        <Route path="/game/11/build" element={<Game11Build />} />
+        <Route path="/game/11/gameplay" element={<Game11GamePlay />} />
+        <Route path="/game/12/build" element={<Game12Build />} />
+        <Route path="/game/12/gameplay" element={<Game12GamePlay />} />
       </Routes>
     </>
   )

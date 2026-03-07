@@ -10,7 +10,7 @@ const voteBlackIcon = '/images/vote-black.png'
 const voteRedIcon = '/images/vote-red.png'
 const crownIcon = '/images/crown.png'
 const stageImage = '/images/stage.png'
-const winnerSound = '/sounds/vote-winner.wav'
+const winnerSound = '/sounds/answer.mp3'
 
 function Game9GamePlay() {
   const navigate = useNavigate()

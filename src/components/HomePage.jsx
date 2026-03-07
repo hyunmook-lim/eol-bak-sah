@@ -22,7 +22,7 @@ function HomePage() {
   const [hasUnreadNotice, setHasUnreadNotice] = useState(false)
 
   useEffect(() => {
-    const hasRead = localStorage.getItem('hasReadNotice_20260302') === 'true'
+    const hasRead = localStorage.getItem('hasReadNotice_20260307') === 'true'
     if (!hasRead) {
       setHasUnreadNotice(true)
     }
@@ -64,6 +64,7 @@ function HomePage() {
         '/videos/game8video.mp4',
         '/videos/game9video.mp4',
         '/videos/game10video.mp4',
+        // '/videos/game12video.mp4', // Placeholder used currently
       ]
 
       const audioResources = [
@@ -85,6 +86,7 @@ function HomePage() {
         '/thumbnail/game8thumbnail.png',
         '/thumbnail/game9thumbnail.png',
         '/thumbnail/game10thumbnail.png',
+        '/thumbnail/game6thumbnail.png', // Placeholder thumbnail
         // 기타 이미지들
         '/images/two-ices.png',
         '/images/one-ice.png',
@@ -299,15 +301,24 @@ function HomePage() {
     },
     {
       id: 11,
-      title: "게임 개발중",
-      description: "새롭고 재미있는 게임을 열심히 개발하고 있습니다. 조금만 더 기다려주세요!",
-      isComingSoon: true
+      title: "사다리타기 게임",
+      description: "운명의 사다리를 타고 내려가 결과를 확인하세요! 벌칙이나 상품을 정할 때 안성맞춤입니다.",
+      videoUrl: "/videos/game11video.mp4",
+      thumbnailUrl: "/thumbnail/game11thumbnail.png",
+      route: "/game/11/video"
     },
     {
       id: 12,
-      title: "게임 개발중",
-      description: "새롭고 재미있는 게임을 열심히 개발하고 있습니다. 조금만 더 기다려주세요!",
-      isComingSoon: true
+      title: "퍼즐 게임",
+      description: "다양한 조각을 맞춰 완성하는 재미있는 퍼즐 게임! 곧 출시될 예정이니 기대해주세요.",
+      videoUrl: "/videos/game6video.mp4", // Placeholder
+      thumbnailUrl: "/thumbnail/game6thumbnail.png", // Placeholder
+      route: "/game/12/video",
+      isComingSoon: true,
+      comingSoonText: "출시 예정",
+      releaseDate: "3/8 예정",
+      customClass: "puzzle-coming-soon",
+      icon: "🎁"
     }
   ]
 
@@ -356,7 +367,7 @@ function HomePage() {
             onClick={() => {
               setIsNoticeModalOpen(true)
               setHasUnreadNotice(false)
-              localStorage.setItem('hasReadNotice_20260302', 'true')
+              localStorage.setItem('hasReadNotice_20260307', 'true')
             }}
             aria-label="공지사항"
           >
@@ -408,7 +419,7 @@ function HomePage() {
             {games.map((game) => (
               <div
                 key={game.id}
-                className={`home-game-card ${game.isComingSoon ? 'coming-soon-card' : ''}`}
+                className={`home-game-card ${game.isComingSoon ? 'coming-soon-card' : ''} ${game.customClass || ''}`}
                 onMouseEnter={() => !game.isComingSoon && setHoveredGame(game.id)}
                 onMouseLeave={(e) => {
                   if (!game.isComingSoon) {
@@ -422,11 +433,16 @@ function HomePage() {
                   <>
                     <div className="game-image coming-soon-image">
                       <div className="coming-soon-content">
-                        <span className="coming-soon-icon">🎁</span>
-                        <span className="coming-soon-text">준비 중</span>
+                        <span className="coming-soon-icon">{game.icon || "🎁"}</span>
+                        <span className="coming-soon-text">{game.comingSoonText || "준비 중"}</span>
                       </div>
                     </div>
-                    <h3 className="game-title">{game.title}</h3>
+                    <div className="game-title-container">
+                      <h3 className="game-title">{game.title}</h3>
+                      {game.releaseDate && (
+                        <span className="coming-soon-badge">{game.releaseDate}</span>
+                      )}
+                    </div>
                     <p className="game-description">
                       {game.description}
                     </p>
@@ -434,7 +450,7 @@ function HomePage() {
                       className="game-start-btn coming-soon-btn"
                       disabled
                     >
-                      준비 중
+                      {game.comingSoonText || "준비 중"}
                     </button>
                   </>
                 ) : (

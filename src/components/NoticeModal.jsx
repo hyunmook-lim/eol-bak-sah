@@ -6,6 +6,14 @@ function NoticeModal({ isOpen, onClose }) {
 
   const notices = [
     {
+      date: '2026.03.07',
+      title: '업데이트 안내',
+      items: [
+        { segments: [{ highlight: '사다리타기' }, { text: ' 게임을 새로 출시했습니다.' }] },
+        { segments: [{ highlight: '투표' }, { text: ', ' }, { highlight: '진진가' }, { text: ' 게임의 효과음을 변경하였습니다.' }] }
+      ]
+    },
+    {
       date: '2026.03.02',
       title: '새로운 게임 출시',
       items: [

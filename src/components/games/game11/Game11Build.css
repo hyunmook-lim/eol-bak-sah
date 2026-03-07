@@ -1,0 +1,409 @@
+.game11-build-container {
+  height: 100vh;
+  background: white;
+  overflow: hidden;
+}
+
+.game11-build-container .game-title-header {
+  background-color: #01275b;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.game11-build-container .game-title-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.game11-build-container .header-back-btn, .game11-build-container .header-close-btn {
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.game11-build-container .header-close-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+.game11-build-container .header-back-btn:hover, .game11-build-container .header-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.game11-build-container .game-play-container {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.game11-build-container .question-input-section {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.game11-build-container .section-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.game11-build-container .section-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.game11-build-container .section-header h2 {
+  color: #01275b;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.game11-build-container .section-description {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.game11-build-container .section-description-list {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.4;
+}
+
+.game11-build-container .section-description-list li {
+  margin-bottom: 3px;
+}
+
+.game11-build-container .divider {
+  height: 2px;
+  background-color: #01275b;
+  margin: 0 auto 20px;
+}
+
+/* Player Count Button Styles */
+.game11-build-container .player-count-selection {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-start;
+  margin: 20px 0;
+  padding-left: 5px;
+}
+
+.game11-build-container .count-btn {
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  background: #f1f3f5;
+  color: #495057;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+  min-width: 60px;
+}
+
+.game11-build-container .count-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.game11-build-container .count-btn.active {
+  background: linear-gradient(180deg, #f5ae43 0%, #e49a2e 100%);
+  color: white;
+  box-shadow: 
+    0 6px 12px rgba(215, 86, 14, 0.3),
+    0 3px 6px rgba(215, 86, 14, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game11-build-container .inputs-grid-wrapper {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  overflow-x: auto;
+}
+
+.game11-build-container .inputs-grid {
+  display: grid;
+  gap: 15px;
+  align-items: center;
+  min-width: 600px; /* Prevent shrinking too much */
+}
+
+.game11-build-container .quick-fill-section {
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.game11-build-container .quick-fill-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+}
+
+.game11-build-container .quick-fill-btn.fail {
+  background-color: #ff4d4f;
+  box-shadow: 0 4px 10px rgba(255, 77, 79, 0.2);
+}
+
+.game11-build-container .quick-fill-btn.pass {
+  background-color: #8bc34a;
+  box-shadow: 0 4px 10px rgba(139, 195, 74, 0.2);
+}
+
+.game11-build-container .quick-fill-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.game11-build-container .input-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.game11-build-container .input-box input {
+  width: 90%;
+  padding: 12px 10px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: white;
+  color: #333;
+}
+
+.game11-build-container .input-box input:focus {
+  outline: none;
+  border-color: #f5ae43;
+  box-shadow: 0 0 0 3px rgba(245, 174, 67, 0.2);
+}
+
+.game11-build-container .input-box input.result-input {
+  border-color: #dee2e6;
+  background: #fdfdfd;
+}
+
+.game11-build-container .input-box input.result-input:focus {
+  border-color: #d7560e;
+  box-shadow: 0 0 0 3px rgba(215, 86, 14, 0.2);
+}
+
+.game11-build-container .input-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #6c757d;
+  background: #e9ecef;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.game11-build-container .player-label {
+  color: white;
+  background: #f5ae43;
+}
+
+.game11-build-container .result-label {
+  color: white;
+  background: #01275b;
+}
+
+.game11-build-container .ladder-visual-placeholder {
+  position: relative;
+  height: 60px;
+  margin: 10px 0;
+}
+
+.game11-build-container .vertical-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #adb5bd; /* Darker gray for better visibility */
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.game11-build-container .completion-section {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 20px;
+}
+
+.game11-build-container .completion-warning {
+  color: #ff4d4f;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.game11-build-container .action-buttons-group {
+  display: flex;
+  gap: 12px;
+}
+
+.game11-build-container .save-draft-btn {
+  background-color: #f1f3f5;
+  color: #495057;
+  border: 1px solid #ced4da;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.game11-build-container .complete-btn {
+  background-color: #f5ae43;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.game11-build-container .complete-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Modal */
+.game11-build-container .confirm-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.game11-build-container .confirm-modal-content {
+  background: white;
+  padding: 40px 50px;
+  border-radius: 25px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: modalPopIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.game11-build-container .confirm-modal-body h3 {
+  color: #01275b;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+}
+
+.game11-build-container .confirm-modal-body p {
+  color: #666;
+  font-size: 1.2rem;
+  margin-bottom: 35px;
+  line-height: 1.5;
+}
+
+.game11-build-container .confirm-modal-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.game11-build-container .confirm-btn,
+.game11-build-container .cancel-btn {
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  min-width: 140px;
+}
+
+.game11-build-container .confirm-btn {
+  background-color: #f5ae43;
+  color: white;
+  box-shadow: 0 8px 15px rgba(245, 174, 67, 0.3);
+}
+
+.game11-build-container .confirm-btn:hover {
+  background-color: #e49a2e;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 20px rgba(245, 174, 67, 0.4);
+}
+
+.game11-build-container .cancel-btn {
+  background-color: #e9ecef;
+  color: #444;
+}
+
+.game11-build-container .cancel-btn:hover {
+  background-color: #dee2e6;
+  transform: translateY(-3px);
+  color: #222;
+}

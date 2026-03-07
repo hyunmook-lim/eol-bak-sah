@@ -23,14 +23,16 @@ function SavedGamesModal({ isOpen, onClose }) {
     7: { title: "메모리 카드 게임", route: "/game/7/build" },
     8: { title: "돋보기 게임", route: "/game/8/build" },
     9: { title: "투표 게임", route: "/game/9/build" },
-    10: { title: "진진가 게임", route: "/game/10/build" }
+    10: { title: "진진가 게임", route: "/game/10/build" },
+    11: { title: "사다리타기 게임", route: "/game/11/build" },
+    12: { title: "얼박사 퍼즐 게임", route: "/game/12/build" }
   };
 
   const loadSavedGames = async () => {
     try {
       let allDrafts = [];
-      // Loop through game1_drafts to game10_drafts
-      for (let i = 1; i <= 10; i++) {
+      // Loop through game1_drafts to game12_drafts
+      for (let i = 1; i <= 12; i++) {
         const drafts = await localforage.getItem(`game${i}_drafts`) || [];
         // Inject gameId into each draft for easier handling later
         const draftsWithGameId = drafts.map(d => ({ ...d, gameId: i }));
@@ -50,7 +52,13 @@ function SavedGamesModal({ isOpen, onClose }) {
     
     // Determine what state to pass based on gameId
     let stateToPass = {};
-    if (gameData.gameId === 10) {
+    if (gameData.gameId === 11) {
+      stateToPass = { 
+        playerCount: gameData.playerCount,
+        players: gameData.players, 
+        results: gameData.results 
+      };
+    } else if (gameData.gameId === 10) {
       stateToPass = { players: gameData.players };
     } else if (gameData.gameId === 9) {
       stateToPass = { title: gameData.title, candidates: gameData.candidates };
@@ -87,7 +95,7 @@ function SavedGamesModal({ isOpen, onClose }) {
   const handleClearAll = async () => {
     if (window.confirm('모든 임시저장 데이터를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
       try {
-        for (let i = 1; i <= 10; i++) {
+        for (let i = 1; i <= 12; i++) {
           await localforage.removeItem(`game${i}_drafts`);
         }
         setSavedGames([]);
@@ -99,6 +107,7 @@ function SavedGamesModal({ isOpen, onClose }) {
   };
 
   const getSubItemCount = (game) => {
+    if (game.gameId === 11) return `${game.playerCount || 0}명`;
     if (game.gameId === 10) return `${game.players?.length || 0}명`;
     if (game.gameId === 9) return `${game.candidates?.length || 0}개 항목`;
     if (game.gameId === 7) return `${game.pairs?.length || 0}쌍`;

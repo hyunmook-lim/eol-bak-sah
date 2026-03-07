@@ -64,7 +64,7 @@ function Game10GamePlay() {
     
     // Play sound based on the answer
     const selected = currentPlayer.statements.find(c => c.id === statementId)
-    const soundPath = selected?.isLie ? '/sounds/answer-correct.wav' : '/sounds/wrong.wav'
+    const soundPath = selected?.isLie ? '/sounds/answer.mp3' : '/sounds/wrong.wav'
     const audio = new Audio(soundPath)
     audio.play().catch(e => console.error('Failed to play audio:', e))
 
