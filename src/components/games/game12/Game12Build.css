@@ -359,47 +359,91 @@
   cursor: not-allowed;
 }
 
-/* Modal */
+/* Modals */
 .game12-build-container .confirm-modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .game12-build-container .confirm-modal-content {
   background: white;
-  padding: 30px;
-  border-radius: 20px;
-  text-align: center;
-  max-width: 400px;
+  padding: 40px 50px;
+  border-radius: 25px;
+  max-width: 500px;
   width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: modalPopIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalPopIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.game12-build-container .confirm-modal-body h3 {
+  color: #01275b;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+}
+
+.game12-build-container .confirm-modal-body p {
+  color: #666;
+  font-size: 1.2rem;
+  margin-bottom: 35px;
+  line-height: 1.5;
 }
 
 .game12-build-container .confirm-modal-buttons {
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 20px;
   justify-content: center;
 }
 
-.game12-build-container .confirm-btn {
-  background: #01275b;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+.game12-build-container .confirm-btn,
+.game12-build-container .cancel-btn {
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 700;
   cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  min-width: 140px;
+}
+
+.game12-build-container .confirm-btn {
+  background-color: #f5ae43;
+  color: white;
+  box-shadow: 0 8px 15px rgba(245, 174, 67, 0.3);
+}
+
+.game12-build-container .confirm-btn:hover {
+  background-color: #e49a2e;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 20px rgba(245, 174, 67, 0.4);
 }
 
 .game12-build-container .cancel-btn {
-  background: #eee;
-  color: #333;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
+  background-color: #e9ecef;
+  color: #444;
+}
+
+.game12-build-container .cancel-btn:hover {
+  background-color: #dee2e6;
+  transform: translateY(-3px);
+  color: #222;
 }

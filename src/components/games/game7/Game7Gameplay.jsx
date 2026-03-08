@@ -10,13 +10,12 @@ const penguinFootCursor = '/images/penguin-foot.png'
 const correctSound = '/sounds/correct.wav'
 const wrongSound = '/sounds/wrong.wav'
 
-function Game7Gameplay() {
+function Game7Gameplay({ globalSoundEnabled = true }) {
   const navigate = useNavigate()
   const location = useLocation()
   const gameData = location.state
 
   const [cards, setCards] = useState([])
-  const [isSoundOn, setIsSoundOn] = useState(true)
   const [isHintOn, setIsHintOn] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [gameStarted, setGameStarted] = useState(false)
@@ -170,7 +169,7 @@ function Game7Gameplay() {
         setSuccessCards([firstCardId, secondCardId])
 
         // 소리 재생
-        if (isSoundOn) {
+        if (globalSoundEnabled) {
           playCorrect()
         }
 
@@ -185,7 +184,7 @@ function Game7Gameplay() {
         setShakingCards([firstCardId, secondCardId])
 
         // 소리 재생
-        if (isSoundOn) {
+        if (globalSoundEnabled) {
           playWrong()
         }
 
@@ -251,15 +250,7 @@ function Game7Gameplay() {
       <div className={`gameplay-container ${!gameStarted ? 'game-paused' : ''}`}>
         {/* 상단 컨트롤 영역 */}
         <div className="control-section">
-          <div className="control-buttons">
-            <div className="toggle-item">
-              <span className="toggle-icon">
-                {isSoundOn ? <HiVolumeUp /> : <HiVolumeOff />}
-              </span>
-              <div className="toggle-switch" onClick={() => setIsSoundOn(!isSoundOn)}>
-                <div className={`toggle-slider ${isSoundOn ? 'active' : ''}`}></div>
-              </div>
-            </div>
+          <div className="control-buttons" style={{ justifyContent: 'flex-end', width: '100%', paddingRight: '20px' }}>
             <div className="toggle-item">
               <span className="toggle-icon">
                 <HiLightBulb />

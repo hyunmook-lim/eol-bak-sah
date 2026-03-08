@@ -89,7 +89,23 @@ function Game12Build() {
   const [puzzleEdges, setPuzzleEdges] = useState(location.state?.puzzleEdges || [])
   
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showBackConfirmModal, setShowBackConfirmModal] = useState(false)
   const [showSaveModal, setShowSaveModal] = useState(false)
+
+  const handleBackToHome = () => setShowConfirmModal(true)
+  const handleConfirmExit = () => {
+    setShowConfirmModal(false)
+    navigate('/')
+    setTimeout(() => window.scrollTo({ top: 800, behavior: 'smooth' }), 50)
+  }
+  const handleCancelExit = () => setShowConfirmModal(false)
+
+  const handleBackToStart = () => setShowBackConfirmModal(true)
+  const handleConfirmBackToStart = () => {
+    setShowBackConfirmModal(false)
+    navigate('/game/12/video')
+  }
+  const handleCancelBackToStart = () => setShowBackConfirmModal(false)
 
   // Generate stable puzzle edges when size changes
   useEffect(() => {
@@ -103,26 +119,6 @@ function Game12Build() {
       setPuzzleEdges(newEdges);
     }
   }, [puzzleSize, puzzleEdges.length]);
-
-  const handleBackToVideo = () => {
-    navigate('/game/12/video')
-  }
-
-  const handleBackToHome = () => {
-    setShowConfirmModal(true)
-  }
-
-  const handleConfirmExit = () => {
-    setShowConfirmModal(false)
-    navigate('/')
-    setTimeout(() => {
-      window.scrollTo({ top: 800, behavior: 'smooth' })
-    }, 50)
-  }
-
-  const handleCancelExit = () => {
-    setShowConfirmModal(false)
-  }
 
   const readFileAsDataURL = (file) => {
     return new Promise((resolve) => {
@@ -269,14 +265,12 @@ function Game12Build() {
     <LandscapeOnly>
     <div className="game12-build-container">
       <header className="game-title-header">
-        <button onClick={handleBackToVideo} className="header-back-btn">
+        <button onClick={handleBackToStart} className="header-back-btn">
           <div className="arrow-left"></div>
         </button>
-        <h1>얼박사 퍼즐 게임 만들기</h1>
+        <h1>퍼즐 만들기</h1>
         <button onClick={handleBackToHome} className="header-close-btn">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+          X
         </button>
       </header>
 
@@ -292,7 +286,7 @@ function Game12Build() {
           <div className="divider"></div>
           
           <div className="puzzle-size-selection">
-            {[2, 3, 4, 5].map((size) => (
+            {[2, 3, 4, 5, 6, 7].map((size) => (
               <button
                 key={size}
                 className={`size-btn ${puzzleSize === size ? 'active' : ''}`}
@@ -410,29 +404,43 @@ function Game12Build() {
         </div>
       </div>
 
+      {showSaveModal && (
+        <SaveCompleteModal 
+          isOpen={showSaveModal} 
+          onClose={() => setShowSaveModal(false)} 
+          onFinish={() => navigate('/game/12')}
+        />
+      )}
+
       {showConfirmModal && (
         <div className="confirm-modal-overlay" onClick={handleCancelExit}>
           <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="confirm-modal-body">
               <h3>홈으로 돌아가시겠습니까?</h3>
-              <p>작업 중인 내용이 저장되지 않을 수 있습니다.</p>
+              <p>만들기가 중단됩니다.</p>
             </div>
             <div className="confirm-modal-buttons">
-              <button className="confirm-btn" onClick={handleConfirmExit}>
-                확인
-              </button>
-              <button className="cancel-btn" onClick={handleCancelExit}>
-                취소
-              </button>
+              <button className="confirm-btn" onClick={handleConfirmExit}>확인</button>
+              <button className="cancel-btn" onClick={handleCancelExit}>취소</button>
             </div>
           </div>
         </div>
       )}
 
-      <SaveCompleteModal 
-        isOpen={showSaveModal} 
-        onClose={() => setShowSaveModal(false)} 
-      />
+      {showBackConfirmModal && (
+        <div className="confirm-modal-overlay" onClick={handleCancelBackToStart}>
+          <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="confirm-modal-body">
+              <h3>시작 화면으로 돌아가시겠습니까?</h3>
+              <p>준비 중인 내용이 초기화됩니다.</p>
+            </div>
+            <div className="confirm-modal-buttons">
+              <button className="confirm-btn" onClick={handleConfirmBackToStart}>확인</button>
+              <button className="cancel-btn" onClick={handleCancelBackToStart}>취소</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     </LandscapeOnly>
   )

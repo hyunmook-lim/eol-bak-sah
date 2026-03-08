@@ -63,8 +63,8 @@ function HomePage() {
         '/videos/game7video.mp4',
         '/videos/game8video.mp4',
         '/videos/game9video.mp4',
-        '/videos/game10video.mp4',
-        // '/videos/game12video.mp4', // Placeholder used currently
+        '/videos/game11video.mp4',
+        '/videos/game12video.mp4',
       ]
 
       const audioResources = [
@@ -86,7 +86,8 @@ function HomePage() {
         '/thumbnail/game8thumbnail.png',
         '/thumbnail/game9thumbnail.png',
         '/thumbnail/game10thumbnail.png',
-        '/thumbnail/game6thumbnail.png', // Placeholder thumbnail
+        '/thumbnail/game11thumbnail.png',
+        '/thumbnail/game12thumbnail.png',
         // 기타 이미지들
         '/images/two-ices.png',
         '/images/one-ice.png',
@@ -310,15 +311,10 @@ function HomePage() {
     {
       id: 12,
       title: "퍼즐 게임",
-      description: "다양한 조각을 맞춰 완성하는 재미있는 퍼즐 게임! 곧 출시될 예정이니 기대해주세요.",
-      videoUrl: "/videos/game6video.mp4", // Placeholder
-      thumbnailUrl: "/thumbnail/game6thumbnail.png", // Placeholder
-      route: "/game/12/video",
-      isComingSoon: true,
-      comingSoonText: "출시 예정",
-      releaseDate: "3/8 예정",
-      customClass: "puzzle-coming-soon",
-      icon: "🎁"
+      description: "다양한 조각을 맞춰 완성하는 재미있는 퍼즐 게임! 친구들과 함께 퍼즐을 맞춰보세요.",
+      videoUrl: "/videos/game12video.mp4",
+      thumbnailUrl: "/thumbnail/game12thumbnail.png",
+      route: "/game/12/video"
     }
   ]
 

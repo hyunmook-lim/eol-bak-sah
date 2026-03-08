@@ -6,8 +6,16 @@ function NoticeModal({ isOpen, onClose }) {
 
   const notices = [
     {
+      date: '2026.03.08',
+      title: '새로운 게임 출시',
+      items: [
+        { segments: [{ text: '새로운 ' }, { highlight: '퍼즐' }, { text: ' 게임을 출시했습니다.' }] },
+        { segments: [{ text: '왼쪽 창에서 소리를 제어할 수 있습니다. (' }, { highlight: '메모리카드' }, { text: ', ' }, { highlight: '사다리타기' }, { text: ')' }] }
+      ]
+    },
+    {
       date: '2026.03.07',
-      title: '업데이트 안내',
+      title: '새로운 게임 출시',
       items: [
         { segments: [{ highlight: '사다리타기' }, { text: ' 게임을 새로 출시했습니다.' }] },
         { segments: [{ highlight: '투표' }, { text: ', ' }, { highlight: '진진가' }, { text: ' 게임의 효과음을 변경하였습니다.' }] }

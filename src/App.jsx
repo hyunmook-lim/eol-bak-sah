@@ -150,7 +150,8 @@ function App() {
     8: '/videos/game8video.mp4',
     9: '/videos/game9video.mp4',
     10: '/videos/game10video.mp4',
-    11: '/videos/game11video.mp4'
+    11: '/videos/game11video.mp4',
+    12: '/videos/game12video.mp4'
   }
 
   return (
@@ -182,7 +183,7 @@ function App() {
         <Route path="/game/6/build" element={<Game6Build />} />
         <Route path="/game/6/gameplay" element={<Game6GamePlay />} />
         <Route path="/game/7/build" element={<Game7Build />} />
-        <Route path="/game/7/gameplay" element={<Game7Gameplay />} />
+        <Route path="/game/7/gameplay" element={<Game7Gameplay globalSoundEnabled={isSoundEnabled} />} />
         <Route path="/game/8/build" element={<Game8Build />} />
         <Route path="/game/8/build2" element={<Game8Build2 />} />
         <Route path="/game/8/gameplay" element={<Game8GamePlay />} />
@@ -191,9 +192,9 @@ function App() {
         <Route path="/game/10/build" element={<Game10Build />} />
         <Route path="/game/10/gameplay" element={<Game10GamePlay />} />
         <Route path="/game/11/build" element={<Game11Build />} />
-        <Route path="/game/11/gameplay" element={<Game11GamePlay />} />
+        <Route path="/game/11/gameplay" element={<Game11GamePlay globalSoundEnabled={isSoundEnabled} />} />
         <Route path="/game/12/build" element={<Game12Build />} />
-        <Route path="/game/12/gameplay" element={<Game12GamePlay />} />
+        <Route path="/game/12/gameplay" element={<Game12GamePlay globalSoundEnabled={isSoundEnabled} />} />
       </Routes>
     </>
   )

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { HiVolumeUp, HiVolumeOff, HiLightBulb } from 'react-icons/hi'
+import { HiLightBulb } from 'react-icons/hi'
 import './Game11GamePlay.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
 
-function Game11GamePlay() {
+function Game11GamePlay({ globalSoundEnabled = true }) {
   const navigate = useNavigate()
   const location = useLocation()
   
@@ -25,7 +25,6 @@ function Game11GamePlay() {
   const [animatingPoints, setAnimatingPoints] = useState([])
   const [showAllComplete, setShowAllComplete] = useState(false)
   const [showResults, setShowResults] = useState(false)
-  const [isSoundOn, setIsSoundOn] = useState(true)
   
   // Dynamic pixel dimensions tracker removed. We will use relative coordinates (x: 0~playerCount, y: 0~100)
   const LADDER_ROWS = 12
@@ -70,7 +69,7 @@ function Game11GamePlay() {
     if (tracedPaths[playerIndex] || activePlayer !== null) return;
     
     // Play sound
-    if (isSoundOn) {
+    if (globalSoundEnabled) {
       const audio = new Audio('/sounds/button-click.wav')
       audio.play().catch(e => console.error('Audio play failed', e))
     }
@@ -120,7 +119,7 @@ function Game11GamePlay() {
     // Play falling sound as the animation starts
     let fallingAudio = null;
     try {
-      if (isSoundOn) {
+      if (globalSoundEnabled) {
         fallingAudio = new Audio('/sounds/falling.mp3')
         fallingAudio.loop = true // Optional: Loop if the sound is shorter than 5s
         fallingAudio.play().catch(e => console.error('Failed to play falling audio:', e))
@@ -167,7 +166,7 @@ function Game11GamePlay() {
 
         // Play reveal sound when path is fully drawn
         try {
-          if (isSoundOn) {
+          if (globalSoundEnabled) {
             const audio = new Audio('/sounds/reveal.mp3')
             audio.play().catch(e => console.error('Failed to play audio:', e))
           }
@@ -189,7 +188,7 @@ function Game11GamePlay() {
         setActivePlayer(null)
         setAnimatingPoints([])
         
-        if (isSoundOn) {
+        if (globalSoundEnabled) {
           const answerSound = new Audio('/assets/sounds/answer-correct.wav')
           answerSound.play().catch(e => console.log('Audio error:', e))
         }
@@ -407,15 +406,6 @@ function Game11GamePlay() {
             <div className="game-utilities">
               {/* Left Toggles Section */}
               <div className="utility-toggles" style={{ display: 'flex', gap: '30px', marginRight: 'auto' }}>
-                <div className="toggle-item">
-                  <span className="toggle-icon">
-                    {isSoundOn ? <HiVolumeUp /> : <HiVolumeOff />}
-                  </span>
-                  <div className="toggle-switch" onClick={() => setIsSoundOn(!isSoundOn)}>
-                    <div className={`toggle-slider ${isSoundOn ? 'active' : ''}`}></div>
-                  </div>
-                </div>
-
                 <div className="toggle-item">
                   <span className="toggle-icon">
                     <HiLightBulb />

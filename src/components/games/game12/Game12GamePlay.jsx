@@ -1,9 +1,10 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { HiLightBulb, HiPhotograph } from 'react-icons/hi'
 import './Game12GamePlay.css'
 import LandscapeOnly from '../../common/LandscapeOnly'
 
-function Game12GamePlay() {
+function Game12GamePlay({ globalSoundEnabled = true }) {
   const navigate = useNavigate()
   const location = useLocation()
   
@@ -19,6 +20,10 @@ function Game12GamePlay() {
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [showBackConfirmModal, setShowBackConfirmModal] = useState(false)
   const [gameCompleted, setGameCompleted] = useState(false)
+  const [wrongPieceId, setWrongPieceId] = useState(null)
+  const [correctPieceId, setCorrectPieceId] = useState(null)
+  const [showAnswerPreview, setShowAnswerPreview] = useState(false)
+  const [showHintGuides, setShowHintGuides] = useState(false)
 
   const currentQuestion = questions[currentQuestionIndex]
 
@@ -107,11 +112,13 @@ function Game12GamePlay() {
     if (pieces.length > 0 && pieces.every(p => p.location === `board-${p.originalIndex}`)) {
       if (!gameCompleted) {
         setGameCompleted(true);
-        const audio = new Audio('/sounds/answer-correct.wav')
-        audio.play().catch(e => console.error('Failed to play audio:', e))
+        if (globalSoundEnabled) {
+          const audio = new Audio('/sounds/answer-correct.wav')
+          audio.play().catch(e => console.error('Failed to play audio:', e))
+        }
       }
     }
-  }, [pieces, gameCompleted])
+  }, [pieces, gameCompleted, globalSoundEnabled])
 
   const handleBackToBuild = () => setShowBackConfirmModal(true)
   const handleConfirmBackToBuild = () => {
@@ -191,8 +198,37 @@ function Game12GamePlay() {
       
       if (draggedPieceIndex === -1) return prevPieces;
 
-      // If target is a board slot, check if it's already occupied
+      // If target is a board slot, check for correctness
       if (targetLocation.startsWith('board-')) {
+        const slotIndex = parseInt(targetLocation.split('-')[1]);
+        const draggedPiece = newPieces[draggedPieceIndex];
+        
+        // Validation: Must match the original index
+        if (draggedPiece.originalIndex !== slotIndex) {
+          // Play wrong sound
+          if (globalSoundEnabled) {
+            const audio = new Audio('/sounds/puzzle-wrong.wav');
+            audio.play().catch(e => console.error('Failed to play wrong sound:', e));
+          }
+          
+          // Trigger shake effect
+          setWrongPieceId(pieceId);
+          setTimeout(() => setWrongPieceId(null), 500);
+          
+          // Return to pool (or stay where it was if it was already on board elsewhere)
+          newPieces[draggedPieceIndex].location = 'pool';
+          return newPieces;
+        }
+
+        // Correct Placement!
+        if (globalSoundEnabled) {
+          const audio = new Audio('/sounds/puzzle-correct.mp3');
+          audio.play().catch(e => console.error('Failed to play correct sound:', e));
+        }
+        
+        setCorrectPieceId(pieceId);
+        setTimeout(() => setCorrectPieceId(null), 800);
+
         const occupantIndex = newPieces.findIndex(p => p.location === targetLocation);
         
         if (occupantIndex !== -1) {
@@ -257,7 +293,7 @@ function Game12GamePlay() {
     return (
       <div 
         key={piece.id}
-        className={`puzzle-piece-container ${piece.location === 'pool' ? 'in-pool' : ''} ${gameCompleted ? 'completed' : ''}`}
+        className={`puzzle-piece-container ${piece.location === 'pool' ? 'in-pool' : ''} ${gameCompleted ? 'completed' : ''} ${wrongPieceId === piece.id ? 'shake-error' : ''} ${correctPieceId === piece.id ? 'correct-pulse' : ''}`}
         draggable={!gameCompleted}
         onDragStart={(e) => handleDragStart(e, piece.id)}
         style={{
@@ -292,11 +328,93 @@ function Game12GamePlay() {
           <path 
             d={puzzlePaths[piece.originalIndex]} 
             fill={`url(#puzzle-img-${piece.id})`} 
+            filter="url(#puzzle-bevel-filter)"
           />
-          {/* Inner stroke for piece definition */}
-          <path d={puzzlePaths[piece.originalIndex]} fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="0.005" />
+          {/* Subtle outer stroke for depth */}
+          <path 
+            d={puzzlePaths[piece.originalIndex]} 
+            fill="none" 
+            stroke="rgba(0,0,0,0.2)" 
+            strokeWidth="0.006" 
+          />
+          {/* Inner highlight stroke */}
+          <path 
+            d={puzzlePaths[piece.originalIndex]} 
+            fill="none" 
+            stroke="rgba(255,255,255,0.3)" 
+            strokeWidth="0.003" 
+          />
         </svg>
       </div>
+    );
+  };
+
+  // Internal component to draw irregular paths only for internal edges (avoiding board borders)
+  const InternalBoardGuides = () => {
+    const segments = useMemo(() => {
+      if (!passedEdges || passedEdges.length !== puzzleSize) return [];
+      
+      const lines = [];
+      const step = 100 / puzzleSize;
+      const tabSize = 0.15 * step;
+
+      // Horizontal edges (Internal only: skips the very bottom border)
+      for (let row = 0; row < puzzleSize - 1; row++) {
+        for (let col = 0; col < puzzleSize; col++) {
+          const type = passedEdges[row][col].bottom;
+          const xStart = col * step;
+          const y = (row + 1) * step;
+          
+          let path = `M ${xStart} ${y}`;
+          path += ` L ${xStart + step * 0.5 - tabSize} ${y}`;
+          path += ` C ${xStart + step * 0.5 - tabSize} ${y - type * tabSize}, ${xStart + step * 0.5 + tabSize} ${y - type * tabSize}, ${xStart + step * 0.5 + tabSize} ${y}`;
+          path += ` L ${xStart + step} ${y}`;
+          lines.push(path);
+        }
+      }
+      
+      // Vertical edges (Internal only: skips the very right border)
+      for (let row = 0; row < puzzleSize; row++) {
+        for (let col = 0; col < puzzleSize - 1; col++) {
+          const type = passedEdges[row][col].right;
+          const x = (col + 1) * step;
+          const yStart = row * step;
+          
+          let path = `M ${x} ${yStart}`;
+          path += ` L ${x} ${yStart + step * 0.5 - tabSize}`;
+          path += ` C ${x + type * tabSize} ${yStart + step * 0.5 - tabSize}, ${x + type * tabSize} ${yStart + step * 0.5 + tabSize}, ${x} ${yStart + step * 0.5 + tabSize}`;
+          path += ` L ${x} ${yStart + step}`;
+          lines.push(path);
+        }
+      }
+      return lines;
+    }, []);
+
+    return (
+      <svg 
+        viewBox="0 0 100 100" 
+        preserveAspectRatio="none" 
+        style={{ 
+          position: 'absolute', 
+          top: 0, left: 0, 
+          width: '100%', height: '100%', 
+          pointerEvents: 'none',
+          gridColumn: `1 / span ${puzzleSize}`,
+          gridRow: `1 / span ${puzzleSize}`,
+          zIndex: 0
+        }}
+      >
+        {segments.map((d, i) => (
+          <path 
+            key={i} 
+            d={d} 
+            fill="none" 
+            stroke="rgba(1, 39, 91, 0.15)" 
+            strokeWidth="0.5" 
+            strokeDasharray="1.5, 1.5"
+          />
+        ))}
+      </svg>
     );
   };
 
@@ -310,6 +428,16 @@ function Game12GamePlay() {
                 <path d={d} />
               </clipPath>
             ))}
+            
+            {/* 3D Bevel Filter */}
+            <filter id="puzzle-bevel-filter" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="0.01" result="blur"/>
+              <feSpecularLighting in="blur" surfaceScale="0.02" specularConstant="0.75" specularExponent="20" lightingColor="#ffffff" result="specOut">
+                <feDistantLight azimuth="225" elevation="45"/>
+              </feSpecularLighting>
+              <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut"/>
+              <feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litGraphic"/>
+            </filter>
           </defs>
         </svg>
 
@@ -317,7 +445,7 @@ function Game12GamePlay() {
           <button onClick={handleBackToBuild} className="header-back-btn">
             <div className="arrow-left"></div>
           </button>
-          <h1>얼박사 퍼즐 게임</h1>
+          <h1>퍼즐 게임</h1>
           <button onClick={handleBackToHome} className="header-close-btn">
             X
           </button>
@@ -334,10 +462,21 @@ function Game12GamePlay() {
             </div>
           ) : (
             <div className="game-play-section">
-              <div className="puzzle-layout">
+              <div className={`puzzle-layout ${gameCompleted ? 'game-completed' : ''}`}>
                 {/* Left Side: Puzzle Board */}
-                <div className="puzzle-board-area">
-                  <div className="puzzle-board-container">
+                <div className={`puzzle-board-area ${!gameCompleted && showAnswerPreview ? 'with-info' : ''}`}>
+                  
+                  {/* Info Pane (Top-Left logically, Left visually) */}
+                  <div className={`puzzle-info-pane ${!gameCompleted && showAnswerPreview ? 'visible' : ''}`}>
+                    {!gameCompleted && (
+                      <div className={`puzzle-answer-preview ${showAnswerPreview ? 'visible' : ''}`} style={{ width: '180px' }}>
+                        <img src={currentQuestion.imageUrl} alt="Answer Preview" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Puzzle Board Container */}
+                  <div className="puzzle-board-container" style={{ flex: 1, minWidth: 0, height: '100%', position: 'relative' }}>
                     <div 
                       className={`puzzle-grid ${gameCompleted ? 'completed' : ''}`}
                       style={{
@@ -345,9 +484,16 @@ function Game12GamePlay() {
                         display: 'grid',
                         gridTemplateColumns: `repeat(${puzzleSize}, 1fr)`,
                         gridTemplateRows: `repeat(${puzzleSize}, 1fr)`,
-                        margin: 'auto'
+                        margin: 'auto',
+                        position: 'relative',
+                        maxHeight: '100%'
                       }}
                     >
+                      {!gameCompleted && (
+                        <div className={`puzzle-hint-bg ${showHintGuides ? 'visible' : ''}`} 
+                             style={{ backgroundImage: `url(${currentQuestion.imageUrl})` }} />
+                      )}
+                      {!gameCompleted && <InternalBoardGuides />}
                       {[...Array(puzzleSize * puzzleSize)].map((_, i) => (
                         <div 
                           key={`slot-${i}`}
@@ -360,49 +506,53 @@ function Game12GamePlay() {
                       ))}
                     </div>
                   </div>
-                  
-                  {gameCompleted && (
-                    <div className="answer-display">
-                      <p className="answer-text">{currentQuestion.answer}</p>
-                    </div>
-                  )}
 
                   {gameCompleted && (
-                    <div className="navigation-buttons">
-                      {currentQuestionIndex > 0 && (
-                        <div className="nav-button-container">
-                          <div className="nav-tooltip">이전 문제</div>
-                          <button className="prev-arrow-btn" onClick={handlePreviousQuestion}>
-                            <span className="arrow-icon">←</span>
-                          </button>
+                    <>
+                      <div className="game-completed-overlay">
+                        <div className="answer-display">
+                          <p className="answer-text">{currentQuestion.answer}</p>
                         </div>
-                      )}
-                      {currentQuestionIndex < questions.length - 1 ? (
-                        <div className="nav-button-container">
-                          <div className="nav-tooltip">다음 문제</div>
-                          <button className="next-arrow-btn" onClick={handleNextQuestion}>
-                            <span className="arrow-icon">→</span>
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="nav-button-container">
-                          <div className="nav-tooltip">엔딩보기</div>
-                          <button className="next-arrow-btn" onClick={() => navigate('/game/12/finish', { state: { gamePath: '/game/12' } })}>
-                            <span className="arrow-icon">→</span>
-                          </button>
-                        </div>
-                      )}
-                    </div>
+                      </div>
+                      <div className="navigation-buttons">
+                        {currentQuestionIndex > 0 && (
+                          <div className="nav-button-container">
+                            <div className="nav-tooltip">이전 문제</div>
+                            <button className="prev-arrow-btn" onClick={handlePreviousQuestion}>
+                              <span className="arrow-icon">←</span>
+                            </button>
+                          </div>
+                        )}
+                        {currentQuestionIndex < questions.length - 1 ? (
+                          <div className="nav-button-container">
+                            <div className="nav-tooltip">다음 문제</div>
+                            <button className="next-arrow-btn" onClick={handleNextQuestion}>
+                              <span className="arrow-icon">→</span>
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="nav-button-container">
+                            <div className="nav-tooltip">엔딩보기</div>
+                            <button className="next-arrow-btn" onClick={() => navigate('/game/12/finish', { state: { gamePath: '/game/12' } })}>
+                              <span className="arrow-icon">→</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </>
                   )}
                 </div>
 
                 {/* Right Side: Pieces Pool */}
-                <div className="puzzle-pieces-area">
+                <div className={`puzzle-pieces-area ${gameCompleted ? 'hidden-pool' : ''}`}>
                   <div className="pieces-pool-header">퍼즐 조각</div>
                   <div 
                     className="pieces-pool"
                     onDragOver={handleDragOver}
                     onDrop={(e) => handleDrop(e, 'pool')}
+                    style={{
+                      gridTemplateColumns: puzzleSize === 2 ? 'repeat(1, 1fr)' : puzzleSize >= 6 ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)'
+                    }}
                   >
                     {pieces.filter(p => p.location === 'pool').map(renderPiece)}
                   </div>
@@ -410,19 +560,51 @@ function Game12GamePlay() {
               </div>
 
               <div className="game-utilities">
-                <div className="round-counter">
-                  <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
+                <div className="utility-left-section">
+                  {!gameCompleted ? (
+                    <div className="utility-toggles">
+                      <div className="toggle-item">
+                        <div className="toggle-icon"><HiPhotograph /></div>
+                        <div 
+                          className={`toggle-switch ${showAnswerPreview ? 'on' : ''}`}
+                          onClick={() => setShowAnswerPreview(!showAnswerPreview)}
+                        >
+                          <div className={`toggle-slider ${showAnswerPreview ? 'active' : ''}`} />
+                        </div>
+                      </div>
+
+                      <div className="toggle-item">
+                        <div className="toggle-icon"><HiLightBulb /></div>
+                        <div 
+                          className={`toggle-switch ${showHintGuides ? 'on' : ''}`}
+                          onClick={() => setShowHintGuides(!showHintGuides)}
+                        >
+                          <div className={`toggle-slider ${showHintGuides ? 'active' : ''}`} />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="utility-toggles-placeholder" />
+                  )}
                 </div>
 
-                {!gameCompleted ? (
-                  <div className="play-controls">
-                    <button className="random-reveal-btn" onClick={handleRandomReveal}>
-                      작은 도움 받기
-                    </button>
+                <div className="utility-center-section">
+                  <div className="round-counter">
+                    <span className="current-round">{currentQuestionIndex + 1}</span> / {questions.length}
                   </div>
-                ) : (
-                  <div className="reveal-placeholder"></div>
-                )}
+                </div>
+
+                <div className="utility-right-section">
+                  <div className="utility-actions">
+                    {!gameCompleted ? (
+                      <button className="random-reveal-btn" onClick={handleRandomReveal}>
+                        작은 도움 받기
+                      </button>
+                    ) : (
+                      <div className="reveal-placeholder"></div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           )}
